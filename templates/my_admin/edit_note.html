@@ -1,0 +1,646 @@
+{% extends 'my_admin/base.html' %}
+
+{% block title %}Edit Note - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Edit Note{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<style>
+    .note-editor {
+        margin-bottom: 20px;
+    }
+
+    .file-upload-container {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .file-upload-container:hover {
+        border-color: #4e73df;
+    }
+
+    .file-info {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f8f9fc;
+        border-radius: 5px;
+    }
+
+    .document-preview {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8f9fc;
+        border-radius: 5px;
+        border: 1px solid #e3e6f0;
+    }
+
+    .document-preview iframe {
+        width: 100%;
+        height: 500px;
+        border: 1px solid #e3e6f0;
+    }
+
+    .nav-tabs .nav-link {
+        color: #4e73df;
+        background-color: #f8f9fc;
+        border: 1px solid #e3e6f0;
+        margin-right: 2px;
+    }
+
+    .nav-tabs .nav-link.active {
+        color: #fff;
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+
+    .nav-tabs .nav-link:hover {
+        background-color: #eaecf4;
+    }
+
+    .tab-content {
+        padding: 20px;
+        border: 1px solid #e3e6f0;
+        border-top: none;
+        border-radius: 0 0 0.35rem 0.35rem;
+    }
+
+    /* Form validation styles */
+    .is-invalid {
+        border-color: #e74a3b !important;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23e74a3b'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23e74a3b' stroke='none'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .is-valid {
+        border-color: #1cc88a !important;
+        padding-right: calc(1.5em + 0.75rem);
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%231cc88a' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+        background-repeat: no-repeat;
+        background-position: right calc(0.375em + 0.1875rem) center;
+        background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+    }
+
+    .invalid-feedback {
+        display: block;
+        width: 100%;
+        margin-top: 0.25rem;
+        font-size: 80%;
+        color: #e74a3b;
+    }
+
+    /* Summernote validation styles */
+    .note-editor.border-danger {
+        border: 1px solid #e74a3b !important;
+    }
+
+    .note-editor.border-success {
+        border: 1px solid #1cc88a !important;
+    }
+
+    /* Summernote editor fixes */
+    .note-editor .dropdown-toggle::after {
+        display: none !important;
+    }
+
+    .note-editor .note-dropdown-menu {
+        min-width: 160px;
+        max-height: 300px;
+        overflow-y: auto;
+        z-index: 1050;
+    }
+
+    .note-editor .note-color-palette div .note-color-btn {
+        width: 17px;
+        height: 17px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid #ddd;
+    }
+
+    .note-editor .note-color .dropdown-toggle {
+        width: auto;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .note-editor .note-fontname .dropdown-toggle,
+    .note-editor .note-fontsize .dropdown-toggle,
+    .note-editor .note-style .dropdown-toggle {
+        width: auto;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    /* Fix for dropdown menus */
+    .note-dropdown-menu {
+        display: block;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    @media (max-width: 768px) {
+        .document-preview iframe {
+            height: 300px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Edit Note: {{ note.title }}</h1>
+    <div>
+        <a href="{% url 'my_admin:notes_management' %}" class="btn btn-secondary">
+            <i class="fas fa-arrow-left mr-2"></i>Back to Notes
+        </a>
+        <a href="{{ note.get_absolute_url }}" target="_blank" class="btn btn-info">
+            <i class="fas fa-eye mr-2"></i>View Note
+        </a>
+    </div>
+</div>
+
+<!-- Error Modal -->
+<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="errorModalLabel">Form Validation Error</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger mb-0">
+                    <h6 class="alert-heading fw-bold">Please fix the following errors:</h6>
+                    <ul id="errorModalList" class="mb-0 mt-2">
+                        <!-- Error messages will be inserted here -->
+                    </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <ul class="nav nav-tabs card-header-tabs" id="noteTabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="details-tab" data-bs-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="true">
+                    <i class="fas fa-info-circle mr-1"></i> Note Details
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="content-tab" data-bs-toggle="tab" href="#content-panel" role="tab" aria-controls="content-panel" aria-selected="false">
+                    <i class="fas fa-file-alt mr-1"></i> Content
+                </a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="document-tab" data-bs-toggle="tab" href="#document" role="tab" aria-controls="document" aria-selected="false">
+                    <i class="fas fa-file-pdf mr-1"></i> Document Upload
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="noteTabsContent">
+            <!-- Details Tab -->
+            <div class="tab-pane fade show active" id="details" role="tabpanel" aria-labelledby="details-tab">
+                <form action="{% url 'my_admin:edit_note' note.id %}" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="title">Title <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="title" name="title" value="{{ note.title }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="order">Order</label>
+                            <input type="number" class="form-control" id="order" name="order" value="{{ note.order }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label for="curriculum">Curriculum <span class="text-danger">*</span></label>
+                            <select class="form-control" id="curriculum" required>
+                                <option value="">Select Curriculum</option>
+                                {% for curriculum in curricula %}
+                                <option value="{{ curriculum.id }}" {% if curriculum.id == note.topic.subject.curriculum.id %}selected{% endif %}>{{ curriculum.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="class_level">Class Level <span class="text-danger">*</span></label>
+                            <select class="form-control" id="class_level">
+                                <option value="">Select Class Level</option>
+                                {% for class_level in class_levels %}
+                                <option value="{{ class_level.id }}" {% if class_level.id == note.topic.subject.class_level.id %}selected{% endif %}>{{ class_level.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="subject">Subject <span class="text-danger">*</span></label>
+                            <select class="form-control" id="subject">
+                                <option value="">Select Subject</option>
+                                {% for subject in subjects %}
+                                <option value="{{ subject.id }}" {% if subject.id == note.topic.subject.id %}selected{% endif %}>{{ subject.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="topic">Topic <span class="text-danger">*</span></label>
+                            <select class="form-control" id="topic" name="topic" required>
+                                <option value="">Select Topic</option>
+                                {% for topic_item in topics %}
+                                <option value="{{ topic_item.id }}" {% if topic_item.id == note.topic.id %}selected{% endif %}>{{ topic_item.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="subtopic">Subtopic (Optional)</label>
+                            <select class="form-control" id="subtopic" name="subtopic">
+                                <option value="">None (Topic-level note)</option>
+                                {% for subtopic_item in subtopics %}
+                                <option value="{{ subtopic_item.id }}" {% if note.subtopic and subtopic_item.id == note.subtopic.id %}selected{% endif %}>{{ subtopic_item.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input" type="checkbox" id="is_premium" name="is_premium" {% if note.is_premium %}checked{% endif %}>
+                                        <label class="form-check-label" for="is_premium">
+                                            Premium Content
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input" type="checkbox" id="is_published" name="is_published" {% if note.is_published %}checked{% endif %}>
+                                        <label class="form-check-label" for="is_published">
+                                            Published
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-check mt-4">
+                                        <input class="form-check-input" type="checkbox" id="allow_download" name="allow_download" {% if note.allow_download %}checked{% endif %}>
+                                        <label class="form-check-label" for="allow_download">
+                                            Allow Download
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="summary">Summary</label>
+                        <textarea class="form-control" id="summary" name="summary" rows="3">{{ note.summary }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Content Tab -->
+            <div class="tab-pane fade" id="content-panel" role="tabpanel" aria-labelledby="content-tab">
+                <form action="{% url 'my_admin:edit_note' note.id %}" method="post" id="contentForm">
+                    {% csrf_token %}
+                    <input type="hidden" name="title" value="{{ note.title }}">
+                    <input type="hidden" name="topic" value="{{ note.topic.id }}">
+                    {% if note.subtopic %}
+                    <input type="hidden" name="subtopic" value="{{ note.subtopic.id }}">
+                    {% endif %}
+                    <input type="hidden" name="order" value="{{ note.order }}">
+                    <input type="hidden" name="is_premium" value="{% if note.is_premium %}on{% endif %}">
+                    <input type="hidden" name="is_published" value="{% if note.is_published %}on{% endif %}">
+                    <input type="hidden" name="allow_download" value="{% if note.allow_download %}on{% endif %}">
+                    <input type="hidden" name="summary" value="{{ note.summary }}">
+
+                    <div class="mb-3">
+                        <label for="content">Content <span class="text-danger">*</span></label>
+                        <textarea class="form-control" id="content" name="content" required>{{ note.content }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">Save Content</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Document Upload Tab -->
+            <div class="tab-pane fade" id="document" role="tabpanel" aria-labelledby="document-tab">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="{% url 'my_admin:upload_note_file' note.id %}" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="file_type">Document Type <span class="text-danger">*</span></label>
+                                <select class="form-control" id="file_type" name="file_type" required>
+                                    {% for value, label in file_type_choices %}
+                                    <option value="{{ value }}" {% if note.file_type == value %}selected{% endif %}>{{ label }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="file-upload-container">
+                                <div class="mb-3">
+                                    <label for="document" class="form-label">Upload Document</label>
+                                    <input class="form-control" type="file" id="document" name="document">
+                                    <div class="form-text">Supported formats: PDF, DOCX, PPT, PPTX</div>
+                                </div>
+
+                                <div class="d-flex justify-content-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fas fa-upload mr-2"></i>Upload Document
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+
+                        {% if note.has_file %}
+                        <div class="file-info">
+                            <h5>Current Document</h5>
+                            <p>
+                                <strong>Type:</strong>
+                                {% for value, label in file_type_choices %}
+                                    {% if note.file_type == value %}{{ label }}{% endif %}
+                                {% endfor %}
+                            </p>
+                            <p>
+                                <strong>Filename:</strong>
+                                {% if note.file_type == 'pdf' %}
+                                    {{ note.pdf_document.name|cut:"notes/pdfs/" }}
+                                {% elif note.file_type == 'doc' %}
+                                    {{ note.doc_document.name|cut:"notes/docs/" }}
+                                {% elif note.file_type == 'ppt' %}
+                                    {{ note.ppt_document.name|cut:"notes/ppts/" }}
+                                {% elif note.file_type == 'other' %}
+                                    {{ note.other_document.name|cut:"notes/others/" }}
+                                {% endif %}
+                            </p>
+                            <p>
+                                <strong>Download allowed:</strong>
+                                {% if note.allow_download %}Yes{% else %}No{% endif %}
+                            </p>
+                        </div>
+                        {% else %}
+                        <div class="alert alert-info mt-3">
+                            <i class="fas fa-info-circle mr-2"></i>No document currently attached to this note.
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-md-6">
+                        {% if note.has_file %}
+                        <div class="document-preview">
+                            <h5>Document Preview</h5>
+                            {% if note.file_type == 'pdf' %}
+                            <iframe src="{{ note.pdf_document.url }}" type="application/pdf"></iframe>
+                            {% elif note.file_type == 'doc' and note.extracted_text %}
+                            <div class="extracted-text p-3 bg-white border">
+                                <h6>Extracted Text:</h6>
+                                <div style="white-space: pre-wrap;">{{ note.extracted_text }}</div>
+                            </div>
+                            {% elif note.file_type == 'ppt' %}
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Preview not available for PowerPoint files.
+                            </div>
+                            {% else %}
+                            <div class="alert alert-warning">
+                                <i class="fas fa-exclamation-triangle mr-2"></i>Preview not available for this file type.
+                            </div>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Add alert container at the top of the form
+        $('.card-body').prepend('<div id="formAlerts" class="mb-3"></div>');
+
+        // Check for Django error messages and display them in modal
+        {% if messages %}
+        let errorList = '';
+
+        {% for message in messages %}
+        errorList += '<li>{{ message }}</li>';
+        {% endfor %}
+
+        $('#errorModalList').html(errorList);
+
+        // Show the error modal
+        setTimeout(function() {
+            const errorModal = new bootstrap.Modal(document.getElementById('errorModal'));
+            errorModal.show();
+        }, 500);
+        {% endif %}
+        // Fix for Bootstrap 5 compatibility with Summernote
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {};
+
+        // Initialize Summernote editor
+        $('#content').summernote({
+            height: 400,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'italic', 'underline', 'clear', 'strikethrough', 'superscript', 'subscript']],
+                ['fontname', ['fontname']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph', 'height']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video', 'hr']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Helvetica', 'Impact', 'Tahoma', 'Times New Roman', 'Verdana'],
+            fontSizes: ['8', '9', '10', '11', '12', '14', '16', '18', '24', '36', '48', '64', '82', '150'],
+            callbacks: {
+                onInit: function() {
+                    // Fix dropdown menus
+                    fixSummernoteDropdowns();
+                }
+            }
+        });
+
+        // Function to fix Summernote dropdown menus
+        function fixSummernoteDropdowns() {
+            // Fix dropdown toggle behavior
+            $('.note-editor .dropdown-toggle').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const $dropdown = $(this).next('.note-dropdown-menu');
+                const isVisible = $dropdown.is(':visible');
+
+                // Hide all other dropdowns
+                $('.note-dropdown-menu').hide();
+
+                // Toggle this dropdown
+                if (isVisible) {
+                    $dropdown.hide();
+                } else {
+                    $dropdown.show();
+
+                    // Position the dropdown properly
+                    const buttonOffset = $(this).offset();
+                    const editorOffset = $('.note-editor').offset();
+
+                    $dropdown.css({
+                        top: buttonOffset.top - editorOffset.top + $(this).outerHeight(),
+                        left: buttonOffset.left - editorOffset.left
+                    });
+                }
+            });
+
+            // Close dropdowns when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.note-dropdown-menu, .dropdown-toggle').length) {
+                    $('.note-dropdown-menu').hide();
+                }
+            });
+
+            // Fix color picker
+            $('.note-color-btn').on('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const color = $(this).data('value');
+                if ($(this).closest('.note-color-palette').hasClass('note-color-fore')) {
+                    $('#content').summernote('foreColor', color);
+                } else if ($(this).closest('.note-color-palette').hasClass('note-color-back')) {
+                    $('#content').summernote('backColor', color);
+                }
+
+                // Hide the dropdown after selection
+                $(this).closest('.note-dropdown-menu').hide();
+            });
+        }
+
+        // Form submission handler for content form
+        $('#contentForm').on('submit', function(e) {
+            // Make sure Summernote content is synced with the textarea
+            $('#content').summernote('codeview.sync');
+
+            // Check if content is empty
+            if ($('#content').summernote('isEmpty')) {
+                e.preventDefault();
+                alert('Content cannot be empty. Please add some content to the note.');
+                return false;
+            }
+        });
+
+        // Curriculum change handler
+        $('#curriculum').change(function() {
+            const curriculumId = $(this).val();
+            if (curriculumId) {
+                // Fetch class levels for this curriculum
+                $.ajax({
+                    url: '/my-admin/quiz/get-class-levels/',
+                    data: { curriculum: curriculumId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#class_level').empty().append('<option value="">Select Class Level</option>');
+                        $.each(data, function(index, item) {
+                            $('#class_level').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#class_level').empty().append('<option value="">Select Curriculum First</option>');
+                $('#subject').empty().append('<option value="">Select Class Level First</option>');
+                $('#topic').empty().append('<option value="">Select Subject First</option>');
+                $('#subtopic').empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+
+        // Class level change handler
+        $('#class_level').change(function() {
+            const classLevelId = $(this).val();
+            if (classLevelId) {
+                // Fetch subjects for this class level
+                $.ajax({
+                    url: '/my-admin/quiz/get-subjects/',
+                    data: { class_level: classLevelId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#subject').empty().append('<option value="">Select Subject</option>');
+                        $.each(data, function(index, item) {
+                            $('#subject').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#subject').empty().append('<option value="">Select Class Level First</option>');
+                $('#topic').empty().append('<option value="">Select Subject First</option>');
+                $('#subtopic').empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+
+        // Subject change handler
+        $('#subject').change(function() {
+            const subjectId = $(this).val();
+            if (subjectId) {
+                // Fetch topics for this subject
+                $.ajax({
+                    url: '/my-admin/notes/get-topics/',
+                    data: { subject: subjectId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#topic').empty().append('<option value="">Select Topic</option>');
+                        $.each(data, function(index, item) {
+                            $('#topic').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#topic').empty().append('<option value="">Select Subject First</option>');
+                $('#subtopic').empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+
+        // Topic change handler
+        $('#topic').change(function() {
+            const topicId = $(this).val();
+            if (topicId) {
+                // Fetch subtopics for this topic
+                $.ajax({
+                    url: '/my-admin/notes/get-subtopics/',
+                    data: { topic: topicId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#subtopic').empty().append('<option value="">None (Topic-level note)</option>');
+                        $.each(data, function(index, item) {
+                            $('#subtopic').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#subtopic').empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+    });
+</script>
+{% endblock %}

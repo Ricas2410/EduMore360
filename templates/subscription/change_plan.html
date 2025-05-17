@@ -1,0 +1,311 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load subscription_extras %}
+
+{% block title %}Change Subscription Plan - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="text-center mb-12">
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white py-8 px-6 rounded-2xl shadow-lg mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Change Your Subscription Plan</h1>
+            <p class="text-gray-200 max-w-3xl mx-auto">Upgrade, downgrade, or change your billing cycle</p>
+        </div>
+    </div>
+
+    <!-- Current Plan Info -->
+    <div class="max-w-5xl mx-auto mb-8">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Your Current Plan</h2>
+
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-blue-50 rounded-xl border border-blue-200">
+                <div>
+                    <h3 class="font-bold text-lg text-gray-800">{{ current_subscription.plan.name }}</h3>
+                    <p class="text-gray-600">{{ current_subscription.plan.get_billing_cycle_display }} Subscription</p>
+                    <p class="text-sm text-gray-500 mt-1">
+                        <i class="fas fa-calendar-alt mr-1"></i>
+                        Renews on {{ current_subscription.end_date|date:"F j, Y" }}
+                        {% if not current_subscription.auto_renew %}
+                            <span class="text-red-600">(Auto-renew off)</span>
+                        {% endif %}
+                    </p>
+                </div>
+                <div class="mt-4 md:mt-0 text-2xl font-extrabold text-gray-800">
+                    ${{ current_subscription.plan.price }}
+                    <span class="text-sm font-medium text-gray-600">
+                        /{% if current_subscription.plan.billing_cycle == 'monthly' %}month{% else %}year{% endif %}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto-Renewal Management -->
+    <div class="max-w-5xl mx-auto mb-8">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-800">Auto-Renewal Settings</h2>
+                    <p class="text-gray-600 mt-1">
+                        {% if current_subscription.auto_renew %}
+                            Your subscription will automatically renew on {{ current_subscription.end_date|date:"F j, Y" }}.
+                        {% else %}
+                            Your subscription will expire on {{ current_subscription.end_date|date:"F j, Y" }}.
+                        {% endif %}
+                    </p>
+                </div>
+
+                <form method="post" action="{% url 'subscription:toggle_auto_renew' current_subscription.id %}">
+                    {% csrf_token %}
+                    <div class="flex items-center">
+                        <span class="mr-3 text-sm font-medium text-gray-700">Auto-Renew</span>
+                        <button type="submit" class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 {% if current_subscription.auto_renew %}bg-green-500{% else %}bg-gray-200{% endif %}">
+                            <span class="sr-only">Toggle auto-renewal</span>
+                            <span aria-hidden="true" class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out {% if current_subscription.auto_renew %}translate-x-5{% else %}translate-x-0{% endif %}"></span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Change Plan Options -->
+    <div class="max-w-5xl mx-auto">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-bold text-gray-800 mb-6">Select a New Plan</h2>
+
+            {% if upgrade_plans %}
+                <!-- Plan Type Tabs -->
+                <div class="mb-8">
+                    <div class="border-b border-gray-200">
+                        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                            <button class="plan-tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-[#ff4703] text-[#ff4703]" data-plan-type="all">
+                                All Plans
+                            </button>
+                            <button class="plan-tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-plan-type="free">
+                                Free Tier
+                            </button>
+                            <button class="plan-tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-plan-type="tier_one">
+                                Tier One
+                            </button>
+                            <button class="plan-tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-plan-type="tier_two">
+                                Tier Two
+                            </button>
+                            <button class="plan-tab-button whitespace-nowrap py-4 px-1 border-b-2 font-medium text-lg border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300" data-plan-type="tier_three">
+                                Tier Three
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <!-- Billing Cycle Toggle -->
+                <div class="flex justify-center mb-8">
+                    <div class="inline-flex items-center bg-gray-100 rounded-lg p-1">
+                        <button id="monthly-toggle" class="billing-toggle px-4 py-2 rounded-md text-sm font-medium bg-white shadow-sm text-gray-800">Monthly</button>
+                        <button id="yearly-toggle" class="billing-toggle px-4 py-2 rounded-md text-sm font-medium text-gray-600">Yearly</button>
+                    </div>
+                </div>
+
+                <!-- Plan Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for plan in upgrade_plans %}
+                        <div class="plan-card border border-gray-200 rounded-xl shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg {% if plan.plan_type == 'free' %}plan-free{% elif plan.plan_type == 'tier_one' %}plan-tier_one{% elif plan.plan_type == 'tier_two' %}plan-tier_two{% else %}plan-tier_three{% endif %} {% if plan.billing_cycle == 'monthly' %}billing-monthly{% else %}billing-yearly hidden{% endif %}">
+                            <!-- Card Header -->
+                            <div class="h-2 bg-gradient-to-r {% if plan.plan_type == 'free' %}from-gray-600 to-gray-800{% elif plan.plan_type == 'tier_one' %}from-blue-600 to-blue-800{% elif plan.plan_type == 'tier_two' %}from-[#ff4703] to-orange-600{% else %}from-purple-600 to-purple-800{% endif %}"></div>
+
+                            <div class="p-6">
+                                <!-- Plan Name and Price -->
+                                <div class="flex justify-between items-start mb-4">
+                                    <div>
+                                        <h3 class="text-xl font-bold text-gray-800">{{ plan.name }}</h3>
+                                        <p class="text-gray-600">{{ plan.get_billing_cycle_display }}</p>
+
+                                        {% if plan.plan_type > current_subscription.plan.plan_type %}
+                                            <div class="inline-block px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded mt-2">
+                                                <i class="fas fa-arrow-up mr-1"></i> Upgrade
+                                            </div>
+                                        {% elif plan.plan_type < current_subscription.plan.plan_type %}
+                                            <div class="inline-block px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded mt-2">
+                                                <i class="fas fa-arrow-down mr-1"></i> Downgrade
+                                            </div>
+                                        {% elif plan.billing_cycle != current_subscription.plan.billing_cycle %}
+                                            <div class="inline-block px-2 py-1 bg-blue-100 text-blue-800 text-xs font-medium rounded mt-2">
+                                                <i class="fas fa-sync-alt mr-1"></i> Change Billing
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="text-right">
+                                        <div class="text-2xl font-extrabold text-gray-800">
+                                            {% if plan.plan_type == 'free' %}
+                                                $0
+                                            {% else %}
+                                                ${{ plan.price }}
+                                            {% endif %}
+                                            <span class="text-sm font-medium text-gray-600">
+                                                {% if plan.plan_type != 'free' %}
+                                                    /{% if plan.billing_cycle == 'monthly' %}month{% else %}year{% endif %}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+
+                                        {% if plan.billing_cycle == 'yearly' and plan.plan_type != 'free' %}
+                                            <p class="text-xs text-green-600 mt-1">Save {{ plan.yearly_discount_percentage }}% compared to monthly</p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                                <!-- Features -->
+                                <div class="mb-6">
+                                    <ul class="space-y-2">
+                                        {% for feature in plan.features_list %}
+                                            <li class="flex items-start">
+                                                <i class="fas fa-check text-green-500 mt-1 mr-2"></i>
+                                                <span class="text-sm text-gray-700">{{ feature }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                                <!-- Action Button -->
+                                <div class="mt-auto">
+                                    {% if plan.id == current_subscription.plan.id %}
+                                        <button disabled class="w-full py-2.5 bg-gray-300 text-gray-600 font-medium rounded-lg cursor-not-allowed">
+                                            <i class="fas fa-check-circle mr-2"></i> Current Plan
+                                        </button>
+                                    {% elif plan.plan_type > current_subscription.plan.plan_type %}
+                                        <!-- Upgrade - immediate effect -->
+                                        <form method="post" action="{% url 'subscription:change_plan' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                                            <input type="hidden" name="action" value="upgrade">
+                                            <button type="submit" class="w-full py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                                Upgrade Now
+                                            </button>
+                                        </form>
+                                    {% elif plan.plan_type < current_subscription.plan.plan_type %}
+                                        <!-- Downgrade - scheduled for end of billing period -->
+                                        <form method="post" action="{% url 'subscription:change_plan' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                                            <input type="hidden" name="action" value="downgrade">
+                                            <button type="submit" class="w-full py-2.5 bg-gray-500 hover:bg-gray-600 text-white font-medium rounded-lg transition-colors">
+                                                Schedule Downgrade
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <!-- Same tier, different billing - immediate with proration -->
+                                        <form method="post" action="{% url 'subscription:change_plan' %}">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                                            <input type="hidden" name="action" value="change_billing">
+                                            <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                                                Change Billing
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-info-circle text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">No Other Plans Available</h3>
+                    <p class="text-gray-600 max-w-md mx-auto">There are no other subscription plans available at this time.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Back to Manage Subscription -->
+    <div class="max-w-5xl mx-auto mt-8 text-center">
+        <a href="{% url 'subscription:manage_subscription' %}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Subscription Management
+        </a>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Billing cycle toggle
+    document.addEventListener('DOMContentLoaded', function() {
+        const monthlyToggle = document.getElementById('monthly-toggle');
+        const yearlyToggle = document.getElementById('yearly-toggle');
+        const monthlyPlans = document.querySelectorAll('.billing-monthly');
+        const yearlyPlans = document.querySelectorAll('.billing-yearly');
+
+        if (monthlyToggle && yearlyToggle) {
+            monthlyToggle.addEventListener('click', function() {
+                // Update toggle buttons
+                monthlyToggle.classList.add('bg-white', 'shadow-sm', 'text-gray-800');
+                monthlyToggle.classList.remove('text-gray-600');
+                yearlyToggle.classList.remove('bg-white', 'shadow-sm', 'text-gray-800');
+                yearlyToggle.classList.add('text-gray-600');
+
+                // Show monthly plans, hide yearly plans
+                monthlyPlans.forEach(plan => plan.classList.remove('hidden'));
+                yearlyPlans.forEach(plan => plan.classList.add('hidden'));
+            });
+
+            yearlyToggle.addEventListener('click', function() {
+                // Update toggle buttons
+                yearlyToggle.classList.add('bg-white', 'shadow-sm', 'text-gray-800');
+                yearlyToggle.classList.remove('text-gray-600');
+                monthlyToggle.classList.remove('bg-white', 'shadow-sm', 'text-gray-800');
+                monthlyToggle.classList.add('text-gray-600');
+
+                // Show yearly plans, hide monthly plans
+                yearlyPlans.forEach(plan => plan.classList.remove('hidden'));
+                monthlyPlans.forEach(plan => plan.classList.add('hidden'));
+            });
+        }
+
+        // Plan type tabs
+        const planTabButtons = document.querySelectorAll('.plan-tab-button');
+        const planCards = document.querySelectorAll('.plan-card');
+
+        if (planTabButtons.length > 0) {
+            planTabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active tab
+                    planTabButtons.forEach(btn => {
+                        btn.classList.remove('border-[#ff4703]', 'text-[#ff4703]');
+                        btn.classList.add('border-transparent', 'text-gray-500');
+                    });
+
+                    this.classList.remove('border-transparent', 'text-gray-500');
+                    this.classList.add('border-[#ff4703]', 'text-[#ff4703]');
+
+                    // Filter plans
+                    const planType = this.getAttribute('data-plan-type');
+
+                    if (planType === 'all') {
+                        planCards.forEach(card => {
+                            if (!card.classList.contains('hidden-by-billing')) {
+                                card.classList.remove('hidden');
+                            }
+                        });
+                    } else {
+                        planCards.forEach(card => {
+                            if (card.classList.contains(`plan-${planType}`)) {
+                                if (!card.classList.contains('hidden-by-billing')) {
+                                    card.classList.remove('hidden');
+                                }
+                            } else {
+                                card.classList.add('hidden');
+                            }
+                        });
+                    }
+                });
+            });
+        }
+    });
+</script>
+{% endblock %}
+
+{% endblock %}

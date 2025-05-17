@@ -1,0 +1,45 @@
+<div class="card bg-base-100 shadow-xl mb-6">
+    <div class="card-body">
+        <h2 class="card-title">Your Progress</h2>
+
+        {% if progress %}
+            <div class="mt-4">
+                <div class="flex justify-between mb-2">
+                    <span>Completion</span>
+                    <span class="font-medium">{{ progress.completion_percentage }}%</span>
+                </div>
+                <div class="w-full bg-base-200 rounded-full h-2.5">
+                    <div class="bg-primary h-2.5 rounded-full" style="width: {{ progress.completion_percentage }}%"></div>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex justify-between text-sm text-gray-600">
+                        <span>Last Activity: {{ progress.last_activity|date:"M d, Y" }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-actions mt-4">
+                <a href="{% url 'accounts:topic_progress' topic.slug %}" class="btn btn-outline btn-sm w-full">View Detailed Progress</a>
+            </div>
+        {% else %}
+            {% if subtopic %}
+                <p class="mt-2">You haven't started learning this subtopic yet.</p>
+
+                <div class="card-actions mt-4">
+                    <button class="btn btn-primary btn-sm w-full" hx-post="{% url 'curriculum:mark_subtopic_started' subtopic.id %}" hx-swap="outerHTML">
+                        Mark as Started
+                    </button>
+                </div>
+            {% else %}
+                <p class="mt-2">You haven't started learning this topic yet.</p>
+
+                <div class="card-actions mt-4">
+                    <button class="btn btn-primary btn-sm w-full" hx-post="{% url 'curriculum:mark_topic_started' topic.id %}" hx-swap="outerHTML">
+                        Mark as Started
+                    </button>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

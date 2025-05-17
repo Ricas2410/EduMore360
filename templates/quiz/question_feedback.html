@@ -1,0 +1,156 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Question Feedback - EduMore360{% endblock %}
+
+{% block extra_css %}
+<style>
+    .correct-answer {
+        background-color: #d1fae5;
+        border: 1px solid #10b981;
+    }
+    
+    .incorrect-answer {
+        background-color: #fee2e2;
+        border: 1px solid #ef4444;
+    }
+    
+    .choice-label {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.75rem;
+        transition: all 0.2s;
+    }
+    
+    .choice-indicator {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin-right: 1rem;
+        font-weight: 500;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Feedback Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Question Feedback</h1>
+                    <p class="text-xl text-blue-100">{{ quiz_attempt.quiz.title }}</p>
+                </div>
+                
+                <div class="flex items-center">
+                    {% if question_attempt.is_correct %}
+                    <div class="bg-green-100 text-green-800 p-3 rounded-xl flex items-center">
+                        <i class="fas fa-check-circle text-green-600 text-2xl mr-2"></i>
+                        <span class="font-bold">Correct!</span>
+                    </div>
+                    {% else %}
+                    <div class="bg-red-100 text-red-800 p-3 rounded-xl flex items-center">
+                        <i class="fas fa-times-circle text-red-600 text-2xl mr-2"></i>
+                        <span class="font-bold">Incorrect</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        
+        <!-- Question Card -->
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+            <!-- Question Text -->
+            <div class="p-6">
+                <h2 class="text-xl font-bold text-gray-800 mb-6">{{ question.text|safe }}</h2>
+                
+                {% if question.question_type == 'multiple_choice' %}
+                <!-- Multiple Choice Question -->
+                <div class="space-y-3 mb-6">
+                    {% for choice in choices %}
+                    <div class="choice-label {% if choice.is_correct %}correct-answer{% elif choice.id == question_attempt.selected_choice.id and not question_attempt.is_correct %}incorrect-answer{% else %}bg-gray-50 border border-gray-200{% endif %}">
+                        <span class="choice-indicator {% if choice.is_correct %}bg-green-100 text-green-600{% elif choice.id == question_attempt.selected_choice.id and not question_attempt.is_correct %}bg-red-100 text-red-600{% else %}bg-gray-100 text-gray-600{% endif %}">
+                            {{ forloop.counter }}
+                        </span>
+                        <span>{{ choice.text }}</span>
+                        
+                        {% if choice.is_correct %}
+                        <i class="fas fa-check-circle text-green-500 ml-auto text-lg"></i>
+                        {% elif choice.id == question_attempt.selected_choice.id and not question_attempt.is_correct %}
+                        <i class="fas fa-times-circle text-red-500 ml-auto text-lg"></i>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <!-- Short Answer Question -->
+                <div class="mb-6">
+                    <div class="p-4 rounded-lg {% if question_attempt.is_correct %}correct-answer{% else %}incorrect-answer{% endif %} mb-3">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-user-edit text-gray-600 mr-2"></i>
+                            <span class="font-medium text-gray-700">Your Answer:</span>
+                            <span class="ml-2 {% if question_attempt.is_correct %}text-green-600{% else %}text-red-600{% endif %} font-medium">
+                                {{ question_attempt.provided_answer|default:"No answer provided" }}
+                            </span>
+                        </div>
+                    </div>
+                    
+                    {% if not question_attempt.is_correct %}
+                    <div class="p-4 rounded-lg correct-answer">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-check text-green-600 mr-2"></i>
+                            <span class="font-medium text-gray-700">Correct Answer(s):</span>
+                        </div>
+                        <ul class="list-disc list-inside ml-4">
+                            {% for answer in correct_answers %}
+                            <li class="text-green-600">{{ answer.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+                
+                {% if question.explanation %}
+                <!-- Explanation -->
+                <div class="mt-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                    <h3 class="font-bold text-blue-800 mb-2 flex items-center">
+                        <i class="fas fa-info-circle mr-2"></i>
+                        Explanation
+                    </h3>
+                    <div class="text-gray-700">
+                        {{ question.explanation|safe }}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between">
+            <a href="{% url 'quiz:take_quiz' quiz_id=quiz_attempt.quiz.id %}" class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors flex items-center">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Quiz
+            </a>
+            
+            {% if next_question_id %}
+            <a href="{% url 'quiz:take_quiz' quiz_id=quiz_attempt.quiz.id %}?question_id={{ next_question_id }}" class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors flex items-center">
+                Next Question
+                <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+            {% else %}
+            <a href="{% url 'quiz:quiz_results' quiz_attempt_id=quiz_attempt.id %}" class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors flex items-center">
+                Finish Quiz
+                <i class="fas fa-flag-checkered ml-2"></i>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

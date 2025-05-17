@@ -1,0 +1,225 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Edit Profile</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Update your personal information and preferences</p>
+        </div>
+    </div>
+
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+            <!-- Section Header -->
+            <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-user-edit mr-2"></i>
+                    Profile Information
+                </h2>
+            </div>
+
+            <div class="p-6">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'accounts:edit_profile' %}">
+                    {% csrf_token %}
+
+                    {% if form.non_field_errors %}
+                        <div class="flex items-center p-4 mb-6 bg-red-50 text-red-800 rounded-lg border border-red-200">
+                            <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-exclamation-circle text-red-600"></i>
+                            </div>
+                            <div>
+                                {% for error in form.non_field_errors %}
+                                    <p>{{ error }}</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <!-- Profile Picture -->
+                    <div class="mb-8">
+                        <label class="block text-gray-700 font-medium mb-3" for="id_profile_picture">
+                            <i class="fas fa-camera text-blue-600 mr-2"></i>
+                            Profile Picture
+                        </label>
+
+                        <div class="flex flex-col md:flex-row items-center gap-6">
+                            <div>
+                                {% if user.profile_picture %}
+                                    <img src="{{ user.profile_picture.url }}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100">
+                                {% else %}
+                                    <div class="w-32 h-32 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white text-3xl font-bold">
+                                        {{ user.first_name|first }}{{ user.last_name|first }}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="flex-1">
+                                <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
+                                    <input type="file" name="profile_picture" id="id_profile_picture"
+                                           class="block w-full text-gray-700 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                                           accept="image/*">
+                                    {% if form.profile_picture.errors %}
+                                        <div class="text-red-600 text-sm mt-2">
+                                            {% for error in form.profile_picture.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                    <p class="text-sm text-gray-600 mt-2">
+                                        <i class="fas fa-info-circle mr-1"></i>
+                                        Upload a new profile picture. Maximum file size: 5MB. Supported formats: JPG, PNG, GIF.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Personal Information -->
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-user text-[#ff4703] mr-2"></i>
+                            Personal Information
+                        </h2>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="id_first_name">
+                                    <i class="fas fa-user-tag text-blue-600 mr-2"></i>
+                                    First Name
+                                </label>
+                                <input type="text" name="first_name" id="id_first_name"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       value="{{ form.first_name.value|default:user.first_name }}" required>
+                                {% if form.first_name.errors %}
+                                    <div class="text-red-600 text-sm mt-1">
+                                        {% for error in form.first_name.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <div>
+                                <label class="block text-gray-700 font-medium mb-2" for="id_last_name">
+                                    <i class="fas fa-user-tag text-blue-600 mr-2"></i>
+                                    Last Name
+                                </label>
+                                <input type="text" name="last_name" id="id_last_name"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                       value="{{ form.last_name.value|default:user.last_name }}" required>
+                                {% if form.last_name.errors %}
+                                    <div class="text-red-600 text-sm mt-1">
+                                        {% for error in form.last_name.errors %}
+                                            <p>{{ error }}</p>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-medium mb-2" for="id_email">
+                                <i class="fas fa-envelope text-blue-600 mr-2"></i>
+                                Email
+                            </label>
+                            <input type="email" name="email" id="id_email"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   value="{{ form.email.value|default:user.email }}" required>
+                            {% if form.email.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.email.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-medium mb-2" for="id_phone_number">
+                                <i class="fas fa-phone text-blue-600 mr-2"></i>
+                                Phone Number
+                            </label>
+                            <input type="tel" name="phone_number" id="id_phone_number"
+                                   class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                   value="{{ form.phone_number.value|default:user.phone_number }}">
+                            {% if form.phone_number.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.phone_number.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+
+
+
+
+                    </div>
+
+
+
+                    <!-- Bio -->
+                    <div class="mb-8">
+                        <h2 class="text-xl font-bold text-gray-800 mb-4 flex items-center">
+                            <i class="fas fa-user-edit text-[#ff4703] mr-2"></i>
+                            About You
+                        </h2>
+
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-medium mb-2" for="id_bio">
+                                <i class="fas fa-comment-alt text-blue-600 mr-2"></i>
+                                Bio
+                            </label>
+                            <textarea name="bio" id="id_bio"
+                                      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 h-32"
+                                      >{{ form.bio.value|default:user.bio }}</textarea>
+                            {% if form.bio.errors %}
+                                <div class="text-red-600 text-sm mt-1">
+                                    {% for error in form.bio.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <p class="text-sm text-gray-600 mt-2">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Tell us a bit about yourself. This will be visible on your public profile.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end space-x-3">
+                        <a href="{% url 'accounts:profile' %}"
+                           class="px-5 py-2.5 border-2 border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+                            Cancel
+                        </a>
+                        <button type="submit"
+                                class="px-5 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                            <i class="fas fa-save mr-2"></i>
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row justify-between gap-4 mb-8">
+            <a href="{% url 'accounts:profile' %}"
+               class="inline-flex items-center px-4 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Profile
+            </a>
+
+            <a href="{% url 'accounts:change_password' %}"
+               class="inline-flex items-center px-4 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors">
+                <i class="fas fa-lock mr-2"></i>
+                Change Password
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

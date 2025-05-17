@@ -1,0 +1,65 @@
+/* This file will be replaced by the compiled Tailwind CSS */
+/* Placeholder styles */
+body {
+    font-family: 'Inter', sans-serif;
+    line-height: 1.5;
+    color: #1F2937;
+}
+
+.container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Basic utility classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1rem;
+}
+
+.mb-4 {
+    margin-bottom: 1rem;
+}
+
+.py-4 {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+/* Basic components */
+.btn {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: #3B82F6;
+    color: white;
+    border-radius: 0.375rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #2563EB;
+}
+
+.card {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+}
+
+.card-body {
+    padding: 1.5rem;
+}

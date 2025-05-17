@@ -1,0 +1,66 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load account %}
+{% load static %}
+
+{% block title %}{% trans "Confirm Email Address" %} - EduMore360{% endblock %}
+
+{% block extra_css %}
+<!-- Google Material Icons CDN -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white min-h-screen flex items-center justify-center">
+  <!-- Main Content Section -->
+  <div class="w-full max-w-md bg-gradient-to-br from-blue-700 to-black text-white rounded-xl shadow-xl p-8 space-y-8">
+    
+    <!-- Logo and Title -->
+    <div class="text-center mb-6">
+      <h1 class="text-4xl font-extrabold text-white-400">EduMore360</h1>
+      <p class="text-lg text-gray-200">{% trans "Confirm Your Email Address" %}</p>
+    </div>
+    
+    <div class="text-center">
+      {% if confirmation %}
+        <div class="flex justify-center mb-6">
+          <span class="material-icons text-blue-400 text-6xl">mark_email_read</span>
+        </div>
+        
+        <p class="mb-6">
+          {% blocktrans with confirmation.email_address.email as email %}
+          Please confirm that <span class="font-semibold text-blue-300">{{ email }}</span> is your email address.
+          {% endblocktrans %}
+        </p>
+        
+        <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
+          {% csrf_token %}
+          <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold focus:outline-none transition flex items-center justify-center">
+            <span class="material-icons mr-2">check_circle</span>
+            {% trans "Confirm Email" %}
+          </button>
+        </form>
+      {% else %}
+        <div class="flex justify-center mb-6">
+          <span class="material-icons text-red-400 text-6xl">error_outline</span>
+        </div>
+        
+        <p class="mb-6">
+          {% url 'account_email' as email_url %}
+          {% blocktrans %}
+          This email confirmation link has expired or is invalid. Please <a href="{{ email_url }}" class="text-blue-400 hover:underline">request a new confirmation email</a>.
+          {% endblocktrans %}
+        </p>
+      {% endif %}
+    </div>
+    
+    <!-- Back to Login Link -->
+    <div class="text-center mt-8">
+      <a href="{% url 'account_login' %}" class="flex items-center justify-center text-sm text-blue-400 hover:underline">
+        <span class="material-icons mr-1 text-sm">arrow_back</span>
+        {% trans "Back to Login" %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

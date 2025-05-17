@@ -1,0 +1,123 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Complete Your Free Setup{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+            <h1 class="text-2xl font-bold text-center mb-6">Complete Your Free Setup</h1>
+
+            <div class="mb-6">
+                <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                    <h2 class="text-lg font-semibold text-blue-800 mb-2">Welcome to EduMore360!</h2>
+                    <p class="text-blue-700">
+                        As a free user, you have access to one curriculum and one class level of your choice.
+                        Please select your preferred curriculum and class level below to complete your setup.
+                    </p>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-lg font-semibold mb-2">Free Tier Access Includes:</h3>
+                <ul class="list-disc pl-6 space-y-1">
+                    <li>Limited access to one curriculum and one grade level</li>
+                    <li>Sample notes and introductory quizzes</li>
+                    <li>Basic progress tracking</li>
+                    <li>Limited question attempts</li>
+                </ul>
+            </div>
+
+            <form method="post" action="{% url 'core:complete_free_setup' %}" class="space-y-6">
+                {% csrf_token %}
+
+                {% if messages %}
+                <div class="mb-4">
+                    {% for message in messages %}
+                    <div class="p-3 {% if message.tags == 'error' %}bg-red-100 text-red-700 border border-red-200{% else %}bg-green-100 text-green-700 border border-green-200{% endif %} rounded-md">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="mb-4">
+                    <label for="curriculum" class="block text-sm font-medium text-gray-700 mb-1">Select Curriculum</label>
+                    <select id="curriculum" name="curriculum" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required onchange="loadClassLevels()">
+                        <option value="">-- Select a Curriculum --</option>
+                        {% for curriculum in curricula %}
+                        <option value="{{ curriculum.id }}">{{ curriculum.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label for="class_level" class="block text-sm font-medium text-gray-700 mb-1">Select Class Level</label>
+                    <select id="class_level" name="class_level" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" required disabled>
+                        <option value="">-- Select a Class Level --</option>
+                    </select>
+                </div>
+
+                <div class="flex justify-between">
+                    <a href="{% url 'core:dashboard' %}" class="px-4 py-2 bg-gray-200 text-gray-700 rounded-md hover:bg-gray-300">Back to Dashboard</a>
+                    <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Complete Setup</button>
+                </div>
+            </form>
+
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="text-center text-gray-600">
+                    Want more access? <a href="{% url 'subscription:subscription_plans' %}" class="text-blue-600 hover:underline">Upgrade to a premium plan</a> for full access to all curricula and features.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Store class levels data
+    const classLevelsBycurriculum = {
+        {% for curriculum in curricula %}
+        "{{ curriculum.id }}": [
+            {% for class_level in curriculum.class_levels.all %}
+            {
+                id: "{{ class_level.id }}",
+                name: "{{ class_level.name }}"
+            },
+            {% endfor %}
+        ],
+        {% endfor %}
+    };
+
+    function loadClassLevels() {
+        const curriculumSelect = document.getElementById('curriculum');
+        const classLevelSelect = document.getElementById('class_level');
+
+        // Clear current options
+        classLevelSelect.innerHTML = '<option value="">-- Select a Class Level --</option>';
+
+        const curriculumId = curriculumSelect.value;
+        if (!curriculumId) {
+            classLevelSelect.disabled = true;
+            return;
+        }
+
+        // Get class levels for selected curriculum
+        const classLevels = classLevelsBycurriculum[curriculumId] || [];
+
+        // Add options
+        classLevels.forEach(level => {
+            const option = document.createElement('option');
+            option.value = level.id;
+            option.textContent = level.name;
+            classLevelSelect.appendChild(option);
+        });
+
+        // Enable select
+        classLevelSelect.disabled = false;
+    }
+</script>
+{% endblock %}

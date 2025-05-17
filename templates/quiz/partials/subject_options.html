@@ -1,0 +1,4 @@
+<option value="">All Subjects</option>
+{% for subject in subjects %}
+    <option value="{{ subject.slug }}">{{ subject.name }}</option>
+{% endfor %}

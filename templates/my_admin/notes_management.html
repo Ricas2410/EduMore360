@@ -1,0 +1,358 @@
+{% extends 'my_admin/base.html' %}
+
+{% block title %}Notes Management - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Notes Management{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<style>
+    .modal-xl {
+        max-width: 95%;
+    }
+
+    .note-editor {
+        margin-bottom: 20px;
+    }
+
+    .file-upload-container {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        border-radius: 5px;
+    }
+
+    .file-upload-container:hover {
+        border-color: #4e73df;
+    }
+
+    .file-info {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f8f9fc;
+        border-radius: 5px;
+    }
+
+    .curriculum-filter {
+        margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-group .btn {
+            margin-bottom: 5px;
+            border-radius: 0.25rem !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Notes Management</h1>
+    <a href="{% url 'my_admin:add_note_page' %}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+        <i class="fas fa-plus fa-sm text-white-50 mr-2"></i>Add New Note
+    </a>
+</div>
+
+<!-- Filters -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Filter Notes</h6>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="curriculumFilter">Curriculum</label>
+                <select id="curriculumFilter" class="form-control">
+                    <option value="">All Curricula</option>
+                    {% for curriculum in curricula %}
+                    <option value="{{ curriculum.id }}">{{ curriculum.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="classLevelFilter">Class Level</label>
+                <select id="classLevelFilter" class="form-control" disabled>
+                    <option value="">Select Curriculum First</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="subjectFilter">Subject</label>
+                <select id="subjectFilter" class="form-control" disabled>
+                    <option value="">Select Class Level First</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="topicFilter">Topic</label>
+                <select id="topicFilter" class="form-control" disabled>
+                    <option value="">Select Subject First</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 mb-3">
+                <label for="statusFilter">Status</label>
+                <select id="statusFilter" class="form-control">
+                    <option value="">All Statuses</option>
+                    <option value="published">Published</option>
+                    <option value="draft">Draft</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="premiumFilter">Premium</label>
+                <select id="premiumFilter" class="form-control">
+                    <option value="">All</option>
+                    <option value="premium">Premium Only</option>
+                    <option value="free">Free Only</option>
+                </select>
+            </div>
+            <div class="col-md-3 mb-3">
+                <label for="fileTypeFilter">File Type</label>
+                <select id="fileTypeFilter" class="form-control">
+                    <option value="">All File Types</option>
+                    {% for value, label in file_type_choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 mb-3 d-flex align-items-end">
+                <button id="applyFilters" class="btn btn-primary w-100">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Notes List -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">All Notes</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="notesTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Curriculum</th>
+                        <th>Class Level</th>
+                        <th>Subject</th>
+                        <th>Topic</th>
+                        <th>File Type</th>
+                        <th>Status</th>
+                        <th>Premium</th>
+                        <th>Created</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes %}
+                    <tr>
+                        <td>{{ note.title }}</td>
+                        <td>{{ note.topic.subject.curriculum.name }}</td>
+                        <td>{{ note.topic.subject.class_level.name }}</td>
+                        <td>{{ note.topic.subject.name }}</td>
+                        <td>{{ note.topic.name }}{% if note.subtopic %} - {{ note.subtopic.name }}{% endif %}</td>
+                        <td>
+                            {% for value, label in file_type_choices %}
+                                {% if note.file_type == value %}{{ label }}{% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% if note.is_published %}
+                                <span class="badge bg-success text-white">Published</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">Draft</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if note.is_premium %}
+                                <span class="badge bg-info text-white">Premium</span>
+                            {% else %}
+                                <span class="badge bg-secondary text-white">Free</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ note.created_at|date:"M d, Y" }}</td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{% url 'my_admin:edit_note' note.id %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </a>
+                                <button type="button" class="btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteNoteModal{{ note.id }}">
+                                    <i class="fas fa-trash"></i> Delete
+                                </button>
+                                <a href="{{ note.get_absolute_url }}" target="_blank" class="btn btn-sm btn-info">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+                            </div>
+
+                            <!-- Delete Note Modal -->
+                            <div class="modal fade" id="deleteNoteModal{{ note.id }}" tabindex="-1" aria-labelledby="deleteNoteModalLabel{{ note.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteNoteModalLabel{{ note.id }}">Confirm Delete</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete the note "{{ note.title }}"? This action cannot be undone.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form action="{% url 'my_admin:delete_note' note.id %}" method="post">
+                                                {% csrf_token %}
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="10" class="text-center">No notes found. Click "Add New Note" to create your first note.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable
+        $('#notesTable').DataTable({
+            responsive: true,
+            order: [[8, 'desc']] // Sort by created date by default
+        });
+
+        // Initialize Summernote editor
+        $('#content').summernote({
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
+
+        // Curriculum change handler
+        $('#curriculum').change(function() {
+            const curriculumId = $(this).val();
+            if (curriculumId) {
+                // Enable class level dropdown
+                $('#class_level').prop('disabled', false);
+
+                // Fetch class levels for this curriculum
+                $.ajax({
+                    url: '/my-admin/quiz/get-class-levels/',
+                    data: { curriculum: curriculumId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#class_level').empty().append('<option value="">Select Class Level</option>');
+                        $.each(data, function(index, item) {
+                            $('#class_level').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#class_level').prop('disabled', true).empty().append('<option value="">Select Curriculum First</option>');
+                $('#subject').prop('disabled', true).empty().append('<option value="">Select Class Level First</option>');
+                $('#topic').prop('disabled', true).empty().append('<option value="">Select Subject First</option>');
+                $('#subtopic').prop('disabled', true).empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+
+        // Class level change handler
+        $('#class_level').change(function() {
+            const classLevelId = $(this).val();
+            if (classLevelId) {
+                // Enable subject dropdown
+                $('#subject').prop('disabled', false);
+
+                // Fetch subjects for this class level
+                $.ajax({
+                    url: '/my-admin/quiz/get-subjects/',
+                    data: { class_level: classLevelId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#subject').empty().append('<option value="">Select Subject</option>');
+                        $.each(data, function(index, item) {
+                            $('#subject').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#subject').prop('disabled', true).empty().append('<option value="">Select Class Level First</option>');
+                $('#topic').prop('disabled', true).empty().append('<option value="">Select Subject First</option>');
+                $('#subtopic').prop('disabled', true).empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+
+        // Subject change handler
+        $('#subject').change(function() {
+            const subjectId = $(this).val();
+            if (subjectId) {
+                // Enable topic dropdown
+                $('#topic').prop('disabled', false);
+
+                // Fetch topics for this subject
+                $.ajax({
+                    url: '/my-admin/notes/get-topics/',
+                    data: { subject: subjectId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#topic').empty().append('<option value="">Select Topic</option>');
+                        $.each(data, function(index, item) {
+                            $('#topic').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#topic').prop('disabled', true).empty().append('<option value="">Select Subject First</option>');
+                $('#subtopic').prop('disabled', true).empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+
+        // Topic change handler
+        $('#topic').change(function() {
+            const topicId = $(this).val();
+            if (topicId) {
+                // Enable subtopic dropdown
+                $('#subtopic').prop('disabled', false);
+
+                // Fetch subtopics for this topic
+                $.ajax({
+                    url: '/my-admin/notes/get-subtopics/',
+                    data: { topic: topicId },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#subtopic').empty().append('<option value="">None (Topic-level note)</option>');
+                        $.each(data, function(index, item) {
+                            $('#subtopic').append(`<option value="${item.id}">${item.name}</option>`);
+                        });
+                    }
+                });
+            } else {
+                $('#subtopic').prop('disabled', true).empty().append('<option value="">Select Topic First</option>');
+            }
+        });
+    });
+</script>
+{% endblock %}

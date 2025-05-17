@@ -1,0 +1,79 @@
+{% extends 'admin/site_settings/base.html' %}
+{% load static %}
+
+{% block settings_title %}Payment Settings{% endblock %}
+{% block settings_header %}Payment Configuration{% endblock %}
+
+{% block settings_content %}
+<form method="POST" action="{% url 'my_admin:site_settings_payment' %}">
+    {% csrf_token %}
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="paystack_public_key" class="form-label">Paystack Public Key</label>
+                <input type="text" class="form-control" id="paystack_public_key" name="paystack_public_key" 
+                       value="{{ settings.paystack_public_key }}">
+                <div class="form-text">
+                    Your Paystack public key for payment processing.
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="paystack_secret_key" class="form-label">Paystack Secret Key</label>
+                <input type="password" class="form-control" id="paystack_secret_key" name="paystack_secret_key" 
+                       value="{{ settings.paystack_secret_key }}">
+                <div class="form-text">
+                    Your Paystack secret key for payment processing. Keep this secure!
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="currency" class="form-label">Currency</label>
+                <select class="form-select" id="currency" name="currency">
+                    <option value="GHS" {% if settings.currency == 'GHS' %}selected{% endif %}>Ghana Cedi (GHS)</option>
+                    <option value="NGN" {% if settings.currency == 'NGN' %}selected{% endif %}>Nigerian Naira (NGN)</option>
+                    <option value="USD" {% if settings.currency == 'USD' %}selected{% endif %}>US Dollar (USD)</option>
+                    <option value="EUR" {% if settings.currency == 'EUR' %}selected{% endif %}>Euro (EUR)</option>
+                    <option value="GBP" {% if settings.currency == 'GBP' %}selected{% endif %}>British Pound (GBP)</option>
+                </select>
+                <div class="form-text">
+                    The default currency for payments.
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" id="enable_test_mode" name="enable_test_mode" 
+                       {% if settings.enable_test_mode %}checked{% endif %}>
+                <label class="form-check-label" for="enable_test_mode">
+                    Test Mode
+                </label>
+                <div class="form-text">
+                    When enabled, payments will be processed in test mode.
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="mb-4">
+        <h5 class="mb-3">Subscription Plans</h5>
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i> Subscription plans can be managed in the <a href="{% url 'my_admin:subscription_management' %}" class="alert-link">Subscription Management</a> section.
+        </div>
+    </div>
+    
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i> Save Changes
+        </button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Curricula - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <section class="py-16 bg-gray-50">
+        <div class="text-center mb-12 px-4">
+          <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Explore Our Curricula</h1>
+          <p class="text-lg text-gray-600 max-w-3xl mx-auto">
+            Choose a curriculum to start your learning journey. Our content is aligned with educational standards from different countries.
+          </p>
+        </div>
+      
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto px-4">
+          {% for curriculum in curricula %}
+            <div class="bg-[#054FB8] text-white rounded-xl shadow-lg p-6 hover:shadow-2xl transition duration-300">
+              <h2 class="text-2xl font-semibold mb-2">{{ curriculum.name }}</h2>
+              <p class="text-white/90">{{ curriculum.description }}</p>
+              <div class="mt-6 text-right">
+                <a href="{% url 'curriculum:class_level_list' curriculum.code %}" 
+                   class="inline-flex items-center gap-2 bg-[#ff4703] hover:bg-orange-500 text-white font-medium px-5 py-2 rounded-lg transition duration-300">
+                  Explore
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          {% empty %}
+            <div class="col-span-2 text-center py-12">
+              <div class="bg-gray-100 p-8 rounded-xl shadow-inner">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <h3 class="text-xl font-bold mb-2 text-gray-700">No Curricula Available</h3>
+                <p class="text-gray-500">There are no curricula available at the moment. Please check back later.</p>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </section>
+      
+      
+    
+<!-- Features Section -->
+<section class="py-16 bg-gray-50">
+    <div class="text-center mb-12 px-4">
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Why Learn with EduMore360?</h2>
+      <p class="text-gray-600 max-w-2xl mx-auto text-lg">Our platform is designed to support every learner with quality content, flexibility, and interactivity.</p>
+    </div>
+  
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto px-4">
+      <!-- Card 1 -->
+      <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 p-6">
+        <div class="flex justify-center mb-4">
+          <div class="bg-blue-100 p-4 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Aligned with Standards</h3>
+        <p class="text-center text-gray-600">Our content follows educational standards across regions to ensure you're learning what matters most.</p>
+      </div>
+  
+      <!-- Card 2 -->
+      <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 p-6">
+        <div class="flex justify-center mb-4">
+          <div class="bg-yellow-100 p-4 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Interactive Learning</h3>
+        <p class="text-center text-gray-600">Get instant feedback, take quizzes, and engage with lessons that keep you actively learning.</p>
+      </div>
+  
+      <!-- Card 3 -->
+      <div class="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 p-6">
+        <div class="flex justify-center mb-4">
+          <div class="bg-green-100 p-4 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+        </div>
+        <h3 class="text-xl font-semibold text-center mb-2 text-gray-800">Learn at Your Own Pace</h3>
+        <p class="text-center text-gray-600">Study anywhere, anytime. Your progress is saved so you can pick up right where you left off.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- CTA Section -->
+  <section class="mt-16 py-16 px-6 text-white text-center rounded-xl bg-gradient-to-br from-blue-700 to-gray-900">
+    <h2 class="text-3xl md:text-4xl font-bold mb-4">Ready to Start Your Learning Journey?</h2>
+    <p class="text-lg mb-6 max-w-2xl mx-auto">Join thousands of students already learning smarter with EduMore360’s powerful and personalized platform.</p>
+    <div class="flex flex-col sm:flex-row justify-center gap-4">
+      <a href="{% url 'account_signup' %}" class="bg-[#ff4703] hover:bg-[#e03f03] text-white font-semibold px-6 py-3 rounded-lg text-lg transition">Sign Up Now</a>
+      <a href="{% url 'core:about' %}" class="border border-white text-white hover:bg-white hover:text-gray-900 font-semibold px-6 py-3 rounded-lg text-lg transition">Learn More</a>
+    </div>
+  </section>
+  
+  
+  
+</div>
+{% endblock %}

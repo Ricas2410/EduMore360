@@ -1,0 +1,55 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Select Curriculum - {{ plan.name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-bold mb-6 text-center">Select Curriculum</h1>
+
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold mb-2">{{ plan.name }} - {{ plan.get_billing_cycle_display }}</h2>
+                <p class="text-gray-600">{{ plan.description }}</p>
+                <div class="mt-4">
+                    <span class="text-2xl font-bold">{{ plan.price }} USD</span>
+                    <span class="text-gray-500">/ {{ plan.get_billing_cycle_display }}</span>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="text-lg font-semibold mb-4">Choose a Curriculum</h3>
+                <p class="text-gray-600 mb-4">
+                    With the {{ plan.get_plan_type_display }} plan, you get access to all grade levels within your selected curriculum.
+                </p>
+
+                <form method="post" action="{% url 'subscription:subscribe' plan.plan_type plan.billing_cycle %}">
+                    {% csrf_token %}
+
+                    <div class="mb-6">
+                        <label for="curriculum" class="block text-sm font-medium text-gray-700 mb-2">Select Curriculum:</label>
+                        <select id="curriculum" name="curriculum" class="w-full p-3 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                            <option value="">-- Select a Curriculum --</option>
+                            {% for curriculum in curriculums %}
+                                <option value="{{ curriculum.code }}" {% if selected_curriculum.code == curriculum.code %}selected{% endif %}>
+                                    {{ curriculum.name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="flex justify-between mt-8">
+                        <a href="{% url 'subscription:subscription_plans' %}" class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                            Back to Plans
+                        </a>
+                        <button type="submit" class="px-6 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                            Continue to Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

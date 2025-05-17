@@ -1,0 +1,903 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Dashboard - EduMore360{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+  <!-- Welcome Section with Profile Menu -->
+  <section class="bg-gradient-to-r from-blue-600 via-blue-800 to-black text-white rounded-xl shadow-lg p-6">
+    <div class="flex justify-between items-center">
+      <div>
+        <h1 class="text-2xl md:text-4xl font-extrabold mb-2">
+          Welcome, {{ user.first_name|default:user.email }}!
+        </h1>
+        <p class="text-sm md:text-lg text-blue-100">
+          Continue your learning journey with EduMore360.
+        </p>
+      </div>
+      <div class="relative">
+        <button id="profile-dropdown-button" class="flex items-center bg-white/20 hover:bg-white/30 rounded-full pl-3 pr-4 py-2 transition-all duration-300 focus:outline-none">
+          {% if user.profile_picture %}
+          <img
+            src="{{ user.profile_picture.url }}"
+            alt="{{ user.get_full_name }}"
+            class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-lg"
+          />
+          {% else %}
+          <div class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-blue-500 border-2 border-white shadow-lg flex items-center justify-center text-xl font-bold">
+            {{ user.first_name|default:user.email|first|upper }}
+          </div>
+          {% endif %}
+          <div class="ml-3 text-left hidden md:block">
+            <div class="text-white font-medium">{{ user.first_name|default:"My Profile" }}</div>
+            <div class="text-blue-100 text-xs">Click to manage</div>
+          </div>
+          <i class="fas fa-chevron-down ml-2 text-white transition-transform duration-300" id="profile-dropdown-icon"></i>
+        </button>
+
+        <!-- Profile Dropdown Menu -->
+        <div id="profile-dropdown-menu" class="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl z-10 hidden transform transition-all duration-300 origin-top-right">
+          <div class="p-3 border-b border-gray-200 bg-gray-50 rounded-t-lg">
+            <div class="font-medium text-gray-800">{{ user.get_full_name|default:user.email }}</div>
+            <div class="text-xs text-gray-500">{{ user.email }}</div>
+          </div>
+          <div class="py-1">
+            <a href="{% url 'accounts:profile' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <i class="fas fa-user mr-3 text-blue-600 w-5 text-center"></i> My Profile
+            </a>
+            <a href="{% url 'accounts:edit_profile' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <i class="fas fa-user-edit mr-3 text-blue-600 w-5 text-center"></i> Edit Profile
+            </a>
+            <a href="{% url 'accounts:preferences' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <i class="fas fa-cog mr-3 text-blue-600 w-5 text-center"></i> Preferences
+            </a>
+            <a href="{% url 'subscription:manage_subscription' %}" class="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100">
+              <i class="fas fa-credit-card mr-3 text-blue-600 w-5 text-center"></i> Subscription
+            </a>
+            <div class="border-t border-gray-200 my-1"></div>
+            <a href="{% url 'account_logout' %}" class="flex items-center px-4 py-2 text-red-600 hover:bg-red-50">
+              <i class="fas fa-sign-out-alt mr-3 w-5 text-center"></i> Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Subscription Tier Info -->
+  {% if active_subscription %}
+  <section class="bg-white rounded-xl shadow-lg p-4 border-l-4 border-[#ff4703]">
+    <div class="flex items-center">
+      <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-3 flex-shrink-0">
+        <i class="fas fa-crown text-[#ff4703] text-xl"></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-gray-800">{{ active_subscription.plan.name }}</h2>
+        <p class="text-sm text-gray-600">
+          {% if active_subscription.plan.plan_type == 'free' %}
+            Limited access to sample content
+          {% elif active_subscription.plan.plan_type == 'tier_one' %}
+            Access to one curriculum and one grade level
+          {% elif active_subscription.plan.plan_type == 'tier_two' %}
+            Access to one curriculum with all grade levels
+          {% elif active_subscription.plan.plan_type == 'tier_three' %}
+            Full access to all curricula and grade levels
+          {% endif %}
+          • Expires: {{ active_subscription.end_date|date:"M d, Y" }}
+        </p>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Free User Setup Prompt -->
+  {% if needs_setup and active_subscription.plan.plan_type == 'free' %}
+  <section class="bg-blue-50 rounded-xl shadow-lg p-4 border-2 border-blue-200">
+    <div class="flex items-start">
+      <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+        <i class="fas fa-tasks text-blue-600 text-xl"></i>
+      </div>
+      <div>
+        <h2 class="text-lg font-bold text-blue-800 mb-1">Complete Your Free Setup</h2>
+        <p class="text-sm text-blue-700 mb-3">
+          Please select your preferred curriculum and class level to access your free content.
+        </p>
+        <a href="{% url 'core:complete_free_setup' %}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-4 rounded-lg">
+          <i class="fas fa-arrow-right mr-1"></i> Complete Setup
+        </a>
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Quick Access Based on Subscription Tier -->
+  <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white">
+      <h2 class="text-lg md:text-xl font-bold">Quick Access</h2>
+    </div>
+    <div class="p-4">
+      {% if active_subscription %}
+        {% if active_subscription.plan.plan_type == 'free' %}
+          <!-- Free Tier -->
+          <div class="space-y-4">
+            <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+              <h3 class="font-semibold text-gray-800 mb-2">Sample Content</h3>
+              {% if free_curriculum and free_class_level %}
+                <a href="{% url 'curriculum:subject_list' free_curriculum.code free_class_level.id %}"
+                   class="block bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg mb-3">
+                  {{ free_curriculum.name }} - {{ free_class_level.name }}
+                </a>
+              {% endif %}
+              <div class="mt-4 bg-blue-50 p-3 rounded-lg border border-blue-200">
+                <p class="text-sm text-blue-800 flex items-start">
+                  <i class="fas fa-info-circle mt-0.5 mr-2"></i>
+                  <span>You're using the Free Tier with limited access. Upgrade to unlock more content!</span>
+                </p>
+              </div>
+            </div>
+            <a href="{% url 'subscription:subscription_plans' %}"
+               class="block bg-[#ff4703] hover:bg-orange-600 text-white text-center py-3 px-4 rounded-lg font-medium">
+              <i class="fas fa-arrow-circle-up mr-2"></i> Upgrade Your Subscription
+            </a>
+          </div>
+        {% elif active_subscription.plan.plan_type == 'tier_one' %}
+          <!-- Tier One -->
+          <div class="space-y-4">
+            {% if curriculum and class_level %}
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <h3 class="font-semibold text-gray-800 mb-2">Your Selected Curriculum</h3>
+                <a href="{% url 'curriculum:subject_list' curriculum.code class_level.id %}"
+                   class="block bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg">
+                  {{ curriculum.name }} - {{ class_level.name }}
+                </a>
+              </div>
+              <div class="mt-3">
+                <div class="flex justify-between items-center mb-2">
+                  <h4 class="text-sm font-semibold text-gray-700">Available Subjects:</h4>
+                  <a href="{% url 'curriculum:subject_list' curriculum.code class_level.id %}" class="text-xs text-blue-600 hover:underline">
+                    View All
+                  </a>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {% for subject in recommended_subjects %}
+                    <a href="{% url 'curriculum:subject_detail' subject.curriculum.code subject.class_level.id subject.slug %}"
+                       class="bg-gray-50 hover:bg-gray-100 p-2 rounded-lg border border-gray-200 flex flex-col items-center text-center">
+                      <i class="fas fa-book text-blue-600 mb-1"></i>
+                      <span class="text-xs font-medium text-gray-800 line-clamp-2">{{ subject.name }}</span>
+                    </a>
+                  {% empty %}
+                    <div class="col-span-3 text-center py-3 text-gray-500">
+                      No subjects available
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% else %}
+              <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <p class="text-sm text-yellow-800 flex items-start">
+                  <i class="fas fa-exclamation-circle mt-0.5 mr-2"></i>
+                  <span>You haven't selected your curriculum and class level yet.</span>
+                </p>
+                <a href="{% url 'accounts:preferences' %}" class="mt-2 inline-block text-blue-600 hover:underline text-sm">
+                  Set your preferences
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        {% elif active_subscription.plan.plan_type == 'tier_two' %}
+          <!-- Tier Two -->
+          <div class="space-y-4">
+            {% if curriculum %}
+              <div class="bg-gray-50 rounded-lg p-4 border border-gray-200">
+                <h3 class="font-semibold text-gray-800 mb-2">Your Selected Curriculum</h3>
+                <a href="{% url 'curriculum:class_level_list' curriculum.code %}"
+                   class="block bg-blue-600 hover:bg-blue-700 text-white text-center py-2 px-4 rounded-lg">
+                  {{ curriculum.name }} - All Grade Levels
+                </a>
+              </div>
+
+              <h3 class="font-semibold text-gray-800 mt-4 mb-2">Grade Levels</h3>
+              <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {% for level in class_levels|slice:":6" %}
+                  <a href="{% url 'curriculum:subject_list' curriculum.code level.id %}"
+                     class="bg-gray-50 hover:bg-gray-100 p-3 rounded-lg border border-gray-200 flex flex-col items-center text-center">
+                    <i class="fas fa-graduation-cap text-blue-600 mb-2"></i>
+                    <span class="text-sm font-medium text-gray-800">{{ level.name }}</span>
+                  </a>
+                {% empty %}
+                  <div class="col-span-3 text-center py-3 text-gray-500">
+                    No grade levels available
+                  </div>
+                {% endfor %}
+              </div>
+            {% else %}
+              <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <p class="text-sm text-yellow-800 flex items-start">
+                  <i class="fas fa-exclamation-circle mt-0.5 mr-2"></i>
+                  <span>You haven't selected your curriculum yet.</span>
+                </p>
+                <a href="{% url 'accounts:preferences' %}" class="mt-2 inline-block text-blue-600 hover:underline text-sm">
+                  Set your preferences
+                </a>
+              </div>
+            {% endif %}
+          </div>
+        {% elif active_subscription.plan.plan_type == 'tier_three' %}
+          <!-- Tier Three -->
+          <div class="space-y-4">
+            <h3 class="font-semibold text-gray-800 mb-2">Available Curricula</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {% for curr in all_curricula %}
+                <a href="{% url 'curriculum:class_level_list' curr.code %}"
+                   class="bg-gray-50 hover:bg-gray-100 p-4 rounded-lg border border-gray-200">
+                  <h4 class="font-medium text-gray-800 mb-1">{{ curr.name }}</h4>
+                  <p class="text-xs text-gray-600">{{ curr.description|truncatechars:60 }}</p>
+                </a>
+              {% empty %}
+                <div class="col-span-2 text-center py-3 text-gray-500">
+                  No curricula available
+                </div>
+              {% endfor %}
+            </div>
+
+            {% if curriculum and class_level %}
+              <div class="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h3 class="font-semibold text-blue-800 mb-2">Current Selection</h3>
+                <div class="flex items-center">
+                  <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                    <i class="fas fa-book text-blue-600"></i>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-blue-800">{{ curriculum.name }} - {{ class_level.name }}</p>
+                    <a href="{% url 'curriculum:subject_list' curriculum.code class_level.id %}" class="text-xs text-blue-600 hover:underline">
+                      View Subjects
+                    </a>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+      {% else %}
+        <!-- No Subscription -->
+        <div class="space-y-4">
+          <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+            <p class="text-sm text-yellow-800 flex items-start">
+              <i class="fas fa-exclamation-circle mt-0.5 mr-2"></i>
+              <span>You don't have an active subscription. Subscribe to access premium content!</span>
+            </p>
+          </div>
+          <a href="{% url 'subscription:subscription_plans' %}"
+             class="block bg-[#ff4703] hover:bg-orange-600 text-white text-center py-3 px-4 rounded-lg font-medium">
+            <i class="fas fa-crown mr-2"></i> View Subscription Plans
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Quick Actions -->
+  <section class="mb-6">
+    <h2 class="text-lg md:text-xl font-bold text-gray-800 mb-3">Quick Actions</h2>
+
+    <!-- Mobile View: Horizontal Scrollable Buttons -->
+    <div class="flex md:hidden overflow-x-auto pb-2 space-x-3">
+      <a href="{% url 'curriculum:curriculum_list' %}"
+         class="flex-shrink-0 w-40 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg p-3 shadow-md flex items-center justify-center space-x-2 transition-all duration-200">
+        <i class="fas fa-book-open text-xl"></i>
+        <div>
+          <div class="font-bold">Learn</div>
+          <div class="text-xs text-blue-100">Notes & Lessons</div>
+        </div>
+      </a>
+
+      <a href="{% url 'quiz:quiz_home' %}"
+         class="flex-shrink-0 w-40 bg-gradient-to-r from-[#ff4703] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg p-3 shadow-md flex items-center justify-center space-x-2 transition-all duration-200">
+        <i class="fas fa-question-circle text-xl"></i>
+        <div>
+          <div class="font-bold">Quiz</div>
+          <div class="text-xs text-orange-100">Test Knowledge</div>
+        </div>
+      </a>
+
+      <a href="{% url 'accounts:progress_overview' %}"
+         class="flex-shrink-0 w-40 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg p-3 shadow-md flex items-center justify-center space-x-2 transition-all duration-200">
+        <i class="fas fa-chart-line text-xl"></i>
+        <div>
+          <div class="font-bold">Progress</div>
+          <div class="text-xs text-green-100">Track Learning</div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Desktop View: Button Grid -->
+    <div class="hidden md:grid grid-cols-3 gap-4">
+      <a href="{% url 'curriculum:curriculum_list' %}"
+         class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-lg p-4 shadow-md flex items-center transition-all duration-200 hover:shadow-lg">
+        <div class="w-12 h-12 rounded-full bg-blue-500/30 flex items-center justify-center mr-4">
+          <i class="fas fa-book-open text-xl"></i>
+        </div>
+        <div>
+          <div class="font-bold text-lg">Learn</div>
+          <div class="text-sm text-blue-100">Access notes and lessons</div>
+        </div>
+        <i class="fas fa-arrow-right ml-auto text-blue-200"></i>
+      </a>
+
+      <a href="{% url 'quiz:quiz_home' %}"
+         class="bg-gradient-to-r from-[#ff4703] to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white rounded-lg p-4 shadow-md flex items-center transition-all duration-200 hover:shadow-lg">
+        <div class="w-12 h-12 rounded-full bg-orange-500/30 flex items-center justify-center mr-4">
+          <i class="fas fa-question-circle text-xl"></i>
+        </div>
+        <div>
+          <div class="font-bold text-lg">Quiz</div>
+          <div class="text-sm text-orange-100">Test your knowledge</div>
+        </div>
+        <i class="fas fa-arrow-right ml-auto text-orange-200"></i>
+      </a>
+
+      <a href="{% url 'accounts:progress_overview' %}"
+         class="bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white rounded-lg p-4 shadow-md flex items-center transition-all duration-200 hover:shadow-lg">
+        <div class="w-12 h-12 rounded-full bg-green-500/30 flex items-center justify-center mr-4">
+          <i class="fas fa-chart-line text-xl"></i>
+        </div>
+        <div>
+          <div class="font-bold text-lg">Progress</div>
+          <div class="text-sm text-green-100">Track your learning</div>
+        </div>
+        <i class="fas fa-arrow-right ml-auto text-green-200"></i>
+      </a>
+    </div>
+  </section>
+
+  <!-- Continue Learning Section -->
+  <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white">
+      <h2 class="text-lg md:text-xl font-bold">Continue Learning</h2>
+    </div>
+
+    <div class="p-4">
+      {% if curriculum and class_level %}
+        {% if recent_activity %}
+          <div class="space-y-3 mb-4">
+            {% for activity in recent_activity|slice:":2" %}
+              <div class="flex items-start gap-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                <div class="flex-shrink-0">
+                  {% if activity.type == 'quiz' %}
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                      <i class="fas fa-question-circle"></i>
+                    </div>
+                  {% elif activity.type == 'note' %}
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                      <i class="fas fa-book-open"></i>
+                    </div>
+                  {% else %}
+                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
+                      <i class="fas fa-graduation-cap"></i>
+                    </div>
+                  {% endif %}
+                </div>
+                <div>
+                  <p class="text-sm font-medium text-gray-800">{{ activity.details }}</p>
+                  <p class="text-xs text-gray-500 mt-1">{{ activity.date|date:"M d, Y" }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+
+
+        <!-- Recommended Subjects -->
+        <h3 class="font-semibold text-gray-800 mb-3">Recommended for You</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+          {% for subject in recommended_subjects|slice:":4" %}
+            <a href="{% url 'curriculum:subject_detail' subject.curriculum.code subject.class_level.id subject.slug %}"
+               class="flex items-start p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-200 transition-colors">
+              <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-book text-blue-600"></i>
+              </div>
+              <div>
+                <h4 class="font-medium text-gray-800 mb-1 md:text-lg">{{ subject.name }}</h4>
+                <p class="text-xs md:text-sm text-gray-600">{{ subject.description|truncatechars:50 }}</p>
+              </div>
+            </a>
+          {% empty %}
+            <div class="col-span-2 text-center py-6 bg-gray-50 rounded-lg border border-gray-200">
+              <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                <i class="fas fa-compass text-blue-600 text-xl"></i>
+              </div>
+              <h4 class="text-base md:text-lg font-medium text-gray-800 mb-2">No Recommendations Yet</h4>
+              <p class="text-sm md:text-base text-gray-600 mb-3">Start exploring to get personalized recommendations.</p>
+              <a href="{% url 'curriculum:curriculum_list' %}"
+                 class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg">
+                <i class="fas fa-search mr-1.5"></i> Explore Subjects
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-8">
+          <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-cog text-blue-600 text-2xl"></i>
+          </div>
+          <h3 class="text-lg md:text-xl font-medium text-gray-800 mb-2">Set Your Preferences</h3>
+          <p class="text-sm md:text-base text-gray-600 mb-4">Please set your curriculum and class level preferences to get personalized content.</p>
+          <a href="{% url 'accounts:preferences' %}"
+             class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white rounded-lg">
+            <i class="fas fa-sliders-h mr-2"></i> Set Preferences
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- Learning Progress -->
+  <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white">
+      <h2 class="text-lg md:text-xl font-bold">Your Learning Progress</h2>
+    </div>
+
+    <div class="p-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Study Progress -->
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <h3 class="font-medium text-gray-800 mb-3 flex items-center">
+            <i class="fas fa-book-reader text-blue-600 mr-2"></i>
+            Study Progress
+          </h3>
+
+          <div class="flex items-center mb-3">
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+              <div
+                class="bg-gradient-to-r from-blue-500 to-blue-700 h-2.5 rounded-full"
+                style="width: {{ study_progress.overall_progress }}%"
+              ></div>
+            </div>
+            <span class="text-xs font-semibold text-gray-700 whitespace-nowrap">
+              {{ study_progress.overall_progress|floatformat:0 }}%
+            </span>
+          </div>
+
+          <p class="text-xs text-gray-600 mb-3">
+            {{ study_progress.completed_notes }} of {{ study_progress.total_notes }} notes completed
+          </p>
+
+          {% if study_progress.topics %}
+          <div class="mt-3">
+            <h4 class="text-xs font-semibold mb-2 text-gray-700">
+              In-Progress Topics:
+            </h4>
+            <ul class="space-y-2">
+              {% for topic in study_progress.topics|slice:":2" %}
+                {% if topic.progress_percentage > 0 and topic.progress_percentage < 100 %}
+                  <li>
+                    <div class="flex justify-between text-xs mb-1">
+                      <span class="text-gray-700 truncate max-w-[70%]">{{ topic.topic.name }}</span>
+                      <span class="font-medium text-gray-800">{{ topic.progress_percentage|floatformat:0 }}%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-1.5">
+                      <div
+                        class="bg-blue-600 h-1.5 rounded-full"
+                        style="width: {{ topic.progress_percentage }}%"
+                      ></div>
+                    </div>
+                  </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <div class="mt-3 text-center">
+            <a
+              href="{% url 'accounts:progress_overview' %}"
+              class="text-sm text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
+            >
+              View All Progress <i class="fas fa-arrow-right ml-1.5"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quiz Performance -->
+        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+          <h3 class="font-medium text-gray-800 mb-3 flex items-center">
+            <i class="fas fa-question-circle text-blue-600 mr-2"></i>
+            Quiz Performance
+          </h3>
+
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <div class="bg-white p-3 rounded-lg border border-gray-200">
+              <div class="text-xl font-bold text-blue-600">
+                {{ quiz_stats.total_attempts }}
+              </div>
+              <div class="text-xs text-gray-600">Quizzes Taken</div>
+            </div>
+            <div class="bg-white p-3 rounded-lg border border-gray-200">
+              <div class="text-xl font-bold text-blue-600">
+                {{ quiz_stats.average_score|floatformat:0 }}%
+              </div>
+              <div class="text-xs text-gray-600">Average Score</div>
+            </div>
+          </div>
+
+          {% if quiz_stats.subjects %}
+          <div class="mt-3">
+            <h4 class="text-xs font-semibold mb-2 text-gray-700">
+              Subject Performance:
+            </h4>
+            <ul class="space-y-2">
+              {% for subject in quiz_stats.subjects|slice:":2" %}
+              <li>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-gray-700 truncate max-w-[70%]">{{ subject.subject.name }}</span>
+                  <span class="font-medium text-gray-800">{{ subject.average_score|floatformat:0 }}%</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-1.5">
+                  <div
+                    class="bg-blue-600 h-1.5 rounded-full"
+                    style="width: {{ subject.average_score }}%"
+                  ></div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+
+          <div class="mt-3 text-center">
+            <a
+              href="{% url 'quiz:quiz_history' %}"
+              class="text-sm text-blue-600 hover:text-blue-800 font-medium inline-flex items-center"
+            >
+              View Quiz History <i class="fas fa-arrow-right ml-1.5"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recent Activity and Achievements -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Recent Activity -->
+    <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white">
+        <h2 class="text-lg md:text-xl font-bold">Recent Activity</h2>
+      </div>
+
+      <div class="p-4">
+        {% if recent_activity %}
+        <div class="space-y-4">
+          {% for activity in recent_activity|slice:":3" %}
+          <div class="flex items-start border-b border-gray-100 pb-3 last:border-0 last:pb-0">
+            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+              {% if activity.type == 'quiz' %}
+              <i class="fas fa-question-circle text-blue-600"></i>
+              {% elif activity.type == 'note' %}
+              <i class="fas fa-book-open text-blue-600"></i>
+              {% else %}
+              <i class="fas fa-graduation-cap text-blue-600"></i>
+              {% endif %}
+            </div>
+            <div>
+              <p class="text-sm text-gray-800">{{ activity.details }}</p>
+              <p class="text-xs text-gray-500 mt-1">
+                {{ activity.date|date:"M j, Y, g:i a" }}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-6">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-history text-blue-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-medium text-gray-800 mb-2">
+            No Recent Activity
+          </h3>
+          <p class="text-sm text-gray-600 mb-3">
+            Start exploring content to see your activity here.
+          </p>
+          <a href="{% url 'curriculum:curriculum_list' %}"
+             class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg">
+            <i class="fas fa-search mr-1.5"></i> Explore Content
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Achievements -->
+    <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white">
+        <h2 class="text-lg md:text-xl font-bold">Recent Achievements</h2>
+      </div>
+
+    <div class="p-4">
+        {% if recent_achievements %}
+        <div class="space-y-4">
+          {% for achievement in recent_achievements|slice:":3" %}
+          <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+            <div class="flex items-center">
+              <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                <i class="fas fa-medal text-blue-600"></i>
+              </div>
+              <div>
+                <h3 class="font-medium text-sm text-gray-800 mb-0.5">
+                  {{ achievement.title }}
+                </h3>
+                <p class="text-xs text-gray-600">
+                  {{ achievement.description }}
+                </p>
+                <p class="text-xs text-gray-500 mt-1">
+                  {{ achievement.earned_at|date:"M j, Y" }}
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-6">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-trophy text-blue-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-medium text-gray-800 mb-2">
+            No Achievements Yet
+          </h3>
+          <p class="text-sm text-gray-600 mb-3">
+            Complete quizzes and lessons to earn achievements.
+          </p>
+          <a href="{% url 'curriculum:curriculum_list' %}"
+             class="inline-flex items-center px-3 py-1.5 bg-blue-600 text-white text-sm rounded-lg">
+            <i class="fas fa-graduation-cap mr-1.5"></i> Start Learning
+          </a>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+
+  <!-- Notifications and Announcements -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Notifications -->
+    <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white flex justify-between items-center">
+        <h2 class="text-lg md:text-xl font-bold">Notifications</h2>
+        <div class="flex items-center gap-3">
+          {% if unread_notifications %}
+          <button id="mark-all-read-btn" class="text-xs text-white hover:underline">Mark All Read</button>
+          {% endif %}
+          <a href="{% url 'core:notification_list' %}" class="text-xs text-white hover:underline">View All</a>
+        </div>
+      </div>
+
+      <div class="p-4">
+        {% if unread_notifications %}
+        <div class="space-y-3">
+          {% for notification in unread_notifications|slice:":3" %}
+          <div class="bg-blue-50 rounded-lg p-3 border border-blue-200 relative">
+            <div class="absolute top-2 right-2">
+              <span class="inline-block w-2 h-2 bg-blue-600 rounded-full"></span>
+            </div>
+            <h3 class="font-medium text-sm text-gray-800 mb-1">
+              {{ notification.title }}
+            </h3>
+            <p class="text-xs text-gray-600">{{ notification.message|truncatechars:80 }}</p>
+            <div class="flex justify-between items-center mt-2">
+              <span class="text-xs text-gray-500">{{ notification.created_at|date:"M j, Y" }}</span>
+              <a href="{% url 'core:mark_notification_read' notification.id %}"
+                 class="text-xs text-blue-600 hover:underline mark-notification-read">Mark as Read</a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-6">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-bell text-blue-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-medium text-gray-800 mb-2">
+            No New Notifications
+          </h3>
+          <p class="text-sm text-gray-600">You're all caught up!</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+
+    <!-- Announcements -->
+    <section class="bg-white rounded-xl shadow-lg overflow-hidden">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-4 py-3 text-white">
+        <h2 class="text-lg md:text-xl font-bold">Announcements</h2>
+      </div>
+
+      <div class="p-4">
+        {% if hero_sections %}
+        <div class="space-y-4">
+          {% for hero in hero_sections|slice:":2" %}
+          <div class="bg-gray-50 rounded-lg p-3 border border-gray-200">
+            <h3 class="font-medium text-sm text-gray-800 mb-1">
+              {{ hero.title }}
+            </h3>
+            <p class="text-xs text-gray-600 mb-2">{{ hero.description }}</p>
+            {% if hero.button_text and hero.button_url %}
+            <a href="{{ hero.button_url }}"
+               class="inline-block text-xs bg-[#ff4703] hover:bg-orange-600 text-white px-3 py-1 rounded-lg">
+              {{ hero.button_text }}
+            </a>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-6">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+            <i class="fas fa-bullhorn text-blue-600 text-xl"></i>
+          </div>
+          <h3 class="text-base font-medium text-gray-800 mb-2">
+            No Announcements
+          </h3>
+          <p class="text-sm text-gray-600">Check back later for updates!</p>
+        </div>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Profile dropdown functionality
+    const profileButton = document.getElementById('profile-dropdown-button');
+    const profileMenu = document.getElementById('profile-dropdown-menu');
+    const profileIcon = document.getElementById('profile-dropdown-icon');
+
+    if (profileButton && profileMenu) {
+      // Toggle dropdown when clicking the button
+      profileButton.addEventListener('click', function(e) {
+        e.stopPropagation();
+        profileMenu.classList.toggle('hidden');
+        profileIcon.classList.toggle('rotate-180');
+      });
+
+      // Close dropdown when clicking outside
+      document.addEventListener('click', function(e) {
+        if (!profileMenu.contains(e.target) && !profileButton.contains(e.target)) {
+          profileMenu.classList.add('hidden');
+          profileIcon.classList.remove('rotate-180');
+        }
+      });
+    }
+
+    // Add click event listener to "Mark All Read" button
+    const markAllReadBtn = document.getElementById('mark-all-read-btn');
+    if (markAllReadBtn) {
+      markAllReadBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Send AJAX request to mark all notifications as read
+        fetch('{% url "core:mark_all_notifications_read" %}', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Remove all notifications from the list
+            const notificationsContainer = document.querySelector('.space-y-3');
+            if (notificationsContainer) {
+              // Replace with "No New Notifications" message
+              notificationsContainer.innerHTML = `
+                <div class="text-center py-6">
+                  <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i class="fas fa-bell text-blue-600 text-xl"></i>
+                  </div>
+                  <h3 class="text-base font-medium text-gray-800 mb-2">
+                    No New Notifications
+                  </h3>
+                  <p class="text-sm text-gray-600">You're all caught up!</p>
+                </div>
+              `;
+            }
+
+            // Hide the "Mark All Read" button
+            markAllReadBtn.style.display = 'none';
+
+            // Update notification count in navbar
+            const desktopBadge = document.getElementById('notification-badge-desktop');
+            const mobileBadge = document.getElementById('notification-badge-mobile');
+
+            if (desktopBadge) desktopBadge.style.display = 'none';
+            if (mobileBadge) mobileBadge.style.display = 'none';
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    }
+
+    // Add click event listeners to all "Mark as Read" links
+    const markAsReadLinks = document.querySelectorAll('.mark-notification-read');
+    markAsReadLinks.forEach(link => {
+      link.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Get the notification URL
+        const url = this.getAttribute('href');
+
+        // Send AJAX request to mark notification as read
+        fetch(url, {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': getCookie('csrftoken'),
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
+          credentials: 'same-origin'
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            // Remove the notification from the list
+            const notificationElement = this.closest('.bg-blue-50');
+            if (notificationElement) {
+              notificationElement.remove();
+            }
+
+            // Update notification count in navbar
+            updateNotificationCount();
+          }
+        })
+        .catch(error => console.error('Error:', error));
+      });
+    });
+
+    // Function to update notification count
+    function updateNotificationCount() {
+      // Get current count
+      const desktopBadge = document.getElementById('notification-badge-desktop');
+      const mobileBadge = document.getElementById('notification-badge-mobile');
+
+      if (desktopBadge) {
+        let count = parseInt(desktopBadge.textContent);
+        count = count - 1;
+
+        if (count <= 0) {
+          // Hide badges if count is 0
+          if (desktopBadge) desktopBadge.style.display = 'none';
+          if (mobileBadge) mobileBadge.style.display = 'none';
+        } else {
+          // Update count
+          if (desktopBadge) desktopBadge.textContent = count;
+          if (mobileBadge) mobileBadge.textContent = count;
+        }
+      }
+    }
+
+    // Function to get CSRF token from cookies
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  });
+</script>
+{% endblock %}

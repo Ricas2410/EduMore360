@@ -1,0 +1,20 @@
+[Unit]
+Description=EduMore360 Gunicorn daemon
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/path/to/edumore360
+ExecStart=/path/to/edumore360/venv/bin/gunicorn \
+          --access-logfile - \
+          --workers 3 \
+          --timeout 120 \
+          --bind unix:/path/to/edumore360/edumore360.sock \
+          edumore360.wsgi:application
+Restart=on-failure
+RestartSec=5s
+EnvironmentFile=/path/to/edumore360/.env.production
+
+[Install]
+WantedBy=multi-user.target

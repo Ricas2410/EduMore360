@@ -1,0 +1,314 @@
+{% extends 'my_admin/base.html' %}
+
+{% block title %}Dashboard - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Stats Cards -->
+<div class="row">
+    <!-- Total Users Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            Total Users
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_users }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-users fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Quizzes Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Total Quizzes
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_quizzes }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-question-circle fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Questions Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                            Total Questions
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_questions }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Quiz Attempts Card -->
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Quiz Attempts
+                        </div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">{{ total_quiz_attempts }}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-chart-line fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+    <!-- User Registration Chart -->
+    <div class="col-xl-8 col-lg-7">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">User Registrations (Last 7 Days)</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-area">
+                    <canvas id="userRegistrationChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Distribution -->
+    <div class="col-xl-4 col-lg-5">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Subscription Distribution</h6>
+            </div>
+            <div class="card-body">
+                <div class="chart-pie pt-4 pb-2">
+                    <canvas id="subscriptionChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Content Row -->
+<div class="row">
+    <!-- Recent Users -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Users</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>Email</th>
+                                <th>Date Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in recent_users %}
+                            <tr>
+                                <td>{{ user.email }}</td>
+                                <td>{{ user.date_joined|date:"M d, Y" }}</td>
+                                <td>
+                                    <a href="{% url 'admin:accounts_user_change' user.id %}" class="btn btn-sm btn-primary">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="3" class="text-center">No recent users</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Quiz Attempts -->
+    <div class="col-lg-6 mb-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Recent Quiz Attempts</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Quiz</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for attempt in recent_quiz_attempts %}
+                            <tr>
+                                <td>{{ attempt.user.email }}</td>
+                                <td>{{ attempt.quiz.title }}</td>
+                                <td>{{ attempt.score }}%</td>
+                                <td>{{ attempt.started_at|date:"M d, Y" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No recent quiz attempts</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // User Registration Chart
+    var ctx = document.getElementById("userRegistrationChart");
+    var userRegistrationChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [{% for stat in user_registration_stats %}"{{ stat.day }}",{% endfor %}],
+            datasets: [{
+                label: "Registrations",
+                lineTension: 0.3,
+                backgroundColor: "rgba(78, 115, 223, 0.05)",
+                borderColor: "rgba(78, 115, 223, 1)",
+                pointRadius: 3,
+                pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointBorderColor: "rgba(78, 115, 223, 1)",
+                pointHoverRadius: 3,
+                pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                pointHitRadius: 10,
+                pointBorderWidth: 2,
+                data: [{% for stat in user_registration_stats %}{{ stat.count }},{% endfor %}],
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 25,
+                    top: 25,
+                    bottom: 0
+                }
+            },
+            scales: {
+                xAxes: [{
+                    time: {
+                        unit: 'date'
+                    },
+                    gridLines: {
+                        display: false,
+                        drawBorder: false
+                    },
+                    ticks: {
+                        maxTicksLimit: 7
+                    }
+                }],
+                yAxes: [{
+                    ticks: {
+                        maxTicksLimit: 5,
+                        padding: 10,
+                        beginAtZero: true
+                    },
+                    gridLines: {
+                        color: "rgb(234, 236, 244)",
+                        zeroLineColor: "rgb(234, 236, 244)",
+                        drawBorder: false,
+                        borderDash: [2],
+                        zeroLineBorderDash: [2]
+                    }
+                }],
+            },
+            legend: {
+                display: false
+            },
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                titleMarginBottom: 10,
+                titleFontColor: '#6e707e',
+                titleFontSize: 14,
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                intersect: false,
+                mode: 'index',
+                caretPadding: 10,
+            }
+        }
+    });
+
+    // Subscription Chart
+    var ctx2 = document.getElementById("subscriptionChart");
+    var subscriptionChart = new Chart(ctx2, {
+        type: 'doughnut',
+        data: {
+            labels: [{% for stat in subscription_stats %}"{{ stat.plan__plan_type|default:'none'|title }}",{% endfor %}],
+            datasets: [{
+                data: [{% for stat in subscription_stats %}{{ stat.count }},{% endfor %}],
+                backgroundColor: ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e'],
+                hoverBackgroundColor: ['#2e59d9', '#17a673', '#2c9faf', '#dda20a'],
+                hoverBorderColor: "rgba(234, 236, 244, 1)",
+            }],
+        },
+        options: {
+            maintainAspectRatio: false,
+            tooltips: {
+                backgroundColor: "rgb(255,255,255)",
+                bodyFontColor: "#858796",
+                borderColor: '#dddfeb',
+                borderWidth: 1,
+                xPadding: 15,
+                yPadding: 15,
+                displayColors: false,
+                caretPadding: 10,
+            },
+            legend: {
+                display: true,
+                position: 'bottom'
+            },
+            cutoutPercentage: 80,
+        },
+    });
+</script>
+{% endblock %}

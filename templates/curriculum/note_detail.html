@@ -1,0 +1,461 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ note.title }} - {{ topic.name }} - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Breadcrumbs -->
+            <nav class="text-sm mb-6">
+                <ol class="flex flex-wrap items-center space-x-2">
+                    <li><a href="{% url 'curriculum:curriculum_list' %}" class="text-blue-200 hover:text-white transition-colors">Curricula</a></li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <a href="{% url 'curriculum:class_level_list' curriculum.code %}" class="text-blue-200 hover:text-white transition-colors">{{ curriculum.name }}</a>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <a href="{% url 'curriculum:subject_list' curriculum.code class_level.id %}" class="text-blue-200 hover:text-white transition-colors">{{ class_level.name }}</a>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <a href="{% url 'curriculum:subject_detail' curriculum.code class_level.id subject.slug %}" class="text-blue-200 hover:text-white transition-colors">{{ subject.name }}</a>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <a href="{% url 'curriculum:topic_detail' curriculum.code class_level.id subject.slug topic.slug %}" class="text-blue-200 hover:text-white transition-colors">{{ topic.name }}</a>
+                    </li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="font-medium">{{ note.title }}</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-2">{{ note.title }}</h1>
+            <p class="text-xl text-blue-100">{{ topic.name }} - {{ subject.name }}</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Main Content -->
+        <div class="lg:w-2/3">
+
+            <!-- Note Content -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-xl font-bold">Note Content</h2>
+                        <div class="flex items-center space-x-3">
+                            <div class="text-sm text-blue-100">
+                                Last updated: {{ note.updated_at|date:"M d, Y" }}
+                            </div>
+
+                            {% if note.is_premium %}
+                                <div class="px-2 py-1 bg-[#ff4703] text-white text-xs font-bold rounded">Premium</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    {% if note.has_file %}
+                        <div class="mb-6">
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 mb-4">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full
+                                        {% if note.file_type == 'pdf' %}bg-red-100{% elif note.file_type == 'doc' %}bg-blue-100{% elif note.file_type == 'ppt' %}bg-orange-100{% else %}bg-gray-100{% endif %}
+                                        flex items-center justify-center mr-3">
+                                        {% if note.file_type == 'pdf' %}
+                                            <i class="fas fa-file-pdf text-red-600"></i>
+                                        {% elif note.file_type == 'doc' %}
+                                            <i class="fas fa-file-word text-blue-600"></i>
+                                        {% elif note.file_type == 'ppt' %}
+                                            <i class="fas fa-file-powerpoint text-orange-600"></i>
+                                        {% else %}
+                                            <i class="fas fa-file-alt text-gray-600"></i>
+                                        {% endif %}
+                                    </div>
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">
+                                            {% if note.file_type == 'pdf' %}PDF Document
+                                            {% elif note.file_type == 'doc' %}Word Document
+                                            {% elif note.file_type == 'ppt' %}PowerPoint Presentation
+                                            {% else %}Document
+                                            {% endif %}
+                                        </h3>
+                                        <p class="text-sm text-gray-600">This note includes a document</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="w-full rounded-xl overflow-hidden border border-gray-200 shadow-md">
+                                {% if note.file_type == 'pdf' %}
+                                    <object data="{{ note.document_url }}" type="application/pdf" width="100%" height="600">
+                                        <div class="p-8 text-center">
+                                            <p class="text-gray-700 mb-4">Your browser doesn't support embedded PDFs.</p>
+                                            {% if note.allow_download %}
+                                                <a href="{{ note.document_url }}" download class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                                    <i class="fas fa-download mr-2"></i>
+                                                    Download PDF
+                                                </a>
+                                            {% else %}
+                                                <a href="{{ note.document_url }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                                    <i class="fas fa-external-link-alt mr-2"></i>
+                                                    View PDF
+                                                </a>
+                                            {% endif %}
+                                        </div>
+                                    </object>
+                                {% elif note.file_type == 'doc' and note.extracted_text %}
+                                    <div class="p-6 bg-white">
+                                        <div class="prose max-w-none text-gray-700" style="white-space: pre-wrap;">
+                                            {{ note.extracted_text|linebreaks }}
+                                        </div>
+                                    </div>
+                                {% elif note.file_type == 'ppt' %}
+                                    <div class="p-8 text-center">
+                                        <div class="w-20 h-20 mx-auto mb-4 bg-orange-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-file-powerpoint text-orange-600 text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">PowerPoint Presentation</h3>
+                                        <p class="text-gray-700 mb-4">
+                                            This content is a PowerPoint presentation that cannot be displayed directly in the browser.
+                                        </p>
+                                        <p class="text-sm text-gray-600 mb-4">Please contact your instructor for more information about this presentation.</p>
+
+                                        {% if note.allow_download %}
+                                            <a href="{{ note.document_url }}" download class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                                <i class="fas fa-download mr-2"></i>
+                                                Download Presentation
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% else %}
+                                    <div class="p-8 text-center">
+                                        <div class="w-20 h-20 mx-auto mb-4 bg-gray-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-file-alt text-gray-600 text-3xl"></i>
+                                        </div>
+                                        <h3 class="text-xl font-bold text-gray-800 mb-2">Document Available</h3>
+                                        <p class="text-gray-700 mb-4">
+                                            This document cannot be displayed directly in the browser.
+                                        </p>
+                                        <p class="text-sm text-gray-600 mb-4">Please contact your instructor for more information about this document.</p>
+
+                                        {% if note.allow_download %}
+                                            <a href="{{ note.document_url }}" download class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                                <i class="fas fa-download mr-2"></i>
+                                                Download Document
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if note.allow_download %}
+                                <div class="mt-4 text-center">
+                                    <a href="{{ note.document_url }}" download class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                        <i class="fas fa-download mr-2"></i>
+                                        Download Document
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+
+                    <div class="prose max-w-none text-gray-700">
+                        {{ note.content|safe }}
+                    </div>
+
+                    {% if attachments %}
+                        <div class="mt-8 pt-8 border-t border-gray-200">
+                            <h3 class="text-xl font-bold mb-4 text-gray-800 flex items-center">
+                                <i class="fas fa-paperclip text-blue-600 mr-2"></i>
+                                Attachments
+                            </h3>
+                            <div class="space-y-3">
+                                {% for attachment in attachments %}
+                                    <a href="{{ attachment.file.url }}" target="_blank" class="flex items-center p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                                        {% if attachment.file_type == 'pdf' %}
+                                            <i class="fas fa-file-pdf text-red-600 mr-3 text-xl"></i>
+                                        {% elif attachment.file_type == 'image' %}
+                                            <i class="fas fa-file-image text-green-600 mr-3 text-xl"></i>
+                                        {% elif attachment.file_type == 'video' %}
+                                            <i class="fas fa-file-video text-purple-600 mr-3 text-xl"></i>
+                                        {% elif attachment.file_type == 'audio' %}
+                                            <i class="fas fa-file-audio text-yellow-600 mr-3 text-xl"></i>
+                                        {% else %}
+                                            <i class="fas fa-file-alt text-blue-600 mr-3 text-xl"></i>
+                                        {% endif %}
+                                        <span class="text-gray-700">{{ attachment.title }}</span>
+                                    </a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- References -->
+            {% if note.references %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+                    <!-- Section Header -->
+                    <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                        <h2 class="text-xl font-bold">References</h2>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="prose max-w-none text-gray-700">
+                            {{ note.references|safe }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Navigation -->
+            <div class="flex justify-between mt-12">
+                <a href="{% url 'curriculum:topic_detail' curriculum.code class_level.id subject.slug topic.slug %}"
+                   class="inline-flex items-center px-5 py-3 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors">
+                    <i class="fas fa-chevron-left mr-2"></i>
+                    <span>Back to Topic</span>
+                </a>
+
+                {% if next_note %}
+                    <a href="{% url 'curriculum:note_detail' curriculum.code class_level.id subject.slug topic.slug next_note.slug %}"
+                       class="inline-flex items-center px-5 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                        <span>Next Note</span>
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </a>
+                {% else %}
+                    <a href="{% url 'curriculum:subject_detail' curriculum.code class_level.id subject.slug %}"
+                       class="inline-flex items-center px-5 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                        <span>Back to {{ subject.name }}</span>
+                        <i class="fas fa-chevron-right ml-2"></i>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:w-1/3">
+            <!-- Progress Card -->
+            {% if user.is_authenticated %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                    <!-- Section Header -->
+                    <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                        <h2 class="text-xl font-bold">Your Progress</h2>
+                    </div>
+
+                    <div class="p-6">
+                        {% if progress %}
+                            <div>
+                                <div class="flex justify-between mb-2">
+                                    <span class="text-gray-700">Topic Completion</span>
+                                    <span class="font-bold text-gray-800">{{ progress.completion_percentage }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div class="bg-gradient-to-r from-blue-600 to-[#ff4703] h-3 rounded-full" style="width: {{ progress.completion_percentage }}%"></div>
+                                </div>
+
+                                <div class="mt-4 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-calendar-alt text-blue-600 mr-2"></i>
+                                        <span class="text-gray-700">Last Activity: {{ progress.last_activity|date:"M d, Y" }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6">
+                                <a href="{% url 'accounts:topic_progress' topic.slug %}"
+                                   class="block w-full py-2.5 border-2 border-blue-600 text-blue-600 font-medium rounded-lg text-center hover:bg-blue-50 transition-colors">
+                                    <i class="fas fa-chart-line mr-2"></i>
+                                    View Detailed Progress
+                                </a>
+                            </div>
+                        {% else %}
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-info-circle text-blue-600"></i>
+                                    </div>
+                                    <p class="text-gray-700">Progress tracking is not available.</p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Related Notes -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold">Related Notes</h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="space-y-3">
+                        {% for related_note in topic.notes.all %}
+                            {% if related_note.id != note.id %}
+                                <a href="{% url 'curriculum:note_detail' curriculum.code class_level.id subject.slug topic.slug related_note.slug %}"
+                                   class="flex items-center p-3 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                                    {% if related_note.file_type == 'pdf' %}
+                                        <i class="fas fa-file-pdf text-red-600 mr-3"></i>
+                                    {% elif related_note.file_type == 'doc' %}
+                                        <i class="fas fa-file-word text-blue-600 mr-3"></i>
+                                    {% elif related_note.file_type == 'ppt' %}
+                                        <i class="fas fa-file-powerpoint text-orange-600 mr-3"></i>
+                                    {% else %}
+                                        <i class="fas fa-file-alt text-blue-600 mr-3"></i>
+                                    {% endif %}
+                                    <span class="text-gray-700">{{ related_note.title }}</span>
+                                </a>
+                            {% endif %}
+                        {% empty %}
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                        <i class="fas fa-info-circle text-blue-600"></i>
+                                    </div>
+                                    <p class="text-gray-700">No other notes available for this topic.</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quizzes Card -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold">Test Your Knowledge</h2>
+                </div>
+
+                <div class="p-6">
+                    {% if quizzes %}
+                        <div class="space-y-3">
+                            {% for quiz in quizzes %}
+                                <a href="{% url 'quiz:take_quiz' quiz.id %}"
+                                   class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition-colors">
+                                    <div>
+                                        <h3 class="font-medium text-gray-800">{{ quiz.title }}</h3>
+                                        <div class="text-sm text-gray-600 flex items-center mt-1">
+                                            <i class="fas fa-question-circle text-blue-600 mr-2"></i>
+                                            {{ quiz.questions.count }} questions
+                                        </div>
+                                    </div>
+                                    <div class="w-8 h-8 rounded-full bg-[#ff4703] flex items-center justify-center text-white">
+                                        <i class="fas fa-chevron-right text-sm"></i>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+
+                        <div class="mt-6">
+                            <a href="{% url 'quiz:quiz_topic_list' curriculum.code class_level.id subject.slug %}"
+                               class="block w-full py-2.5 border-2 border-blue-600 text-blue-600 font-medium rounded-lg text-center hover:bg-blue-50 transition-colors">
+                                <i class="fas fa-list-alt mr-2"></i>
+                                View All Quizzes
+                            </a>
+                        </div>
+                    {% else %}
+                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <div class="flex items-center">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-info-circle text-blue-600"></i>
+                                </div>
+                                <p class="text-gray-700">No quizzes available for this topic yet.</p>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Actions Card -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold">Actions</h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <button onclick="window.print()"
+                                class="flex items-center justify-center w-full py-3 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-200 transition-colors">
+                            <i class="fas fa-print text-blue-600 mr-2"></i>
+                            Print Note
+                        </button>
+
+                        <button id="share-button"
+                                class="flex items-center justify-center w-full py-3 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-200 transition-colors">
+                            <i class="fas fa-share-alt text-blue-600 mr-2"></i>
+                            Share Note
+                        </button>
+
+                        {% if user.is_authenticated %}
+                            <button hx-post="{% url 'curriculum:save_note' note.id %}" hx-swap="outerHTML"
+                                    class="flex items-center justify-center w-full py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-bookmark mr-2"></i>
+                                Save for Later
+                            </button>
+                        {% endif %}
+
+                        {% if note.has_file and note.allow_download %}
+                            <a href="{{ note.document_url }}" download
+                               class="flex items-center justify-center w-full py-3 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-200 transition-colors">
+                                <i class="fas fa-download text-blue-600 mr-2"></i>
+                                {% if note.file_type == 'pdf' %}Download PDF
+                                {% elif note.file_type == 'doc' %}Download Document
+                                {% elif note.file_type == 'ppt' %}Download Presentation
+                                {% else %}Download File
+                                {% endif %}
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Share functionality
+    document.getElementById('share-button').addEventListener('click', function() {
+        if (navigator.share) {
+            navigator.share({
+                title: '{{ note.title }}',
+                text: 'Check out this note on EduMore360: {{ note.title }}',
+                url: window.location.href,
+            })
+            .catch(console.error);
+        } else {
+            // Fallback for browsers that don't support the Web Share API
+            const dummy = document.createElement('input');
+            document.body.appendChild(dummy);
+            dummy.value = window.location.href;
+            dummy.select();
+            document.execCommand('copy');
+            document.body.removeChild(dummy);
+
+            alert('Link copied to clipboard!');
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

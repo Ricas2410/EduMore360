@@ -1,0 +1,258 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Study Mode - {{ topic.name }}{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/4">
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold">{{ subject.name }}</h2>
+                </div>
+
+                <div class="p-4">
+                    <!-- Topic Navigation -->
+                    <div class="mb-4">
+                        <h3 class="font-bold mb-2 text-gray-800">Topics</h3>
+                        <ul class="menu bg-gray-50 rounded-xl border border-gray-200">
+                            {% for t in topics %}
+                            <li>
+                                <a href="{% url 'quiz:study_mode' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=t.slug %}"
+                                   class="{% if t.id == topic.id %}bg-blue-100 text-blue-800 font-medium{% else %}text-gray-700 hover:bg-gray-100{% endif %}">
+                                    {{ t.name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-4"></div>
+
+                    <!-- Study Progress -->
+                    <div class="mb-4">
+                        <h3 class="font-bold mb-2 text-gray-800">Your Progress</h3>
+                        <div class="flex items-center mb-2">
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mr-2">
+                                <div class="bg-[#ff4703] h-2.5 rounded-full" style="width: {{ progress_percentage }}%"></div>
+                            </div>
+                            <span class="text-sm text-gray-700">{{ progress_percentage }}%</span>
+                        </div>
+                        <p class="text-sm text-gray-600">{{ completed_notes }} of {{ total_notes }} notes completed</p>
+                    </div>
+
+                    <!-- Study Timer -->
+                    <div class="mb-4">
+                        <h3 class="font-bold mb-2 text-gray-800">Study Timer</h3>
+                        <div class="flex items-center justify-between">
+                            <div class="text-2xl font-mono text-gray-800" id="timer">25:00</div>
+                            <div>
+                                <button id="start-timer" class="px-3 py-1 bg-[#ff4703] hover:bg-orange-600 text-white rounded-lg text-sm">Start</button>
+                                <button id="reset-timer" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm">Reset</button>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm text-gray-700">Pomodoro Mode</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="pomodoro-mode" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#ff4703]"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-4"></div>
+
+                    <!-- Actions -->
+                    <div>
+                        <a href="{% url 'quiz:start_topic_quiz' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug %}"
+                           class="flex items-center justify-center w-full py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors mb-3">
+                            <i class="fas fa-question-circle mr-2"></i>
+                            Take Quiz
+                        </a>
+                        <a href="{% url 'curriculum:topic_detail' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug %}"
+                           class="flex items-center justify-center w-full py-3 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-200 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Back to Topic
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="w-full md:w-3/4">
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-xl font-bold">{{ topic.name }}</h1>
+                        <div class="px-2 py-1 bg-gray-100 text-gray-800 text-xs font-bold rounded">
+                            {{ topic.get_difficulty_display }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <!-- Notes Navigation -->
+                    <div class="flex overflow-x-auto mb-6 pb-2">
+                        <div class="flex space-x-2">
+                            {% for note in notes %}
+                            <button class="px-3 py-1 rounded-lg {% if note.id == current_note.id %}bg-[#ff4703] text-white{% else %}bg-gray-100 text-gray-700 hover:bg-gray-200{% endif %} transition-colors"
+                                    hx-get="{% url 'quiz:study_note' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug note_id=note.id %}"
+                                    hx-target="#note-content"
+                                    hx-swap="innerHTML">
+                                {{ forloop.counter }}
+                            </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-4"></div>
+
+                    <!-- Note Content -->
+                    <div id="note-content">
+                        {% include 'quiz/partials/note_content.html' %}
+                    </div>
+
+                    <!-- Navigation Buttons -->
+                    <div class="flex justify-between mt-8">
+                        <div class="flex space-x-2">
+                            {% if prev_note %}
+                            <a href="{% url 'quiz:study_mode' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug note_id=prev_note.id %}"
+                               class="flex items-center px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-200 transition-colors">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Previous Material
+                            </a>
+                            {% endif %}
+
+                            <a href="{% url 'curriculum:topic_detail' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug %}"
+                               class="flex items-center px-4 py-2 bg-gray-50 hover:bg-gray-100 text-gray-800 font-medium rounded-lg border border-gray-200 transition-colors">
+                                <i class="fas fa-list mr-2"></i>
+                                All Materials
+                            </a>
+                        </div>
+
+                        <div>
+                            {% if next_note %}
+                            <a href="{% url 'quiz:study_mode' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug note_id=next_note.id %}"
+                               class="flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                Next Material
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+                            {% else %}
+                            <a href="{% url 'quiz:start_topic_quiz' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug topic_slug=topic.slug %}"
+                               class="flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                Take Quiz
+                                <i class="fas fa-question-circle ml-2"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Study Timer
+    document.addEventListener('DOMContentLoaded', function() {
+        const timerDisplay = document.getElementById('timer');
+        const startButton = document.getElementById('start-timer');
+        const resetButton = document.getElementById('reset-timer');
+        const pomodoroToggle = document.getElementById('pomodoro-mode');
+
+        let timer;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let isRunning = false;
+        let isBreak = false;
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                isRunning = true;
+                startButton.textContent = 'Pause';
+
+                timer = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        isRunning = false;
+
+                        if (pomodoroToggle.checked) {
+                            // Switch between work and break
+                            if (isBreak) {
+                                // Switch to work period
+                                timeLeft = 25 * 60;
+                                isBreak = false;
+                                timerDisplay.classList.remove('text-success');
+                                startButton.textContent = 'Start';
+
+                                // Notify user
+                                new Notification('Work Time!', {
+                                    body: 'Time to get back to studying!',
+                                    icon: '/static/images/logo.png'
+                                });
+                            } else {
+                                // Switch to break period
+                                timeLeft = 5 * 60;
+                                isBreak = true;
+                                timerDisplay.classList.add('text-success');
+                                startButton.textContent = 'Start Break';
+
+                                // Notify user
+                                new Notification('Break Time!', {
+                                    body: 'Take a 5-minute break!',
+                                    icon: '/static/images/logo.png'
+                                });
+                            }
+                            updateTimerDisplay();
+                        } else {
+                            startButton.textContent = 'Start';
+                        }
+                    }
+                }, 1000);
+            } else {
+                clearInterval(timer);
+                isRunning = false;
+                startButton.textContent = 'Resume';
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timer);
+            isRunning = false;
+            isBreak = false;
+            timeLeft = 25 * 60;
+            updateTimerDisplay();
+            startButton.textContent = 'Start';
+            timerDisplay.classList.remove('text-success');
+        }
+
+        startButton.addEventListener('click', startTimer);
+        resetButton.addEventListener('click', resetTimer);
+
+        // Initialize timer display
+        updateTimerDisplay();
+
+        // Request notification permission
+        if (Notification.permission !== 'granted') {
+            Notification.requestPermission();
+        }
+    });
+</script>
+{% endblock %}

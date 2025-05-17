@@ -1,0 +1,431 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ quiz.title }} - EduMore360{% endblock %}
+
+{% block extra_css %}
+<style>
+    .timer-bar {
+        height: 12px;
+        background-color: #e5e7eb;
+        border-radius: 6px;
+        overflow: hidden;
+        box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .timer-progress {
+        height: 100%;
+        background-color: #ff4703;
+        transition: width 1s linear;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .choice-label {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid #e5e7eb;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .choice-label:hover {
+        background-color: #f3f4f6;
+    }
+
+    .choice-input:checked + .choice-label {
+        border-color: #ff4703;
+        background-color: #fff5f0;
+    }
+
+    .choice-input:checked + .choice-label .choice-indicator {
+        background-color: #ff4703;
+        color: white;
+        border-color: #ff4703;
+    }
+
+    .choice-indicator {
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid #e5e7eb;
+        margin-right: 1rem;
+        font-weight: 500;
+    }
+
+    .question-nav-button {
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 2px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .question-nav-button.current {
+        background-color: #ff4703;
+        color: white;
+    }
+
+    .question-nav-button.answered {
+        background-color: #e5e7eb;
+    }
+
+    .question-nav-button:hover {
+        background-color: #f3f4f6;
+    }
+
+    .question-nav-button.current:hover {
+        background-color: #ff4703;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Per-question timer
+        const timerBar = document.getElementById('timer-bar');
+        const timerProgress = document.getElementById('timer-progress');
+        const timerForm = document.getElementById('timer-form');
+        const timeSpentInput = document.getElementById('time-spent');
+        const timedOutInput = document.getElementById('timed-out');
+        const answerForm = document.getElementById('answer-form');
+
+        // Feedback modal elements
+        const feedbackModal = document.getElementById('feedback-modal');
+        const feedbackHeader = document.getElementById('feedback-header');
+        const feedbackIcon = document.getElementById('feedback-icon');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const correctAnswerContainer = document.getElementById('correct-answer-container');
+        const correctAnswer = document.getElementById('correct-answer');
+        const explanationContainer = document.getElementById('explanation-container');
+        const explanation = document.getElementById('explanation');
+        const feedbackProgress = document.getElementById('feedback-progress');
+
+        let timeLimit = {{ per_question_time }};
+        let timeElapsed = 0;
+        let timerInterval;
+        let feedbackTimeout;
+        let feedbackInterval;
+
+        function startTimer() {
+            // Initialize the timer with full width (100%)
+            timerProgress.style.width = '100%';
+            timerProgress.style.backgroundColor = '#ff4703'; // Default color
+
+            timerInterval = setInterval(function() {
+                timeElapsed++;
+                timeSpentInput.value = timeElapsed;
+
+                // Calculate percentage of time remaining
+                let percentRemaining = 100 - ((timeElapsed / timeLimit) * 100);
+
+                // Update the timer bar width to show time decreasing
+                timerProgress.style.width = percentRemaining + '%';
+
+                // Change color as time runs out
+                if (percentRemaining < 25) {
+                    timerProgress.style.backgroundColor = '#ef4444'; // Red
+                } else if (percentRemaining < 50) {
+                    timerProgress.style.backgroundColor = '#f59e0b'; // Orange
+                }
+
+                // If time is up, submit the form
+                if (timeElapsed >= timeLimit) {
+                    clearInterval(timerInterval);
+                    timedOutInput.value = 'true';
+                    timerForm.submit();
+                }
+            }, 1000);
+        }
+
+        // Start the timer
+        startTimer();
+
+        // Handle form submission with AJAX
+        answerForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            clearInterval(timerInterval);
+
+            // Get form data
+            const formData = new FormData(answerForm);
+
+            // Send AJAX request
+            fetch(answerForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Show feedback modal
+                showFeedback(data);
+
+                // Start 5-second countdown before redirecting
+                startFeedbackTimer(data.redirect_url);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // If there's an error, just submit the form normally
+                answerForm.submit();
+            });
+        });
+
+        // Function to show feedback
+        function showFeedback(data) {
+            // Set feedback content
+            if (data.is_correct) {
+                feedbackHeader.className = 'p-6 bg-green-50';
+                feedbackIcon.innerHTML = '✓';
+                feedbackIcon.className = 'text-3xl mr-3 text-green-500';
+                feedbackTitle.textContent = 'Correct!';
+                feedbackTitle.className = 'text-2xl font-bold text-green-700';
+                correctAnswerContainer.classList.add('hidden');
+            } else {
+                feedbackHeader.className = 'p-6 bg-red-50';
+                feedbackIcon.innerHTML = '✗';
+                feedbackIcon.className = 'text-3xl mr-3 text-red-500';
+                feedbackTitle.textContent = 'Incorrect';
+                feedbackTitle.className = 'text-2xl font-bold text-red-700';
+
+                // Show correct answer for wrong responses
+                if (data.correct_answer) {
+                    correctAnswerContainer.classList.remove('hidden');
+                    correctAnswer.innerHTML = data.correct_answer;
+                } else {
+                    correctAnswerContainer.classList.add('hidden');
+                }
+            }
+
+            // Show explanation if available
+            if (data.explanation) {
+                explanationContainer.classList.remove('hidden');
+                explanation.innerHTML = data.explanation;
+            } else {
+                explanationContainer.classList.add('hidden');
+            }
+
+            // Show the modal
+            feedbackModal.classList.remove('hidden');
+        }
+
+        // Function to start feedback timer
+        function startFeedbackTimer(redirectUrl) {
+            // Reset progress bar
+            feedbackProgress.style.width = '100%';
+
+            // Set timeout for redirection (using system settings)
+            const feedbackTime = {{ feedback_time }};
+            feedbackTimeout = setTimeout(function() {
+                window.location.href = redirectUrl;
+            }, feedbackTime * 1000);
+
+            // Update progress bar
+            let timeLeft = feedbackTime;
+            feedbackInterval = setInterval(function() {
+                timeLeft--;
+                let percent = (timeLeft / feedbackTime) * 100;
+                feedbackProgress.style.width = percent + '%';
+
+                if (timeLeft <= 0) {
+                    clearInterval(feedbackInterval);
+                }
+            }, 1000);
+        }
+    });
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Quiz Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-8">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="text-center md:text-left mb-6 md:mb-0">
+                    <h1 class="text-3xl md:text-4xl font-extrabold mb-2">{{ quiz.title }}</h1>
+                    <p class="text-xl text-blue-100">{{ quiz.subject.name }} - {{ quiz.class_level.name }}</p>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                    <span class="text-lg font-bold">Question {{ current_question_number }} of {{ total_questions }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Timer Bar -->
+        <div class="mb-8">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-gray-700">Time Remaining</span>
+            </div>
+            <div id="timer-bar" class="timer-bar">
+                <div id="timer-progress" class="timer-progress" style="width: 100%;"></div>
+            </div>
+        </div>
+
+        <!-- Question Navigation -->
+        <div class="mb-8 overflow-x-auto">
+            <div class="flex space-x-2 py-2">
+                {% for qa in all_question_attempts %}
+                <a href="{% url 'quiz:take_quiz' quiz_id=quiz_attempt.quiz.id %}?question_id={{ qa.question.id }}"
+                   class="question-nav-button {% if qa.question.id == question_attempt.question.id %}current{% elif qa.selected_choice or qa.provided_answer %}answered{% endif %}">
+                    {{ forloop.counter }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Question Card -->
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+            <!-- Section Header -->
+            <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-question-circle mr-2"></i>
+                    Question {{ current_question_number }}
+                </h2>
+            </div>
+
+            <div class="p-6">
+                <!-- Question Text -->
+                <div class="mb-8">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4">{{ question_attempt.question.text|safe }}</h2>
+                </div>
+
+                <!-- Answer Form -->
+                <form id="answer-form" method="POST" action="{% url 'quiz:submit_answer' quiz_attempt.id question_attempt.question.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" id="time-spent" name="time_spent" value="0">
+                    <input type="hidden" id="timed-out" name="timed_out" value="false">
+                    <!-- We're not using show_feedback anymore as we're going directly to the next question -->
+
+                    {% if next_question_id %}
+                    <input type="hidden" name="next_question_id" value="{{ next_question_id }}">
+                    {% endif %}
+
+                    {% if question_attempt.question.question_type == 'multiple_choice' %}
+                        <!-- Multiple Choice Question -->
+                        <div class="space-y-3">
+                            {% for choice in choices %}
+                            <div class="relative">
+                                <input type="radio" name="choice" id="choice_{{ choice.id }}" value="{{ choice.id }}" class="choice-input hidden" {% if question_attempt.selected_choice.id == choice.id %}checked{% endif %}>
+                                <label for="choice_{{ choice.id }}" class="choice-label">
+                                    <span class="choice-indicator">{{ forloop.counter }}</span>
+                                    <span>{{ choice.text }}</span>
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <!-- Short Answer Question -->
+                        <div class="mb-6">
+                            <label class="block text-gray-700 font-medium mb-2" for="answer">
+                                <i class="fas fa-pencil-alt text-blue-600 mr-2"></i>
+                                Your Answer
+                            </label>
+                            <input
+                                type="text"
+                                name="answer"
+                                id="answer"
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                placeholder="Type your answer here..."
+                                value="{{ question_attempt.provided_answer }}"
+                                required
+                            >
+                        </div>
+                    {% endif %}
+
+                    <div class="flex justify-between mt-8">
+                        {% if prev_question_id %}
+                        <a href="{% url 'quiz:take_quiz' quiz_id=quiz_attempt.quiz.id %}?question_id={{ prev_question_id }}"
+                           class="px-6 py-3 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors flex items-center">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Previous
+                        </a>
+                        {% else %}
+                        <div></div>
+                        {% endif %}
+
+                        <button type="submit"
+                                class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors flex items-center">
+                            {% if current_question_number == total_questions %}
+                            <i class="fas fa-flag-checkered mr-2"></i>
+                            Finish Quiz
+                            {% else %}
+                            <i class="fas fa-arrow-right mr-2"></i>
+                            Next Question
+                            {% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="bg-white border border-gray-200 rounded-lg p-4">
+            <div class="flex justify-between items-center mb-2">
+                <span class="text-sm font-medium text-gray-700">Progress</span>
+                <span class="text-sm font-medium text-gray-700">{{ progress_percentage }}%</span>
+            </div>
+            <div class="h-2 bg-gray-200 rounded-full">
+                <div class="h-2 bg-blue-600 rounded-full" style="width: {{ progress_percentage }}%"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Timer Form (for auto-submission on timeout) -->
+<form id="timer-form" method="POST" action="{% url 'quiz:submit_answer' quiz_attempt.id question_attempt.question.id %}" class="hidden">
+    {% csrf_token %}
+    <input type="hidden" name="time_spent" value="0">
+    <input type="hidden" name="timed_out" value="true">
+    {% if next_question_id %}
+    <input type="hidden" name="next_question_id" value="{{ next_question_id }}">
+    {% endif %}
+</form>
+
+<!-- Feedback Modal -->
+<div id="feedback-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl shadow-2xl max-w-lg w-full mx-4 overflow-hidden">
+        <!-- Modal Header -->
+        <div id="feedback-header" class="p-6">
+            <div class="flex items-center">
+                <div id="feedback-icon" class="text-3xl mr-3"></div>
+                <h3 id="feedback-title" class="text-2xl font-bold"></h3>
+            </div>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6 pt-0">
+            <!-- Correct Answer (for wrong answers) -->
+            <div id="correct-answer-container" class="mb-4 hidden">
+                <p class="font-medium text-gray-700 mb-2">Correct Answer:</p>
+                <div id="correct-answer" class="p-3 bg-green-50 border border-green-200 rounded-lg"></div>
+            </div>
+
+            <!-- Explanation -->
+            <div id="explanation-container" class="hidden">
+                <p class="font-medium text-gray-700 mb-2">Explanation:</p>
+                <div id="explanation" class="p-3 bg-blue-50 border border-blue-200 rounded-lg"></div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="px-6 pb-6">
+            <div class="h-2 bg-gray-200 rounded-full overflow-hidden">
+                <div id="feedback-progress" class="h-full bg-blue-600 rounded-full" style="width: 100%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

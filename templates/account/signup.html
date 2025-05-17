@@ -1,0 +1,197 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load account %}
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}{% trans "Sign Up" %} - EduMore360{% endblock %}
+
+{% block extra_css %}
+<!-- Google Material Icons CDN -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white min-h-screen flex items-center justify-center py-12">
+  <!-- Main Form Section -->
+  <div class="w-full max-w-lg bg-gradient-to-br from-blue-700 to-black text-white rounded-xl shadow-xl p-8 space-y-8">
+
+    <!-- Edumore Logo and Title -->
+    <div class="text-center mb-6">
+      <h1 class="text-4xl font-extrabold text-white-400">EduMore360</h1>
+      <p class="text-lg text-gray-200">{% trans "Create your account and start learning" %}</p>
+    </div>
+
+    {% if socialaccount_providers %}
+    <div class="mb-6">
+      <div class="flex justify-center space-x-4">
+        {% if 'google' in socialaccount_providers %}
+        <a href="{% provider_login_url 'google' %}" class="w-full py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold focus:outline-none transition flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="#4285F4">
+            <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+          </svg>
+          {% trans "Continue with Google" %}
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="relative flex items-center justify-center mt-6 mb-6">
+        <div class="absolute border-t border-gray-600 w-full"></div>
+        <div class="relative bg-transparent px-4 text-sm text-gray-300">{% trans "OR" %}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Signup Form -->
+    <form class="signup space-y-6" method="POST" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="bg-red-900 bg-opacity-20 border-l-4 border-red-500 p-4 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <span class="material-icons text-red-400">error_outline</span>
+          </div>
+          <div class="ml-3">
+            {% for error in form.non_field_errors %}
+            <p class="text-sm text-red-200">{{ error }}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Name Fields -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label for="id_first_name" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+            <span class="material-icons text-blue-400 mr-2 text-sm">person</span>
+            {% trans "First Name" %}
+          </label>
+          <div class="relative">
+            <input id="id_first_name" name="first_name" type="text" required
+                   class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                   placeholder="John"/>
+            <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">badge</span>
+          </div>
+          {% if form.first_name.errors %}
+          <div class="mt-1 text-sm text-red-300">
+            {% for error in form.first_name.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+
+        <div>
+          <label for="id_last_name" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+            <span class="material-icons text-blue-400 mr-2 text-sm">person</span>
+            {% trans "Last Name" %}
+          </label>
+          <div class="relative">
+            <input id="id_last_name" name="last_name" type="text" required
+                   class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                   placeholder="Doe"/>
+            <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">badge</span>
+          </div>
+          {% if form.last_name.errors %}
+          <div class="mt-1 text-sm text-red-300">
+            {% for error in form.last_name.errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Email Input -->
+      <div>
+        <label for="id_email" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+          <span class="material-icons text-blue-400 mr-2 text-sm">email</span>
+          {% trans "Email" %}
+        </label>
+        <div class="relative">
+          <input id="id_email" name="email" type="email" required
+                 class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                 placeholder="email@example.com"/>
+          <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">alternate_email</span>
+        </div>
+        {% if form.email.errors %}
+        <div class="mt-1 text-sm text-red-300">
+          {% for error in form.email.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Password Input -->
+      <div>
+        <label for="id_password1" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+          <span class="material-icons text-blue-400 mr-2 text-sm">lock</span>
+          {% trans "Password" %}
+        </label>
+        <div class="relative">
+          <input id="id_password1" name="password1" type="password" required
+                 class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                 placeholder="••••••••"/>
+          <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">lock_outline</span>
+        </div>
+        {% if form.password1.errors %}
+        <div class="mt-1 text-sm text-red-300">
+          {% for error in form.password1.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+        <p class="text-xs text-gray-400 mt-1">{% trans "Password must be at least 8 characters long and contain letters, numbers, and special characters." %}</p>
+      </div>
+
+      <!-- Confirm Password Input -->
+      <div>
+        <label for="id_password2" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+          <span class="material-icons text-blue-400 mr-2 text-sm">lock</span>
+          {% trans "Confirm Password" %}
+        </label>
+        <div class="relative">
+          <input id="id_password2" name="password2" type="password" required
+                 class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                 placeholder="••••••••"/>
+          <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">lock_outline</span>
+        </div>
+        {% if form.password2.errors %}
+        <div class="mt-1 text-sm text-red-300">
+          {% for error in form.password2.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Terms Checkbox -->
+      <div class="mt-4">
+        <label for="id_terms_accepted" class="flex items-center">
+          <input id="id_terms_accepted" name="terms_accepted" type="checkbox" required
+                 class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"/>
+          <span class="flex items-center ml-2 text-sm text-gray-200">
+            <span class="material-icons text-blue-400 mr-2 text-sm">gavel</span>
+            {% trans "I agree to the" %} <a href="{% url 'core:terms_of_service' %}" class="text-blue-400 hover:underline mx-1">{% trans "Terms of Service" %}</a> {% trans "and" %} <a href="{% url 'core:privacy_policy' %}" class="text-blue-400 hover:underline mx-1">{% trans "Privacy Policy" %}</a>
+          </span>
+        </label>
+      </div>
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      <!-- Submit Button -->
+      <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold focus:outline-none transition">{% trans "Create Account" %}</button>
+    </form>
+
+    <!-- Login Link -->
+    <p class="text-center text-sm text-gray-200">{% trans "Already have an account?" %}
+      <a href="{% url 'account_login' %}" class="text-blue-400 hover:underline">{% trans "Sign in" %}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

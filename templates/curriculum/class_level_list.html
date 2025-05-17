@@ -1,0 +1,168 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ curriculum.name }} - Class Levels - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="max-w-4xl mx-auto">
+            <!-- Breadcrumbs -->
+            <nav class="text-sm mb-6">
+                <ol class="flex items-center space-x-2">
+                    <li><a href="{% url 'curriculum:curriculum_list' %}" class="text-blue-200 hover:text-white transition-colors">Curricula</a></li>
+                    <li class="flex items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mx-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                        <span class="font-medium">{{ curriculum.name }}</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <div class="text-center">
+                <h1 class="text-3xl md:text-5xl font-extrabold mb-4">{{ curriculum.name }}</h1>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">{{ curriculum.description }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Class Levels Section -->
+    <div class="max-w-5xl mx-auto mb-16">
+        <div class="flex items-center justify-between mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">Select a Class Level</h2>
+            <div class="hidden md:block h-1 w-32 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {% for class_level in class_levels %}
+                <a href="{% url 'curriculum:subject_list' curriculum.code class_level.id %}"
+                   class="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden">
+                    <!-- Card Header -->
+                    <div class="h-2 bg-gradient-to-r from-blue-600 to-blue-800"></div>
+
+                    <div class="p-6">
+                        <div class="flex items-start">
+                            <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-4 flex-shrink-0">
+                                <i class="fas fa-graduation-cap text-blue-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">{{ class_level.name }}</h3>
+                                {% if class_level.description %}
+                                    <p class="text-gray-600 mb-4">{{ class_level.description|truncatechars:100 }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="mt-4 flex justify-end">
+                            <div class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                Explore
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <div class="col-span-3 text-center py-12">
+                    <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-md">
+                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-lock text-blue-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">Premium Content</h3>
+                        <p class="text-gray-600 max-w-md mx-auto mb-6">
+                            This curriculum has multiple class levels available with our premium subscription plans.
+                            Upgrade your subscription to access all class levels and unlock the full learning experience.
+                        </p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="{% url 'subscription:subscription_plans' %}" class="inline-flex items-center justify-center px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-crown mr-2"></i>
+                                Upgrade Subscription
+                            </a>
+                            <a href="{% url 'curriculum:curriculum_list' %}" class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-arrow-left mr-2"></i>
+                                Back to Curricula
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Educational System Information -->
+    <div class="max-w-5xl mx-auto mb-16">
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+            <!-- Section Header -->
+            <div class="bg-gradient-to-r from-blue-800 to-black px-8 py-5 text-white">
+                <h2 class="text-2xl font-bold">About {{ curriculum.name }}</h2>
+            </div>
+
+            <div class="p-8">
+                {% if curriculum.code == 'US' %}
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">US Education System</h3>
+                    <p class="mb-4 text-gray-700">The US education system is divided into three levels: elementary school, middle school, and high school. Elementary school typically includes kindergarten through 5th grade, middle school includes 6th through 8th grade, and high school includes 9th through 12th grade.</p>
+                    <p class="text-gray-700">Our US curriculum is aligned with Common Core State Standards and provides comprehensive coverage of all major subjects, including Mathematics, English Language Arts, Science, and Social Studies.</p>
+                {% elif curriculum.code == 'GH' %}
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Ghana Education System</h3>
+                    <p class="mb-4 text-gray-700">The Ghana education system consists of basic education (primary and junior high school), secondary education (senior high school), and tertiary education. Basic education includes 6 years of primary education and 3 years of junior high school. Secondary education consists of 3 years of senior high school.</p>
+                    <p class="text-gray-700">Our Ghana curriculum is aligned with the standards set by the Ghana Education Service and covers all major subjects, including Mathematics, English, Integrated Science, and Social Studies.</p>
+                {% else %}
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">{{ curriculum.name }} Education System</h3>
+                    <p class="text-gray-700">Our {{ curriculum.name }} curriculum is designed to provide comprehensive coverage of all major subjects according to the educational standards of {{ curriculum.name }}.</p>
+                {% endif %}
+
+                <div class="mt-8 bg-gray-50 p-6 rounded-xl border border-gray-200">
+                    <h4 class="font-bold text-lg mb-4 text-gray-800 flex items-center">
+                        <i class="fas fa-star text-[#ff4703] mr-2"></i>
+                        Key Features
+                    </h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Comprehensive coverage of all major subjects</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Aligned with national educational standards</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Interactive quizzes and assessments</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Detailed explanations and examples</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-check-circle text-green-500 mt-1 mr-3"></i>
+                            <span class="text-gray-700">Progress tracking and performance analytics</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="max-w-5xl mx-auto">
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl p-8 shadow-lg text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-4">Ready to Start Learning?</h2>
+            <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">Choose a class level above to begin your educational journey with EduMore360.</p>
+
+            {% if not user.is_authenticated %}
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="{% url 'account_signup' %}" class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition-colors flex items-center justify-center">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Sign Up Now
+                    </a>
+                    <a href="{% url 'account_login' %}" class="px-6 py-3 bg-white text-blue-800 hover:bg-gray-100 font-semibold rounded-lg transition-colors flex items-center justify-center">
+                        <i class="fas fa-sign-in-alt mr-2"></i>
+                        Log In
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

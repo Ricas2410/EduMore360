@@ -1,0 +1,15 @@
+[Unit]
+Description=EduMore360 Celery Worker
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/path/to/edumore360
+ExecStart=/path/to/edumore360/venv/bin/celery -A edumore360 worker -l info
+Restart=on-failure
+RestartSec=5s
+EnvironmentFile=/path/to/edumore360/.env.production
+
+[Install]
+WantedBy=multi-user.target

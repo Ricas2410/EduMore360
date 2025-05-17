@@ -1,0 +1,139 @@
+{% extends 'my_admin/base.html' %}
+
+{% block title %}Edit Subscription - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Edit Subscription{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Edit Subscription</h1>
+    <a href="{% url 'my_admin:subscription_management' %}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+        <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to Subscriptions
+    </a>
+</div>
+
+<!-- Subscription Details -->
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">User Information</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Email:</label>
+                    <p>{{ subscription.user.email }}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Name:</label>
+                    <p>{{ subscription.user.get_full_name }}</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Joined:</label>
+                    <p>{{ subscription.user.date_joined|date:"F d, Y" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-8">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Subscription Details</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="plan" class="form-label">Subscription Plan</label>
+                            <select class="form-select" id="plan" name="plan">
+                                {% for plan in plans %}
+                                <option value="{{ plan.id }}" {% if plan.id == subscription.plan.id %}selected{% endif %}>
+                                    {{ plan.name }} ({{ plan.get_plan_type_display }})
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status">
+                                {% for status_code, status_name in status_choices %}
+                                <option value="{{ status_code }}" {% if status_code == subscription.status %}selected{% endif %}>
+                                    {{ status_name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="start_date" class="form-label">Start Date</label>
+                            <p>{{ subscription.start_date|date:"F d, Y H:i" }}</p>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <label for="end_date" class="form-label">End Date</label>
+                            <p>{{ subscription.end_date|date:"F d, Y H:i" }}</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="auto_renew" name="auto_renew" {% if subscription.auto_renew %}checked{% endif %}>
+                        <label class="form-check-label" for="auto_renew">Auto Renew</label>
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'my_admin:subscription_management' %}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment History -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Payment History</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>Transaction ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in subscription.payments.all %}
+                    <tr>
+                        <td>{{ payment.payment_date|date:"M d, Y H:i" }}</td>
+                        <td>${{ payment.amount }}</td>
+                        <td>{{ payment.payment_method }}</td>
+                        <td>
+                            <span class="badge {% if payment.status == 'completed' %}bg-success{% elif payment.status == 'pending' %}bg-warning{% else %}bg-danger{% endif %} text-white">
+                                {{ payment.get_status_display }}
+                            </span>
+                        </td>
+                        <td>{{ payment.transaction_id|default:"N/A" }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No payment records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

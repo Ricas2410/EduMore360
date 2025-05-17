@@ -1,0 +1,618 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load subscription_extras %}
+
+{% block title %}Payment - EduMore360{% endblock %}
+
+{% block extra_css %}
+<style>
+    .StripeElement {
+        box-sizing: border-box;
+        height: 40px;
+        padding: 10px 12px;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.5rem;
+        background-color: white;
+    }
+
+    .StripeElement--focus {
+        border-color: #3B82F6;
+    }
+
+    .StripeElement--invalid {
+        border-color: #fa755a;
+    }
+
+    .StripeElement--webkit-autofill {
+        background-color: #fefde5 !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-8">
+    <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl md:text-4xl font-bold mb-8 text-center">Complete Your Payment</h1>
+
+        <div class="card bg-base-100 shadow-xl mb-8">
+            <div class="card-body">
+                <h2 class="card-title text-2xl mb-6">Order Summary</h2>
+
+                <div class="flex justify-between items-center p-4 bg-base-200 rounded-lg mb-6">
+                    <div>
+                        <h3 class="font-bold text-lg">{{ subscription.plan.name }}</h3>
+                        <p class="text-gray-600">{{ subscription.plan.get_billing_cycle_display }} Subscription</p>
+                    </div>
+                    <div class="text-xl font-bold">${{ subscription.plan.price }}</div>
+                </div>
+
+                <div class="space-y-2 mb-6">
+                    <div class="flex justify-between">
+                        <span>Subtotal</span>
+                        <span>${{ subscription.plan.price }} USD</span>
+                    </div>
+
+                    {% if subscription.plan.discount > 0 %}
+                        <div class="flex justify-between text-success">
+                            <span>Discount</span>
+                            <span>-${{ subscription.plan.discount }} USD</span>
+                        </div>
+                    {% endif %}
+
+                    <div class="flex justify-between font-bold text-lg pt-2 border-t">
+                        <span>Total</span>
+                        <span>${{ subscription.plan.price }} USD</span>
+                    </div>
+
+                    <div class="flex justify-between text-sm text-gray-500 mt-2">
+                        <span>Payment will be processed in GHS</span>
+                        <span>≈ GH₵{{ subscription.plan.price|floatformat:2|multiply:11.5 }}</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <h2 class="card-title text-xl mb-4">Payment Method</h2>
+
+                <!-- Payment Form -->
+                <div class="mb-6">
+                    <div class="tabs tabs-boxed mb-6">
+                        <a class="tab" id="credit-card-tab">Credit Card</a>
+                        <a class="tab tab-active" id="paystack-tab">Paystack</a>
+                        <a class="tab" id="mobile-money-tab">Mobile Money</a>
+                        <a class="tab" id="bank-transfer-tab">Bank Transfer</a>
+                    </div>
+
+                    <!-- Paystack Payment Form (Default) -->
+                    <div id="paystack-form" class="payment-form-container">
+                        <div class="bg-gradient-to-r from-blue-800 to-black text-white p-6 rounded-xl mb-6">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <img src="{% static 'images/paystack-logo.png' %}" alt="Paystack" class="h-8 mr-3">
+                                    <div>
+                                        <h3 class="font-bold">Pay with Paystack</h3>
+                                        <p class="text-sm text-blue-100">Secure payment processing</p>
+                                    </div>
+                                </div>
+                                <div class="text-2xl">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-gray-700 mb-6">
+                            Click the button below to complete your payment securely with Paystack. You can pay using credit/debit cards, bank transfers, or mobile money.
+                        </p>
+
+                        {% if payment_link %}
+                        <button id="paystack-button" class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                            <i class="fas fa-lock mr-2"></i>
+                            Pay ${{ subscription.plan.price }} Securely
+                        </button>
+                        {% else %}
+                        <div class="bg-red-50 p-4 rounded-xl border border-red-200 mb-4">
+                            <h3 class="font-bold text-red-800 mb-2">Payment Gateway Error</h3>
+                            <p class="text-gray-700 mb-2">We're experiencing issues with our payment gateway. Please try one of the following:</p>
+                            <ul class="list-disc pl-5 text-gray-700 mb-4">
+                                <li>Try refreshing the page</li>
+                                <li>Try a different payment method</li>
+                                <li>Contact support if the issue persists</li>
+                            </ul>
+                        </div>
+                        <a href="{% url 'subscription:payment' subscription.id %}" class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                            <i class="fas fa-sync-alt mr-2"></i>
+                            Retry Payment
+                        </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Credit Card Payment Form (Hidden by default) -->
+                    <div id="credit-card-form" class="payment-form-container hidden">
+                        <form id="payment-form">
+                            <div class="form-control mb-4">
+                                <label class="label" for="card-holder-name">Cardholder Name</label>
+                                <input type="text" id="card-holder-name" class="input input-bordered" required>
+                            </div>
+
+                            <div class="form-control mb-4">
+                                <label class="label" for="card-element">Card Details</label>
+                                <div id="card-element" class="border border-gray-300 rounded-lg p-4"></div>
+                                <div id="card-errors" class="text-error text-sm mt-2"></div>
+                            </div>
+
+                            <div class="form-control mb-4">
+                                <label class="flex items-center cursor-pointer">
+                                    <input type="checkbox" class="checkbox checkbox-primary mr-2" checked>
+                                    <span>Save this card for future payments</span>
+                                </label>
+                            </div>
+
+                            <button type="submit" id="submit-button" class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-lock mr-2"></i>
+                                Pay ${{ subscription.plan.price }}
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Mobile Money Payment Form (Hidden by default) -->
+                    <div id="mobile-money-form" class="payment-form-container hidden">
+                        <form id="mobile-money-form" method="POST" action="{% url 'subscription:process_mobile_money' subscription.id %}">
+                            {% csrf_token %}
+                            <div class="form-control mb-4">
+                                <label class="label" for="phone-number">Phone Number</label>
+                                <input type="tel" id="phone-number" name="phone_number" class="input input-bordered" placeholder="Enter your mobile money number" required>
+                            </div>
+
+                            <div class="form-control mb-4">
+                                <label class="label" for="provider">Provider</label>
+                                <select id="provider" name="provider" class="select select-bordered" required>
+                                    <option value="mtn">MTN Mobile Money</option>
+                                    <option value="airtel">Airtel Money</option>
+                                    <option value="vodafone">Vodafone Cash</option>
+                                    <option value="tigo">Tigo Cash</option>
+                                </select>
+                            </div>
+
+                            <button type="submit" class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-mobile-alt mr-2"></i>
+                                Pay ${{ subscription.plan.price }}
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Bank Transfer Payment Form (Hidden by default) -->
+                    <div id="bank-transfer-form" class="payment-form-container hidden">
+                        <div class="bg-blue-50 p-4 rounded-lg mb-4">
+                            <h3 class="font-bold mb-2">Bank Transfer Instructions</h3>
+                            <p class="mb-2">Please transfer the exact amount to the following account:</p>
+                            <div class="space-y-2">
+                                <div class="flex justify-between">
+                                    <span class="font-medium">Bank:</span>
+                                    <span>EduMore Bank</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-medium">Account Name:</span>
+                                    <span>EduMore360 Ltd</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-medium">Account Number:</span>
+                                    <span>1234567890</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-medium">Reference:</span>
+                                    <span>SUB-{{ subscription.id }}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="font-medium">Amount:</span>
+                                    <span>${{ subscription.plan.price }} USD (≈ GH₵{{ subscription.plan.price|floatformat:2|multiply:11.5 }})</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <form id="bank-transfer-form" method="POST" action="{% url 'subscription:process_bank_transfer' subscription.id %}">
+                            {% csrf_token %}
+                            <div class="form-control mb-4">
+                                <label class="label" for="transfer-reference">Transfer Reference</label>
+                                <input type="text" id="transfer-reference" name="transfer_reference" class="input input-bordered" placeholder="Enter your bank transfer reference" required>
+                            </div>
+
+                            <div class="form-control mb-4">
+                                <label class="label" for="transfer-date">Transfer Date</label>
+                                <input type="date" id="transfer-date" name="transfer_date" class="input input-bordered" required>
+                            </div>
+
+                            <button type="submit" class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-university mr-2"></i>
+                                Confirm Transfer
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Secure Payment Notice -->
+                <div class="text-center mt-6">
+                    <div class="flex items-center justify-center text-gray-600 text-sm">
+                        <i class="fas fa-lock text-green-600 mr-2"></i>
+                        <span>All payments are secure and encrypted</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="card-title text-xl mb-4">Subscription Details</h2>
+
+                <div class="space-y-3">
+                    <div class="flex justify-between">
+                        <span class="font-medium">Plan:</span>
+                        <span>{{ subscription.plan.name }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-medium">Billing Cycle:</span>
+                        <span>{{ subscription.plan.get_billing_cycle_display }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-medium">Start Date:</span>
+                        <span>{{ subscription.start_date|date:"M d, Y" }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-medium">End Date:</span>
+                        <span>{{ subscription.end_date|date:"M d, Y" }}</span>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <span class="font-medium">Auto-renew:</span>
+                        <span>{{ subscription.auto_renew|yesno:"Yes,No" }}</span>
+                    </div>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="text-sm text-gray-600">
+                    <p class="mb-2">By completing this payment, you agree to our <a href="{% url 'core:terms_of_service' %}" class="text-primary hover:underline">Terms of Service</a> and <a href="{% url 'core:privacy_policy' %}" class="text-primary hover:underline">Privacy Policy</a>.</p>
+                    <p>Your subscription will automatically renew at the end of the billing period unless you cancel it before the renewal date.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+    // Stripe Elements
+    const stripePublicKey = '{{ stripe_public_key }}';
+    if (stripePublicKey) {
+        const stripe = Stripe(stripePublicKey);
+        const elements = stripe.elements();
+
+        // Create card element
+        const cardElement = elements.create('card');
+        cardElement.mount('#card-element');
+
+        // Handle form submission
+        const form = document.getElementById('payment-form');
+        const submitButton = document.getElementById('submit-button');
+        const cardHolderName = document.getElementById('card-holder-name');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Disable the submit button to prevent multiple submissions
+            submitButton.disabled = true;
+            submitButton.classList.add('loading');
+
+            try {
+                // Create payment method
+                const { paymentMethod, error } = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                    billing_details: {
+                        name: cardHolderName.value,
+                        email: '{{ user.email }}',
+                    },
+                });
+
+                if (error) {
+                    // Display error
+                    const errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = error.message;
+
+                    // Re-enable the submit button
+                    submitButton.disabled = false;
+                    submitButton.classList.remove('loading');
+                } else {
+                    // Payment method created successfully, submit to server
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = "{% url 'subscription:process_payment' subscription.id %}";
+
+                    // Add CSRF token
+                    const csrfToken = document.createElement('input');
+                    csrfToken.type = 'hidden';
+                    csrfToken.name = 'csrfmiddlewaretoken';
+                    csrfToken.value = '{{ csrf_token }}';
+                    form.appendChild(csrfToken);
+
+                    // Add payment method ID
+                    const paymentMethodInput = document.createElement('input');
+                    paymentMethodInput.type = 'hidden';
+                    paymentMethodInput.name = 'payment_method_id';
+                    paymentMethodInput.value = paymentMethod.id;
+                    form.appendChild(paymentMethodInput);
+
+                    // Add to document and submit
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+                // Re-enable the submit button
+                submitButton.disabled = false;
+                submitButton.classList.remove('loading');
+
+                // Display error
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = 'An error occurred while processing your payment. Please try again.';
+            }
+        });
+    }
+
+    // Paystack payment
+    const paystackButton = document.getElementById('paystack-button');
+    const paystackPublicKey = '{{ paystack_public_key }}';
+
+    if (paystackButton && paystackPublicKey) {
+        // If we have a direct payment link, use it
+        {% if payment_link %}
+        paystackButton.addEventListener('click', function() {
+            // Show loading state
+            paystackButton.disabled = true;
+            paystackButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+
+            try {
+                // Redirect to Paystack payment page
+                window.location.href = "{{ payment_link }}";
+            } catch (error) {
+                console.error('Error redirecting to payment page:', error);
+                paystackButton.disabled = false;
+                paystackButton.innerHTML = '<i class="fas fa-lock mr-2"></i> Pay ${{ subscription.plan.price }} Securely';
+
+                // Show error message
+                alert('Error redirecting to payment page. Please try again or contact support.');
+            }
+        });
+        {% else %}
+        // Otherwise use the inline payment (if payment_link is not available)
+        // This is a fallback method and should only be used if the direct payment link fails
+        paystackButton.addEventListener('click', function() {
+            // Show loading state
+            paystackButton.disabled = true;
+            paystackButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+
+            try {
+                const handler = PaystackPop.setup({
+                    key: paystackPublicKey,
+                    email: '{{ user.email }}',
+                    amount: {{ amount }},
+                    currency: 'GHS',
+                    ref: 'ps_' + Math.floor((Math.random() * 1000000000) + 1),
+                    metadata: {
+                        subscription_id: '{{ subscription.id }}',
+                        plan_name: '{{ subscription.plan.name }}',
+                        user_id: '{{ user.id }}',
+                    },
+                    callback: function(response) {
+                        // Create a form to submit the reference
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = "{% url 'subscription:process_paystack_payment' subscription.id %}";
+
+                        // Add CSRF token
+                        const csrfToken = document.createElement('input');
+                        csrfToken.type = 'hidden';
+                        csrfToken.name = 'csrfmiddlewaretoken';
+                        csrfToken.value = '{{ csrf_token }}';
+                        form.appendChild(csrfToken);
+
+                        // Add reference
+                        const referenceInput = document.createElement('input');
+                        referenceInput.type = 'hidden';
+                        referenceInput.name = 'reference';
+                        referenceInput.value = response.reference;
+                        form.appendChild(referenceInput);
+
+                        // Add to document and submit
+                        document.body.appendChild(form);
+                        form.submit();
+                    },
+                    onClose: function() {
+                        console.log('Payment window closed');
+                        // Reset button state
+                        paystackButton.disabled = false;
+                        paystackButton.innerHTML = '<i class="fas fa-lock mr-2"></i> Pay ${{ subscription.plan.price }} Securely';
+                    }
+                });
+                handler.openIframe();
+            } catch (error) {
+                console.error('Error initializing Paystack:', error);
+                // Reset button state
+                paystackButton.disabled = false;
+                paystackButton.innerHTML = '<i class="fas fa-lock mr-2"></i> Pay ${{ subscription.plan.price }} Securely';
+
+                // Show error message
+                alert('Error initializing payment. Please try again or contact support.');
+            }
+        });
+        {% endif %}
+    }
+
+    // Mobile Money payment
+    const mobileMoneyButton = document.querySelector('button[alt="Mobile Money"]');
+    if (mobileMoneyButton) {
+        mobileMoneyButton.addEventListener('click', function() {
+            // Show mobile money form
+            const mobileMoneyForm = document.createElement('form');
+            mobileMoneyForm.method = 'POST';
+            mobileMoneyForm.action = "{% url 'subscription:process_mobile_money' subscription.id %}";
+            mobileMoneyForm.className = 'space-y-4 mt-6';
+
+            // Add CSRF token
+            const csrfToken = document.createElement('input');
+            csrfToken.type = 'hidden';
+            csrfToken.name = 'csrfmiddlewaretoken';
+            csrfToken.value = '{{ csrf_token }}';
+            mobileMoneyForm.appendChild(csrfToken);
+
+            // Add phone number field
+            const phoneDiv = document.createElement('div');
+            phoneDiv.className = 'form-control';
+
+            const phoneLabel = document.createElement('label');
+            phoneLabel.className = 'label';
+            phoneLabel.innerHTML = '<span class="label-text">Phone Number</span>';
+            phoneDiv.appendChild(phoneLabel);
+
+            const phoneInput = document.createElement('input');
+            phoneInput.type = 'tel';
+            phoneInput.name = 'phone_number';
+            phoneInput.className = 'input input-bordered';
+            phoneInput.placeholder = 'Enter your mobile money number';
+            phoneInput.required = true;
+            phoneDiv.appendChild(phoneInput);
+
+            mobileMoneyForm.appendChild(phoneDiv);
+
+            // Add provider field
+            const providerDiv = document.createElement('div');
+            providerDiv.className = 'form-control';
+
+            const providerLabel = document.createElement('label');
+            providerLabel.className = 'label';
+            providerLabel.innerHTML = '<span class="label-text">Provider</span>';
+            providerDiv.appendChild(providerLabel);
+
+            const providerSelect = document.createElement('select');
+            providerSelect.name = 'provider';
+            providerSelect.className = 'select select-bordered';
+            providerSelect.required = true;
+
+            const providers = [
+                { value: 'mtn', name: 'MTN Mobile Money' },
+                { value: 'airtel', name: 'Airtel Money' },
+                { value: 'vodafone', name: 'Vodafone Cash' },
+                { value: 'tigo', name: 'Tigo Cash' }
+            ];
+
+            providers.forEach(provider => {
+                const option = document.createElement('option');
+                option.value = provider.value;
+                option.textContent = provider.name;
+                providerSelect.appendChild(option);
+            });
+
+            providerDiv.appendChild(providerSelect);
+            mobileMoneyForm.appendChild(providerDiv);
+
+            // Add submit button
+            const submitDiv = document.createElement('div');
+            submitDiv.className = 'form-control mt-6';
+
+            const submitButton = document.createElement('button');
+            submitButton.type = 'submit';
+            submitButton.className = 'btn btn-primary';
+            submitButton.textContent = 'Pay Now';
+            submitDiv.appendChild(submitButton);
+
+            mobileMoneyForm.appendChild(submitDiv);
+
+            // Replace the payment form with mobile money form
+            const paymentForm = document.getElementById('payment-form');
+            paymentForm.parentNode.replaceChild(mobileMoneyForm, paymentForm);
+
+            // Update active tab
+            const tabs = document.querySelectorAll('.tabs .tab');
+            tabs.forEach(tab => tab.classList.remove('tab-active'));
+            tabs[1].classList.add('tab-active');
+        });
+    }
+
+    // Tab switching
+    document.addEventListener('DOMContentLoaded', function() {
+        const tabs = document.querySelectorAll('.tabs .tab');
+        const paymentForms = document.querySelectorAll('.payment-form-container');
+
+        // Function to show a specific payment form
+        function showPaymentForm(formId) {
+            // Hide all payment forms
+            paymentForms.forEach(form => {
+                form.classList.add('hidden');
+            });
+
+            // Show the selected form
+            const selectedForm = document.getElementById(formId);
+            if (selectedForm) {
+                selectedForm.classList.remove('hidden');
+            }
+
+            // Initialize Stripe if credit card form is shown
+            if (formId === 'credit-card-form' && stripePublicKey) {
+                const cardElement = document.getElementById('card-element');
+                if (cardElement) {
+                    const stripe = Stripe(stripePublicKey);
+                    const elements = stripe.elements();
+                    const cardElement = elements.create('card');
+                    cardElement.mount('#card-element');
+                }
+            }
+        }
+
+        // Add click event listeners to tabs
+        document.getElementById('credit-card-tab').addEventListener('click', function() {
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            this.classList.add('tab-active');
+
+            // Show credit card form
+            showPaymentForm('credit-card-form');
+        });
+
+        document.getElementById('paystack-tab').addEventListener('click', function() {
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            this.classList.add('tab-active');
+
+            // Show Paystack form
+            showPaymentForm('paystack-form');
+        });
+
+        document.getElementById('mobile-money-tab').addEventListener('click', function() {
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            this.classList.add('tab-active');
+
+            // Show mobile money form
+            showPaymentForm('mobile-money-form');
+        });
+
+        document.getElementById('bank-transfer-tab').addEventListener('click', function() {
+            // Update active tab
+            tabs.forEach(t => t.classList.remove('tab-active'));
+            this.classList.add('tab-active');
+
+            // Show bank transfer form
+            showPaymentForm('bank-transfer-form');
+        });
+
+        // Show Paystack form by default
+        showPaymentForm('paystack-form');
+    });
+</script>
+{% endblock %}

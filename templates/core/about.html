@@ -1,0 +1,127 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}About Us - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header Section -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">About EduMore360</h1>
+            <p class="text-xl text-gray-600">Transforming education through personalized learning experiences</p>
+        </div>
+        
+        <!-- Mission Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-10">
+            <h2 class="text-3xl font-bold text-blue-700 mb-6">Our Mission</h2>
+            <p class="text-lg text-gray-700 mb-6">
+                At EduMore360, we believe that education should be accessible, engaging, and effective for everyone. 
+                Our mission is to provide a comprehensive learning platform that adapts to individual needs, 
+                making education more personalized and impactful.
+            </p>
+            <p class="text-lg text-gray-700">
+                We strive to empower learners of all ages and backgrounds to achieve their educational goals 
+                through innovative technology, quality content, and supportive learning communities.
+            </p>
+        </div>
+        
+        <!-- Values Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-lightbulb text-4xl text-[#ff4703]"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3">Innovation</h3>
+                <p class="text-center">
+                    We constantly explore new ways to enhance the learning experience through cutting-edge technology and creative approaches.
+                </p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-users text-4xl text-[#ff4703]"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3">Inclusivity</h3>
+                <p class="text-center">
+                    We design our platform to be accessible and beneficial for learners of all backgrounds, abilities, and learning styles.
+                </p>
+            </div>
+            
+            <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white rounded-xl shadow-lg p-6 transform transition-transform hover:scale-105">
+                <div class="flex justify-center mb-4">
+                    <i class="fas fa-chart-line text-4xl text-[#ff4703]"></i>
+                </div>
+                <h3 class="text-xl font-bold text-center mb-3">Excellence</h3>
+                <p class="text-center">
+                    We are committed to providing the highest quality educational content and continuously improving our platform.
+                </p>
+            </div>
+        </div>
+        
+        <!-- Team Section -->
+        <div class="bg-white rounded-xl shadow-lg p-8 mb-10">
+            <h2 class="text-3xl font-bold text-blue-700 mb-6">Our Team</h2>
+            <p class="text-lg text-gray-700 mb-8">
+                EduMore360 is powered by a diverse team of educators, technologists, and learning specialists 
+                who are passionate about transforming education. Our team brings together expertise from various 
+                fields to create a platform that addresses the real needs of learners and educators.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Team members would go here -->
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-4">
+                        <i class="fas fa-user text-4xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold">Dr. Jane Smith</h3>
+                    <p class="text-blue-600">Education Director</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-4">
+                        <i class="fas fa-user text-4xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold">John Davis</h3>
+                    <p class="text-blue-600">Chief Technology Officer</p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-32 h-32 mx-auto rounded-full bg-gray-200 flex items-center justify-center mb-4">
+                        <i class="fas fa-user text-4xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold">Maria Rodriguez</h3>
+                    <p class="text-blue-600">Content Development Lead</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Contact Section -->
+        <div class="bg-gradient-to-r from-blue-600 via-blue-800 to-black text-white rounded-xl shadow-lg p-8">
+            <h2 class="text-3xl font-bold mb-6">Get in Touch</h2>
+            <p class="text-lg mb-6">
+                We'd love to hear from you! Whether you have questions about our platform, 
+                feedback on your experience, or are interested in partnering with us, 
+                our team is here to help.
+            </p>
+            <div class="flex flex-col md:flex-row md:space-x-6">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-envelope text-[#ff4703] mr-3"></i>
+                        <span>contact@edumore360.com</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-phone text-[#ff4703] mr-3"></i>
+                        <span>+1 (555) 123-4567</span>
+                    </div>
+                </div>
+                <div>
+                    <a href="{% url 'core:contact' %}" class="inline-block bg-[#ff4703] hover:bg-orange-600 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 hover:scale-105">
+                        <i class="fas fa-paper-plane mr-2"></i> Contact Us
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

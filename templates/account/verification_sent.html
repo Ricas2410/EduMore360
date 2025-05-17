@@ -1,0 +1,61 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block title %}{% trans "Verify Your Email Address" %} - EduMore360{% endblock %}
+
+{% block extra_css %}
+<!-- Google Material Icons CDN -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white min-h-screen flex items-center justify-center">
+  <!-- Main Content Section -->
+  <div class="w-full max-w-md bg-gradient-to-br from-blue-700 to-black text-white rounded-xl shadow-xl p-8 space-y-8">
+    
+    <!-- Logo and Title -->
+    <div class="text-center mb-6">
+      <h1 class="text-4xl font-extrabold text-white-400">EduMore360</h1>
+      <p class="text-lg text-gray-200">{% trans "Verify Your Email Address" %}</p>
+    </div>
+    
+    <div class="text-center">
+      <div class="flex justify-center mb-6">
+        <span class="material-icons text-blue-400 text-6xl">mail</span>
+      </div>
+      
+      <p class="mb-4">
+        {% blocktrans %}
+        We have sent an email to you for verification. Please check your email and click on the link to complete your registration.
+        {% endblocktrans %}
+      </p>
+      
+      <p class="mb-6 text-sm text-gray-300">
+        {% blocktrans %}
+        If you do not receive the verification email within a few minutes, please check your spam folder or try again.
+        {% endblocktrans %}
+      </p>
+      
+      <div class="bg-blue-900 bg-opacity-30 p-4 rounded-lg border border-blue-700">
+        <div class="flex items-start">
+          <span class="material-icons text-blue-400 mr-2 mt-1">info</span>
+          <p class="text-sm text-left">
+            {% blocktrans %}
+            Please note that some email providers might delay delivery of emails. If you still don't receive the email after checking your spam folder, you can request a new verification email by returning to the login page and using the "Forgot Password" option.
+            {% endblocktrans %}
+          </p>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Back to Login Link -->
+    <div class="text-center mt-8">
+      <a href="{% url 'account_login' %}" class="flex items-center justify-center text-sm text-blue-400 hover:underline">
+        <span class="material-icons mr-1 text-sm">arrow_back</span>
+        {% trans "Back to Login" %}
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

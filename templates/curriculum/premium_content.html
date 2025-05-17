@@ -1,0 +1,141 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Premium Content - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-16">
+    <div class="max-w-3xl mx-auto text-center">
+        <div class="mb-8">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-primary mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
+        </div>
+        
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">Premium Content</h1>
+        
+        <div class="card bg-base-100 shadow-xl">
+            <div class="card-body">
+                <h2 class="text-2xl font-bold mb-4">{{ note.title }}</h2>
+                <p class="text-lg mb-6">This content is available exclusively to premium subscribers.</p>
+                
+                {% if user.is_authenticated %}
+                    <div class="bg-primary bg-opacity-10 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-bold text-primary mb-2">Upgrade to Premium</h3>
+                        <p class="mb-4">Unlock this content and gain access to all premium features with a subscription plan.</p>
+                        <a href="{% url 'subscription:subscription_plans' %}" class="btn btn-primary">View Subscription Plans</a>
+                    </div>
+                    
+                    <div class="divider">OR</div>
+                    
+                    <div class="text-center">
+                        <a href="{% url 'curriculum:subject_detail' note.topic.subject.curriculum.code note.topic.subject.class_level.id note.topic.subject.slug %}" class="btn btn-outline">
+                            Explore Free Content
+                        </a>
+                    </div>
+                {% else %}
+                    <div class="bg-primary bg-opacity-10 p-6 rounded-lg mb-8">
+                        <h3 class="text-xl font-bold text-primary mb-2">Sign In or Create an Account</h3>
+                        <p class="mb-4">Sign in to your account or create a new one to access premium content.</p>
+                        <div class="flex flex-col sm:flex-row justify-center gap-4">
+                            <a href="{% url 'account_login' %}" class="btn btn-primary">Sign In</a>
+                            <a href="{% url 'account_signup' %}" class="btn btn-outline">Sign Up</a>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Premium Features -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-8">Premium Features</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="text-primary text-4xl mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title text-xl justify-center">Premium Content</h3>
+                        <p class="text-center">Access exclusive educational content, including in-depth notes, examples, and practice materials.</p>
+                    </div>
+                </div>
+                
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="text-primary text-4xl mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title text-xl justify-center">Unlimited Quizzes</h3>
+                        <p class="text-center">Take unlimited quizzes with detailed explanations and personalized feedback.</p>
+                    </div>
+                </div>
+                
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="text-primary text-4xl mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                            </svg>
+                        </div>
+                        <h3 class="card-title text-xl justify-center">Advanced Analytics</h3>
+                        <p class="text-center">Track your progress with detailed analytics and performance insights.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Testimonials -->
+        <div class="mt-16">
+            <h2 class="text-2xl font-bold mb-8">What Our Premium Users Say</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="rating">
+                                <span class="text-yellow-400">★★★★★</span>
+                            </div>
+                        </div>
+                        <p class="italic mb-4">"The premium content has been a game-changer for my studies. The in-depth explanations and practice materials have helped me improve my grades significantly."</p>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-gray-300 mr-3"></div>
+                            <div>
+                                <h3 class="font-bold">Sarah Johnson</h3>
+                                <p class="text-sm text-gray-600">Premium User</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-body">
+                        <div class="flex items-center mb-4">
+                            <div class="rating">
+                                <span class="text-yellow-400">★★★★★</span>
+                            </div>
+                        </div>
+                        <p class="italic mb-4">"As a parent, I appreciate the quality of the premium content. It's well-structured, comprehensive, and has been a valuable resource for my children's education."</p>
+                        <div class="flex items-center">
+                            <div class="w-10 h-10 rounded-full bg-gray-300 mr-3"></div>
+                            <div>
+                                <h3 class="font-bold">Michael Thompson</h3>
+                                <p class="text-sm text-gray-600">Parent</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- CTA -->
+        <div class="mt-12">
+            <a href="{% url 'subscription:subscription_plans' %}" class="btn btn-primary btn-lg">Upgrade to Premium</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

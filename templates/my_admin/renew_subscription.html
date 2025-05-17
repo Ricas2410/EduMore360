@@ -1,0 +1,120 @@
+{% extends 'my_admin/base.html' %}
+
+{% block title %}Renew Subscription - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Renew Subscription{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Renew Subscription</h1>
+    <a href="{% url 'my_admin:subscription_management' %}" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">
+        <i class="fas fa-arrow-left fa-sm text-white-50"></i> Back to Subscriptions
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Subscription Information</h6>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label fw-bold">User:</label>
+                    <p>{{ subscription.user.email }} ({{ subscription.user.get_full_name }})</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Plan:</label>
+                    <p>{{ subscription.plan.name }} ({{ subscription.plan.get_plan_type_display }})</p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Status:</label>
+                    <p>
+                        <span class="badge {% if subscription.status == 'active' %}bg-success{% elif subscription.status == 'past_due' %}bg-warning{% else %}bg-danger{% endif %} text-white">
+                            {{ subscription.get_status_display }}
+                        </span>
+                    </p>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Current End Date:</label>
+                    <p>{{ subscription.end_date|date:"F d, Y H:i" }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Renew Subscription</h6>
+            </div>
+            <div class="card-body">
+                <form method="POST">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label for="days" class="form-label">Extension Period (Days)</label>
+                        <select class="form-select" id="days" name="days">
+                            <option value="30">1 Month (30 days)</option>
+                            <option value="90">3 Months (90 days)</option>
+                            <option value="180">6 Months (180 days)</option>
+                            <option value="365">1 Year (365 days)</option>
+                            <option value="730">2 Years (730 days)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label">New End Date:</label>
+                        <p id="new-end-date" class="fw-bold text-success">
+                            <!-- This will be filled by JavaScript -->
+                        </p>
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        {% if subscription.status != 'active' %}
+                        This will also reactivate the subscription since it is currently {{ subscription.get_status_display }}.
+                        {% else %}
+                        This will extend the subscription's end date by the selected number of days.
+                        {% endif %}
+                    </div>
+                    
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="{% url 'my_admin:subscription_management' %}" class="btn btn-secondary me-md-2">Cancel</a>
+                        <button type="submit" class="btn btn-success">Renew Subscription</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const daysSelect = document.getElementById('days');
+        const newEndDateElement = document.getElementById('new-end-date');
+        
+        // Current end date from the server
+        const currentEndDate = new Date('{{ subscription.end_date|date:"c" }}');
+        
+        // Function to update the new end date display
+        function updateNewEndDate() {
+            const days = parseInt(daysSelect.value);
+            const newEndDate = new Date(currentEndDate);
+            newEndDate.setDate(newEndDate.getDate() + days);
+            
+            // Format the date for display
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            newEndDateElement.textContent = newEndDate.toLocaleDateString(undefined, options);
+        }
+        
+        // Update on page load
+        updateNewEndDate();
+        
+        // Update when the selection changes
+        daysSelect.addEventListener('change', updateNewEndDate);
+    });
+</script>
+{% endblock %}

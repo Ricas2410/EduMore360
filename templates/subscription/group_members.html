@@ -1,0 +1,266 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Manage Group Members - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Manage Group Members</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Add or remove members from your {{ subscription.plan.get_plan_type_display }} subscription</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Sidebar -->
+        <div class="md:col-span-1">
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-users-cog mr-2"></i>
+                        Group Information
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 mb-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Group Name:</span>
+                            <span class="font-bold text-gray-800">{{ group.name }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Plan Type:</span>
+                            <span class="font-bold text-gray-800">{{ subscription.plan.get_plan_type_display }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Admin:</span>
+                            <span class="font-bold text-gray-800">{{ group.admin.get_full_name }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Members:</span>
+                            <span class="font-bold text-gray-800">{{ members.count }} / {{ max_members }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600 font-medium">Expires:</span>
+                            <span class="font-bold text-gray-800">{{ subscription.end_date|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <a href="{% url 'subscription:manage_subscription' %}"
+                           class="block w-full py-2.5 border-2 border-blue-600 text-blue-600 font-medium rounded-lg text-center hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>
+                            Back to Subscription
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Member Form -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mt-6">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-user-plus mr-2"></i>
+                        Add Member
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    {% if available_slots > 0 %}
+                        <form method="POST" action="{% url 'subscription:add_group_member' %}">
+                            {% csrf_token %}
+                            <div class="form-control mb-4">
+                                <label class="label" for="email">
+                                    <span class="label-text">Email Address</span>
+                                </label>
+                                <input type="email" id="email" name="email" class="input input-bordered" placeholder="Enter member's email" required>
+                                <p class="text-xs text-gray-500 mt-1">The user must already have an EduMore360 account.</p>
+                            </div>
+
+                            <button type="submit" class="inline-flex items-center justify-center w-full px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Add Member
+                            </button>
+                        </form>
+                    {% else %}
+                        <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-lg">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-exclamation-triangle text-yellow-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-yellow-700">
+                                        You've reached the maximum number of members ({{ max_members }}) for your {{ subscription.plan.get_plan_type_display }} plan.
+                                    </p>
+                                    <p class="text-sm text-yellow-700 mt-2">
+                                        <a href="{% url 'subscription:upgrade_subscription' %}" class="font-medium underline text-yellow-700 hover:text-yellow-600">
+                                            Upgrade your plan
+                                        </a>
+                                        to add more members.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Members List -->
+        <div class="md:col-span-2">
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-users mr-2"></i>
+                        Group Members
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    {% if members %}
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    {% for member in members %}
+                                        <tr class="hover:bg-gray-50">
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="flex items-center">
+                                                    {% if member.profile_picture %}
+                                                        <img src="{{ member.profile_picture.url }}" alt="{{ member.get_full_name }}" class="h-10 w-10 rounded-full object-cover">
+                                                    {% else %}
+                                                        <div class="h-10 w-10 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white text-sm">
+                                                            {{ member.first_name|first }}{{ member.last_name|first }}
+                                                        </div>
+                                                    {% endif %}
+                                                    <div class="ml-4">
+                                                        <div class="text-sm font-medium text-gray-900">{{ member.get_full_name }}</div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900">{{ member.email }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {% if member.id == group.admin.id %}
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                                        Admin
+                                                    </span>
+                                                {% else %}
+                                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                        Member
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                {% if member.id != group.admin.id %}
+                                                    <form method="POST" action="{% url 'subscription:remove_group_member' member.id %}" class="inline">
+                                                        {% csrf_token %}
+                                                        <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Are you sure you want to remove this member?');">
+                                                            <i class="fas fa-user-minus mr-1"></i> Remove
+                                                        </button>
+                                                    </form>
+                                                {% else %}
+                                                    <span class="text-gray-400">
+                                                        <i class="fas fa-user-shield mr-1"></i> Group Admin
+                                                    </span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="bg-blue-50 border-l-4 border-blue-400 p-4 rounded-lg">
+                            <div class="flex">
+                                <div class="flex-shrink-0">
+                                    <i class="fas fa-info-circle text-blue-400"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <p class="text-sm text-blue-700">
+                                        No members in this group yet. Add members using the form on the left.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mt-6">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-question-circle mr-2"></i>
+                        How It Works
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-600">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Adding Members</h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Enter the email address of the person you want to add. They must already have an EduMore360 account.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-600">
+                                    <i class="fas fa-user-minus"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Removing Members</h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    Click the "Remove" button next to a member's name to remove them from your group. They will lose access to premium features.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <div class="flex items-center justify-center h-8 w-8 rounded-full bg-blue-100 text-blue-600">
+                                    <i class="fas fa-crown"></i>
+                                </div>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-medium text-gray-900">Member Benefits</h3>
+                                <p class="mt-1 text-sm text-gray-500">
+                                    All members get full access to premium features until your subscription expires. Each member has their own account and learning progress.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

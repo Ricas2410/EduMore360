@@ -1,0 +1,174 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'admin/css/forms.css' %}">
+<style>
+    .form-row {
+        margin-bottom: 15px;
+    }
+    .form-row label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-row input[type="text"],
+    .form-row textarea,
+    .form-row select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-row textarea {
+        height: 100px;
+    }
+    .required label:after {
+        content: " *";
+        color: #f00;
+    }
+    .help-text {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block extrahead %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Handle curriculum change
+        $('#id_curriculum').change(function() {
+            var curriculumId = $(this).val();
+            if (curriculumId) {
+                // Clear dependent dropdowns
+                $('#id_class_level').html('<option value="">Select Class Level</option>');
+                $('#id_subject').html('<option value="">Select Subject</option>');
+                $('#id_topic').html('<option value="">Select Topic (Optional)</option>');
+
+                // Get class levels for this curriculum
+                $.getJSON("/my-admin/quiz/get-class-levels/", {curriculum_id: curriculumId}, function(data) {
+                    var options = '<option value="">Select Class Level</option>';
+                    $.each(data.class_levels, function(index, classLevel) {
+                        options += '<option value="' + classLevel.id + '">' + classLevel.name + '</option>';
+                    });
+                    $('#id_class_level').html(options);
+                });
+            }
+        });
+
+        // Handle class level change
+        $('#id_class_level').change(function() {
+            var classLevelId = $(this).val();
+            if (classLevelId) {
+                // Clear dependent dropdowns
+                $('#id_subject').html('<option value="">Select Subject</option>');
+                $('#id_topic').html('<option value="">Select Topic (Optional)</option>');
+
+                // Get subjects for this class level
+                $.getJSON("/my-admin/quiz/get-subjects/", {class_level_id: classLevelId}, function(data) {
+                    var options = '<option value="">Select Subject</option>';
+                    $.each(data.subjects, function(index, subject) {
+                        options += '<option value="' + subject.id + '">' + subject.name + '</option>';
+                    });
+                    $('#id_subject').html(options);
+                });
+            }
+        });
+
+        // Handle subject change
+        $('#id_subject').change(function() {
+            var subjectId = $(this).val();
+            if (subjectId) {
+                // Clear dependent dropdown
+                $('#id_topic').html('<option value="">Select Topic (Optional)</option>');
+
+                // Get topics for this subject
+                $.getJSON("/my-admin/quiz/get-topics/", {subject_id: subjectId}, function(data) {
+                    var options = '<option value="">Select Topic (Optional)</option>';
+                    $.each(data.topics, function(index, topic) {
+                        options += '<option value="' + topic.id + '">' + topic.name + '</option>';
+                    });
+                    $('#id_topic').html(options);
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="/my-admin/quiz/">Quiz Management</a>
+    &rsaquo; Create New Quiz
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Create New Quiz</h1>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <fieldset class="module aligned">
+            <div class="form-row required">
+                <label for="id_title">Quiz Title:</label>
+                <input type="text" id="id_title" name="title" required>
+                <div class="help-text">A descriptive name for the quiz.</div>
+            </div>
+
+            <div class="form-row">
+                <label for="id_description">Description:</label>
+                <textarea id="id_description" name="description"></textarea>
+                <div class="help-text">A brief description of the quiz (optional).</div>
+            </div>
+
+            <div class="form-row required">
+                <label for="id_curriculum">Curriculum:</label>
+                <select id="id_curriculum" name="curriculum" required>
+                    <option value="">Select Curriculum</option>
+                    {% for curriculum in curricula %}
+                        <option value="{{ curriculum.id }}">{{ curriculum.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-row required">
+                <label for="id_class_level">Class Level:</label>
+                <select id="id_class_level" name="class_level" required>
+                    <option value="">Select Class Level</option>
+                </select>
+            </div>
+
+            <div class="form-row required">
+                <label for="id_subject">Subject:</label>
+                <select id="id_subject" name="subject" required>
+                    <option value="">Select Subject</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label for="id_topic">Topic (Optional):</label>
+                <select id="id_topic" name="topic">
+                    <option value="">Select Topic</option>
+                </select>
+            </div>
+
+            <div class="form-row">
+                <label for="id_instructions">Instructions (Optional):</label>
+                <textarea id="id_instructions" name="instructions"></textarea>
+                <div class="help-text">Any specific guidance for users taking this quiz.</div>
+            </div>
+        </fieldset>
+
+        <div class="submit-row">
+            <input type="submit" value="Create Quiz" class="default">
+            <a href="/my-admin/quiz/" class="button">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

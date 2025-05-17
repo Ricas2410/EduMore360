@@ -1,0 +1,45 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Access Denied{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-12">
+    <div class="max-w-3xl mx-auto text-center">
+        <div class="bg-white rounded-lg shadow-md p-8">
+            <div class="mb-6">
+                <svg class="mx-auto h-16 w-16 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+                <h1 class="mt-4 text-3xl font-bold text-gray-900">Access Denied</h1>
+            </div>
+
+            <p class="text-lg text-gray-600 mb-6">
+                {{ message|default:"You don't have access to this content with your current subscription plan." }}
+            </p>
+
+            <div class="border-t border-gray-200 pt-6">
+                <h2 class="text-xl font-semibold mb-4">Upgrade Your Subscription</h2>
+                <p class="text-gray-600 mb-6">
+                    To access this content, you need to upgrade your subscription to a plan that includes:
+                </p>
+
+                {% if curriculum and class_level %}
+                    <div class="bg-gray-50 rounded-md p-4 mb-6">
+                        <p class="font-medium">{{ curriculum.name }} - {{ class_level.name }}</p>
+                    </div>
+                {% endif %}
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4 mt-8">
+                    <a href="{% url 'subscription:subscription_plans' %}" class="px-6 py-3 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        View Subscription Plans
+                    </a>
+                    <a href="javascript:history.back()" class="px-6 py-3 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50">
+                        Go Back
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

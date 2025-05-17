@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}EduMore360 Admin{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Custom table styles -->
+    <style>
+        .table-search {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .table-pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .table-pagination-info {
+            font-size: 0.9rem;
+        }
+
+        .table-pagination-controls {
+            display: flex;
+            gap: 5px;
+        }
+
+        .table-pagination-controls button {
+            padding: 5px 10px;
+            background-color: #f8f9fc;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .table-pagination-controls button:hover {
+            background-color: #eaecf4;
+        }
+
+        .table-pagination-controls button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+    </style>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --sidebar-width: 250px;
+            --topbar-height: 60px;
+            --primary-color: #4e73df;
+            --secondary-color: #224abe;
+            --success-color: #1cc88a;
+            --info-color: #36b9cc;
+            --warning-color: #f6c23e;
+            --danger-color: #e74a3b;
+            --light-color: #f8f9fc;
+            --dark-color: #5a5c69;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fc;
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: linear-gradient(180deg, #4e73df 10%, #224abe 100%);
+            color: white;
+            z-index: 100;
+            transition: all 0.3s;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 0;
+                overflow: hidden;
+            }
+
+            .sidebar.show {
+                width: var(--sidebar-width);
+            }
+
+            .content-wrapper {
+                margin-left: 0 !important;
+            }
+        }
+
+        .sidebar-brand {
+            height: var(--topbar-height);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .sidebar-brand a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .sidebar-divider {
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            margin: 1rem 0;
+        }
+
+        .sidebar-heading {
+            padding: 0 1rem;
+            font-weight: 800;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            color: white;
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link i {
+            margin-right: 0.5rem;
+            font-size: 0.85rem;
+            width: 1.5rem;
+            text-align: center;
+        }
+
+        .content-wrapper {
+            margin-left: var(--sidebar-width);
+            min-height: 100vh;
+            padding: 1.5rem;
+        }
+
+        .topbar {
+            height: var(--topbar-height);
+            background-color: white;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .topbar-divider {
+            width: 0;
+            border-right: 1px solid #e3e6f0;
+            height: calc(var(--topbar-height) - 2rem);
+            margin: auto 1rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+
+        .user-info img {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .card {
+            border: none;
+            border-radius: 0.35rem;
+            box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
+            padding: 0.75rem 1.25rem;
+            font-weight: 700;
+            color: #4e73df;
+        }
+
+        .card-body {
+            padding: 1.25rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+            border-color: var(--success-color);
+        }
+
+        .btn-info {
+            background-color: var(--info-color);
+            border-color: var(--info-color);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            border-color: var(--danger-color);
+        }
+
+        .text-primary {
+            color: var(--primary-color) !important;
+        }
+
+        .text-success {
+            color: var(--success-color) !important;
+        }
+
+        .text-info {
+            color: var(--info-color) !important;
+        }
+
+        .text-warning {
+            color: var(--warning-color) !important;
+        }
+
+        .text-danger {
+            color: var(--danger-color) !important;
+        }
+
+        .bg-primary {
+            background-color: var(--primary-color) !important;
+        }
+
+        .bg-success {
+            background-color: var(--success-color) !important;
+        }
+
+        .bg-info {
+            background-color: var(--info-color) !important;
+        }
+
+        .bg-warning {
+            background-color: var(--warning-color) !important;
+        }
+
+        .bg-danger {
+            background-color: var(--danger-color) !important;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <a href="{% url 'my_admin:dashboard' %}">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduMore360 Admin</span>
+            </a>
+        </div>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Core</div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}" href="{% url 'my_admin:dashboard' %}">
+                    <i class="fas fa-fw fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Management</div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if 'quiz' in request.path and 'import' not in request.path %}active{% endif %}" href="{% url 'my_admin:quiz_management' %}">
+                    <i class="fas fa-fw fa-question-circle"></i>
+                    <span>Quiz Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'import-questions' in request.path %}active{% endif %}" href="{% url 'my_admin:quiz_admin:import_questions' %}">
+                    <i class="fas fa-fw fa-file-import"></i>
+                    <span>Import Questions</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'users' in request.path %}active{% endif %}" href="{% url 'my_admin:user_management' %}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>User Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'curriculum' in request.path %}active{% endif %}" href="{% url 'my_admin:curriculum_management' %}">
+                    <i class="fas fa-fw fa-book"></i>
+                    <span>Curriculum Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'subscriptions' in request.path %}active{% endif %}" href="{% url 'my_admin:subscription_management' %}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Subscription Management</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'notes' in request.path %}active{% endif %}" href="{% url 'my_admin:notes_management' %}">
+                    <i class="fas fa-fw fa-file-alt"></i>
+                    <span>Notes Management</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">Settings</div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if 'settings/general' in request.path %}active{% endif %}" href="{% url 'my_admin:site_settings_general' %}">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>General Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'settings/email' in request.path %}active{% endif %}" href="{% url 'my_admin:site_settings_email' %}">
+                    <i class="fas fa-fw fa-envelope"></i>
+                    <span>Email Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'settings/quiz' in request.path %}active{% endif %}" href="{% url 'my_admin:site_settings_quiz' %}">
+                    <i class="fas fa-fw fa-question-circle"></i>
+                    <span>Quiz Settings</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'settings/payment' in request.path %}active{% endif %}" href="{% url 'my_admin:site_settings_payment' %}">
+                    <i class="fas fa-fw fa-credit-card"></i>
+                    <span>Payment Settings</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="sidebar-divider">
+
+        <div class="sidebar-heading">System</div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'admin:index' %}">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>Django Admin</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'core:dashboard' %}">
+                    <i class="fas fa-fw fa-home"></i>
+                    <span>Back to Site</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Content Wrapper -->
+    <div class="content-wrapper">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div class="d-flex align-items-center">
+                <button id="sidebarToggle" class="btn btn-link d-md-none me-3">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="h3 mb-0 text-gray-800">{% block page_title %}Dashboard{% endblock %}</h1>
+            </div>
+
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name={{ request.user.email }}&background=4e73df&color=fff" alt="User Avatar">
+                <div class="d-none d-sm-block">
+                    <div class="font-weight-bold">{{ request.user.email }}</div>
+                    <div class="small text-gray-500">Administrator</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // Sidebar toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarToggle = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('show');
+                });
+            }
+
+            // Close sidebar when clicking outside on mobile
+            document.addEventListener('click', function(event) {
+                if (window.innerWidth < 768 &&
+                    !sidebar.contains(event.target) &&
+                    !sidebarToggle.contains(event.target) &&
+                    sidebar.classList.contains('show')) {
+                    sidebar.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

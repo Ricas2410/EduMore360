@@ -1,0 +1,50 @@
+{% if subscription.status == 'active' %}
+    <button class="btn btn-outline" id="toggle-auto-renew" hx-post="{% url 'subscription:toggle_auto_renew' subscription.id %}" hx-swap="outerHTML">
+        {% if subscription.auto_renew %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Turn Off Auto-renew
+        {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            Turn On Auto-renew
+        {% endif %}
+    </button>
+    
+    <button class="btn btn-error" id="cancel-subscription" hx-post="{% url 'subscription:cancel_subscription' subscription.id %}" hx-confirm="Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your current billing period." hx-swap="outerHTML">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+        Cancel Subscription
+    </button>
+{% elif subscription.status == 'canceled' %}
+    <a href="{% url 'subscription:subscription_plans' %}" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Resubscribe
+    </a>
+{% elif subscription.status == 'past_due' %}
+    <a href="{% url 'subscription:payment' subscription.id %}" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+        Update Payment
+    </a>
+{% elif subscription.status == 'expired' %}
+    <a href="{% url 'subscription:subscription_plans' %}" class="btn btn-primary">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        Renew Subscription
+    </a>
+{% endif %}
+
+<a href="{% url 'subscription:subscription_plans' %}" class="btn btn-outline">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+    </svg>
+    Change Plan
+</a>

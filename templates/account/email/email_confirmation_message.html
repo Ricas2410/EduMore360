@@ -1,0 +1,128 @@
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% blocktrans with site_name=current_site.name %}Confirm Your Email - {{ site_name }}{% endblocktrans %}</title>
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f7fa;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(to right, #1e3a8a, #000000);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .button {
+            display: inline-block;
+            background-color: #ff4703;
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .button:hover {
+            background-color: #e03e00;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #eee;
+            color: #666;
+            font-size: 12px;
+        }
+        .social-links {
+            margin: 15px 0;
+        }
+        .social-link {
+            display: inline-block;
+            margin: 0 10px;
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .container {
+                width: 100%;
+                border-radius: 0;
+            }
+            .header {
+                border-radius: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">{% blocktrans with site_name=current_site.name %}{{ site_name }}{% endblocktrans %}</div>
+            <p>Education Made Accessible</p>
+        </div>
+
+        <div class="content">
+            <h2>{% blocktrans %}Welcome to EduMore360!{% endblocktrans %}</h2>
+
+            <p>{% blocktrans %}Dear User,{% endblocktrans %}</p>
+
+            <p>{% blocktrans with site_name=current_site.name %}Thank you for registering with {{ site_name }}, your comprehensive educational platform for interactive learning experiences.{% endblocktrans %}</p>
+
+            <p>{% blocktrans %}To complete your registration and verify your email address, please click the button below:{% endblocktrans %}</p>
+
+            <div style="text-align: center;">
+                <a href="{{ activate_url }}" class="button">{% blocktrans %}Confirm Email Address{% endblocktrans %}</a>
+            </div>
+
+            <p>{% blocktrans %}If the button above doesn't work, you can also copy and paste the following link into your browser:{% endblocktrans %}</p>
+
+            <p style="word-break: break-all; background-color: #f5f7fa; padding: 10px; border-radius: 4px; font-size: 14px;">
+                {{ activate_url }}
+            </p>
+
+            <p>{% blocktrans %}This link will expire in 24 hours for security reasons.{% endblocktrans %}</p>
+
+            <p>{% blocktrans %}If you did not create an account with EduMore360, please disregard this email.{% endblocktrans %}</p>
+
+            <p>{% blocktrans %}Best regards,<br>The EduMore360 Team<br><a href="mailto:support@edumore360.com">support@edumore360.com</a>{% endblocktrans %}</p>
+        </div>
+
+        <div class="footer">
+            <p>{% blocktrans with site_domain=current_site.domain %}{{ site_domain }}{% endblocktrans %}</p>
+            <div class="social-links">
+                <a href="https://facebook.com/edumore360" class="social-link">Facebook</a>
+                <a href="https://twitter.com/edumore360" class="social-link">Twitter</a>
+                <a href="https://instagram.com/edumore360" class="social-link">Instagram</a>
+            </div>
+            <p>{% blocktrans %}© {% now "Y" %} EduMore360. All rights reserved.{% endblocktrans %}</p>
+        </div>
+    </div>
+</body>
+</html>
+{% endautoescape %}

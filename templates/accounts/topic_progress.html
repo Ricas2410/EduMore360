@@ -1,0 +1,226 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ topic.name }} Progress - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="max-w-5xl mx-auto">
+        <!-- Header with Breadcrumbs -->
+        <div class="mb-8">
+            <div class="text-sm breadcrumbs mb-2">
+                <ul>
+                    <li><a href="{% url 'accounts:progress_overview' %}" class="text-blue-600 hover:text-blue-800">Progress Overview</a></li>
+                    <li><a href="{% url 'accounts:subject_progress' topic.subject.slug %}" class="text-blue-600 hover:text-blue-800">{{ topic.subject.name }}</a></li>
+                    <li class="text-gray-600">{{ topic.name }}</li>
+                </ul>
+            </div>
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ topic.name }}</h1>
+            <p class="text-gray-600">{{ topic.subject.name }} - {{ topic.subject.class_level.name }}</p>
+        </div>
+
+        <!-- Progress Summary Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <!-- Overall Progress -->
+            <div class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800 text-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold">Completion</h3>
+                    <span class="material-icons text-2xl">insights</span>
+                </div>
+
+                {% if topic_progress %}
+                    <div class="text-4xl font-bold mb-2">{{ topic_progress.completion_percentage }}%</div>
+                    <p class="text-sm text-blue-100">Topic completion</p>
+                {% else %}
+                    <div class="text-4xl font-bold mb-2">0%</div>
+                    <p class="text-sm text-blue-100">No progress recorded yet</p>
+                {% endif %}
+            </div>
+
+            <!-- Notes Viewed -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Notes Viewed</h3>
+                    <span class="material-icons text-blue-600 text-2xl">menu_book</span>
+                </div>
+
+                {% if notes_viewed %}
+                    <div class="text-3xl font-bold text-gray-900 mb-2">{{ notes_viewed|length }}</div>
+                    <p class="text-sm text-gray-500">Out of {{ topic.notes.count }} notes</p>
+                {% else %}
+                    <div class="text-gray-700">No notes viewed yet</div>
+                {% endif %}
+            </div>
+
+            <!-- Quiz Performance -->
+            <div class="bg-white rounded-xl shadow-lg p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="text-lg font-semibold text-gray-800">Quiz Performance</h3>
+                    <span class="material-icons text-blue-600 text-2xl">quiz</span>
+                </div>
+
+                {% if quiz_attempts %}
+                    {% with quiz_count=quiz_attempts|length %}
+                        {% with completed_quizzes=quiz_attempts|dictsortreversed:"score"|first %}
+                            <div class="text-3xl font-bold text-gray-900 mb-2">{{ completed_quizzes.score }}%</div>
+                            <p class="text-sm text-gray-500">Best score from {{ quiz_count }} quiz{% if quiz_count > 1 %}zes{% endif %}</p>
+                        {% endwith %}
+                    {% endwith %}
+                {% else %}
+                    <div class="text-gray-700">No quizzes taken yet</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Subtopic Progress -->
+        {% if subtopic_progress %}
+            <div class="bg-white rounded-xl shadow-lg p-6 mb-10">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Subtopic Progress</h2>
+                    <div class="text-sm text-gray-500">{{ subtopic_progress|length }} subtopic{% with count=subtopic_progress|length %}{% if count > 1 %}s{% endif %}{% endwith %}</div>
+                </div>
+
+                <div class="space-y-6">
+                    {% for progress in subtopic_progress %}
+                        <div class="border-b border-gray-100 pb-6 last:border-b-0 last:pb-0">
+                            <div class="flex flex-col md:flex-row md:items-center justify-between mb-2">
+                                <div class="flex items-center">
+                                    <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                        <span class="material-icons text-blue-600">article</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-800">{{ progress.subtopic.title }}</h3>
+                                        <p class="text-sm text-gray-500">{{ progress.notes_viewed }} note{% with count=progress.notes_viewed %}{% if count > 1 %}s{% endif %}{% endwith %} viewed</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-3">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-gray-600">Progress</span>
+                                    <span class="font-medium">{{ progress.completion_percentage }}%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: {{ progress.completion_percentage }}%"></div>
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">Last activity: {{ progress.last_activity|date:"F j, Y" }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Notes Viewed -->
+        <div class="bg-white rounded-xl shadow-lg p-6 mb-10">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Notes Viewed</h2>
+                <a href="{% url 'curriculum:topic_detail' topic.subject.curriculum.code topic.subject.class_level.id topic.subject.slug topic.slug %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">View Topic</a>
+            </div>
+
+            {% if notes_viewed %}
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for note in notes_viewed %}
+                        <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div class="flex items-start">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3 mt-1">
+                                    <span class="material-icons text-blue-600 text-sm">description</span>
+                                </div>
+                                <div>
+                                    <h3 class="font-medium text-gray-800">{{ note.title }}</h3>
+                                    <p class="text-sm text-gray-500 mt-1">Last viewed: {{ note.last_viewed_at|date:"F j, Y" }}</p>
+                                    <a href="{% url 'curriculum:note_detail' note.id %}" class="text-blue-600 hover:text-blue-800 text-sm mt-2 inline-block">View Note</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons text-blue-600 text-2xl">description</span>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">No Notes Viewed Yet</h3>
+                    <p class="text-gray-600 mb-4">Start reading notes in this topic to track your progress.</p>
+                    <a href="{% url 'curriculum:topic_detail' topic.subject.curriculum.code topic.subject.class_level.id topic.subject.slug topic.slug %}" class="btn btn-primary">View Notes</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Quiz Attempts -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-800">Quiz Attempts</h2>
+                <a href="{% url 'quiz:quiz_home' %}?topic={{ topic.slug }}" class="text-blue-600 hover:text-blue-800 text-sm font-medium">Take a Quiz</a>
+            </div>
+
+            {% if quiz_attempts %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-3 text-sm font-medium text-gray-500">Quiz</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-500">Date</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-500">Score</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-500">Status</th>
+                                <th class="px-4 py-3 text-sm font-medium text-gray-500"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200">
+                            {% for attempt in quiz_attempts %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-4 py-3">
+                                        <div class="font-medium text-gray-900">{{ attempt.quiz.title }}</div>
+                                        <div class="text-sm text-gray-500">{{ attempt.quiz.difficulty_display }}</div>
+                                    </td>
+                                    <td class="px-4 py-3 text-sm text-gray-500">{{ attempt.started_at|date:"M d, Y" }}</td>
+                                    <td class="px-4 py-3">
+                                        {% if attempt.status == 'completed' %}
+                                            <div class="font-medium
+                                                {% if attempt.score >= 80 %}text-green-600
+                                                {% elif attempt.score >= 60 %}text-yellow-600
+                                                {% else %}text-red-600{% endif %}">
+                                                {{ attempt.score }}%
+                                            </div>
+                                        {% else %}
+                                            <span class="text-sm text-gray-500">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <span class="px-2 py-1 text-xs rounded-full
+                                            {% if attempt.status == 'completed' %}bg-green-100 text-green-800
+                                            {% elif attempt.status == 'in_progress' %}bg-blue-100 text-blue-800
+                                            {% else %}bg-gray-100 text-gray-800{% endif %}">
+                                            {{ attempt.get_status_display }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <a href="{% url 'quiz:quiz_result' attempt.id %}" class="text-blue-600 hover:text-blue-800 text-sm">
+                                            {% if attempt.status == 'completed' %}
+                                                View Results
+                                            {% elif attempt.status == 'in_progress' %}
+                                                Continue
+                                            {% else %}
+                                                View
+                                            {% endif %}
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="text-center py-8">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="material-icons text-blue-600 text-2xl">quiz</span>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-800 mb-2">No Quizzes Taken Yet</h3>
+                    <p class="text-gray-600 mb-4">Take quizzes to test your knowledge in this topic.</p>
+                    <a href="{% url 'quiz:quiz_home' %}?topic={{ topic.slug }}" class="btn btn-primary">Take a Quiz</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

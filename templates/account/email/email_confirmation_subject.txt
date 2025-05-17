@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}EduMore360 - Please Confirm Your Email Address{% endblocktrans %}
+{% endautoescape %}

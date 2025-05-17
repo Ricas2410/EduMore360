@@ -1,0 +1,325 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load quiz_filters %}
+
+{% block title %}{{ subject.name }} Quizzes{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <!-- Header Section with Gradient Background -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-6 mb-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+            <div class="flex items-center mb-4 md:mb-0">
+                <a href="{% url 'quiz:quiz_home' %}" class="inline-flex items-center justify-center w-8 h-8 bg-white text-blue-800 hover:bg-blue-100 rounded-full mr-3">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
+                <div>
+                    <h1 class="text-2xl md:text-3xl font-bold">{{ subject.name }}</h1>
+                    <p class="text-blue-200 mt-1">{{ curriculum.name }} | {{ class_level.name }}</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <a href="{% url 'quiz:quiz_topic_list' curriculum.code class_level.id subject.slug %}"
+                   class="inline-flex items-center px-4 py-2 bg-white text-blue-800 hover:bg-blue-100 font-medium rounded-lg transition-colors">
+                    <i class="fas fa-list-ul mr-2"></i>
+                    Browse by Topic
+                </a>
+                <a href="{% url 'quiz:practice_exam_setup' curriculum.code class_level.id subject.slug %}"
+                   class="inline-flex items-center px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                    <i class="fas fa-graduation-cap mr-2"></i>
+                    Practice Exam
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Controls - Card Style -->
+    <div class="bg-white border border-gray-200 rounded-xl shadow-md p-5 mb-8">
+        <div class="flex items-center mb-4">
+            <i class="fas fa-filter text-blue-600 mr-2"></i>
+            <h2 class="text-xl font-bold text-gray-800">Filter Quizzes</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+                <label class="flex items-center text-gray-700 font-medium mb-2">
+                    <i class="fas fa-bookmark text-blue-600 mr-2"></i>
+                    Topic
+                </label>
+                <select id="topic-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                    <option value="all">All Topics</option>
+                    {% for topic in topics %}
+                    <option value="topic-{{ topic.id }}">{{ topic.name }}</option>
+                    {% endfor %}
+                    <option value="general-quiz">General Quizzes</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="flex items-center text-gray-700 font-medium mb-2">
+                    <i class="fas fa-check-circle text-blue-600 mr-2"></i>
+                    Status
+                </label>
+                <select id="status-filter" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                    <option value="all">All Quizzes</option>
+                    <option value="completed">Completed</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="not-started">Not Started</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="flex items-center text-gray-700 font-medium mb-2">
+                    <i class="fas fa-sort text-blue-600 mr-2"></i>
+                    Sort By
+                </label>
+                <select id="sort-by" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white">
+                    <option value="newest">Newest First</option>
+                    <option value="oldest">Oldest First</option>
+                    <option value="title-asc">Title (A-Z)</option>
+                    <option value="title-desc">Title (Z-A)</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="flex justify-end mt-4">
+            <button id="reset-filters" onclick="resetFilters()" class="inline-flex items-center px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-sm font-medium rounded-lg transition-colors">
+                <i class="fas fa-undo mr-1"></i>
+                Reset Filters
+            </button>
+        </div>
+    </div>
+
+    <!-- Quiz List - Card Grid for larger screens, List for mobile -->
+    {% if quizzes %}
+    <div id="quizzes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for quiz in quizzes %}
+        <div class="bg-white border border-gray-200 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden quiz-card {% if quiz.topic %}topic-{{ quiz.topic.id }}{% else %}general-quiz{% endif %} {% if quiz.id in completed_quizzes %}completed{% elif quiz.id in in_progress_quizzes %}in-progress{% else %}not-started{% endif %}">
+            <!-- Card Header -->
+            <div class="h-2 {% if quiz.id in in_progress_quizzes %}bg-yellow-500{% else %}bg-gradient-to-r from-blue-600 to-blue-800{% endif %}"></div>
+
+            <div class="p-5">
+                <div class="flex justify-between items-start mb-3">
+                    <h2 class="text-lg font-bold text-gray-800">{{ quiz.title }}</h2>
+                    <div class="badge bg-blue-100 text-blue-800 font-medium text-xs px-2 py-1 rounded-full">
+                        {{ quiz.get_quiz_type_display }}
+                    </div>
+                </div>
+
+                {% if quiz.id in completed_quizzes %}
+                <div class="flex items-center p-2 bg-blue-50 rounded-lg border border-blue-200 mb-3">
+                    <i class="fas fa-trophy text-blue-500 mr-2"></i>
+                    <span class="text-blue-700 font-medium text-sm">Best Score: {{ quiz.highest_score|default:"N/A" }}% ({{ quiz.attempt_count }} attempt{{ quiz.attempt_count|pluralize }})</span>
+                </div>
+                {% elif quiz.id in in_progress_quizzes %}
+                <div class="flex items-center p-2 bg-yellow-50 rounded-lg border border-yellow-200 mb-3">
+                    <i class="fas fa-hourglass-half text-yellow-500 mr-2"></i>
+                    <span class="text-yellow-700 font-medium text-sm">In Progress</span>
+                </div>
+                {% endif %}
+
+                <p class="text-gray-600 mb-4 line-clamp-2">{{ quiz.description }}</p>
+
+                {% if quiz.topic %}
+                <div class="mb-3">
+                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                        <i class="fas fa-bookmark mr-1"></i> {{ quiz.topic.name }}
+                    </span>
+                </div>
+                {% endif %}
+
+                <div class="flex justify-between text-sm text-gray-600 mb-4 bg-gray-50 p-3 rounded-lg">
+                    <span class="flex items-center">
+                        <i class="fas fa-question-circle text-blue-600 mr-2"></i>
+                        {{ quiz.question_count }} Questions
+                    </span>
+                    <span class="flex items-center">
+                        <i class="fas fa-clock text-blue-600 mr-2"></i>
+                        {{ quiz.time_limit }} Minutes
+                    </span>
+                </div>
+
+                <div class="flex justify-end gap-2">
+                    {% if quiz.id in in_progress_quizzes %}
+                        <a href="{% url 'quiz:resume_quiz' quiz_attempt_id=in_progress_quizzes|get_item:quiz.id %}"
+                           class="inline-flex items-center px-3 py-1.5 bg-yellow-500 hover:bg-yellow-600 text-white text-sm font-medium rounded-lg transition-colors">
+                            <i class="fas fa-play-circle mr-1"></i>
+                            Continue
+                        </a>
+                    {% endif %}
+
+                    {% if quiz.id in completed_quizzes %}
+                        <a href="{% url 'quiz:quiz_results' quiz_attempt_id=completed_quizzes|get_item:quiz.id %}"
+                           class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 hover:bg-blue-50 text-sm font-medium rounded-lg transition-colors">
+                            <i class="fas fa-chart-bar mr-1"></i>
+                            View Results
+                        </a>
+                    {% endif %}
+
+                    <a href="{% url 'quiz:take_quiz' quiz_id=quiz.id %}"
+                       class="inline-flex items-center px-3 py-1.5 bg-[#ff4703] hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition-colors">
+                        <i class="fas fa-play-circle mr-1"></i>
+                        Take Quiz
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Results Message (hidden by default) -->
+    <div id="no-results" class="text-center py-12 hidden">
+        <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-md max-w-2xl mx-auto">
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-search text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3">No Quizzes Found</h3>
+            <p class="text-gray-600 mb-6 max-w-md mx-auto">No quizzes match your filter criteria. Try adjusting your filters or check back later.</p>
+            <button onclick="resetFilters()" class="inline-flex items-center px-5 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                <i class="fas fa-redo-alt mr-2"></i>
+                Reset Filters
+            </button>
+            <a href="{% url 'quiz:quiz_home' %}" class="inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors ml-4">
+                <i class="fas fa-home mr-2"></i>
+                Back to Quiz Home
+            </a>
+        </div>
+    </div>
+    {% else %}
+    <div class="text-center py-12">
+        <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-md max-w-2xl mx-auto">
+            <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <i class="fas fa-info-circle text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-gray-800 mb-3">No Quizzes Available</h3>
+            <p class="text-gray-600 mb-6 max-w-md mx-auto">There are no quizzes available for this subject yet. Please check back later or explore other subjects.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="{% url 'quiz:quiz_home' %}" class="inline-flex items-center px-5 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                    <i class="fas fa-home mr-2"></i>
+                    Back to Quiz Home
+                </a>
+                <a href="{% url 'quiz:quiz_topic_list' curriculum.code class_level.id subject.slug %}" class="inline-flex items-center px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+                    <i class="fas fa-list-ul mr-2"></i>
+                    Browse by Topic
+                </a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    /* Line clamp utilities */
+    .line-clamp-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const topicFilter = document.getElementById('topic-filter');
+        const statusFilter = document.getElementById('status-filter');
+        const sortBy = document.getElementById('sort-by');
+        const quizzesContainer = document.getElementById('quizzes-container');
+        const noResults = document.getElementById('no-results');
+        const quizCards = document.querySelectorAll('.quiz-card');
+
+        // Filter function
+        function filterAndSortQuizzes() {
+            const selectedTopic = topicFilter.value;
+            const selectedStatus = statusFilter.value;
+            const selectedSort = sortBy.value;
+
+            // Filter cards
+            let visibleCount = 0;
+
+            quizCards.forEach(card => {
+                // Topic filter
+                let topicMatch = selectedTopic === 'all';
+                if (selectedTopic !== 'all') {
+                    topicMatch = card.classList.contains(selectedTopic);
+                }
+
+                // Status filter
+                let statusMatch = selectedStatus === 'all';
+                if (selectedStatus !== 'all') {
+                    statusMatch = card.classList.contains(selectedStatus);
+                }
+
+                // Show/hide based on filters
+                if (topicMatch && statusMatch) {
+                    card.style.display = '';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Show/hide no results message
+            if (visibleCount === 0) {
+                noResults.classList.remove('hidden');
+                quizzesContainer.classList.add('hidden');
+            } else {
+                noResults.classList.add('hidden');
+                quizzesContainer.classList.remove('hidden');
+            }
+
+            // Sort cards
+            const cardsArray = Array.from(quizCards).filter(card => card.style.display !== 'none');
+
+            cardsArray.sort((a, b) => {
+                if (selectedSort === 'newest') {
+                    // Default order is already newest first
+                    return 0;
+                } else if (selectedSort === 'oldest') {
+                    // Reverse the default order
+                    return -1;
+                } else if (selectedSort === 'title-asc') {
+                    const titleA = a.querySelector('h2') ? a.querySelector('h2').textContent.trim() : '';
+                    const titleB = b.querySelector('h2') ? b.querySelector('h2').textContent.trim() : '';
+                    return titleA.localeCompare(titleB);
+                } else if (selectedSort === 'title-desc') {
+                    const titleA = a.querySelector('h2') ? a.querySelector('h2').textContent.trim() : '';
+                    const titleB = b.querySelector('h2') ? b.querySelector('h2').textContent.trim() : '';
+                    return titleB.localeCompare(titleA);
+                }
+                return 0;
+            });
+
+            // Reorder the DOM
+            cardsArray.forEach(card => {
+                quizzesContainer.appendChild(card);
+            });
+        }
+
+        // Reset filters function
+        window.resetFilters = function() {
+            topicFilter.value = 'all';
+            statusFilter.value = 'all';
+            sortBy.value = 'newest';
+            filterAndSortQuizzes();
+        };
+
+        // Add event listeners
+        topicFilter.addEventListener('change', filterAndSortQuizzes);
+        statusFilter.addEventListener('change', filterAndSortQuizzes);
+        sortBy.addEventListener('change', filterAndSortQuizzes);
+
+        // Initialize with animation
+        quizCards.forEach((card, index) => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                card.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            }, 50 * index);
+        });
+    });
+</script>
+{% endblock %}

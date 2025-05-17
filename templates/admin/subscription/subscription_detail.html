@@ -1,0 +1,462 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+    .detail-container {
+        padding: 20px;
+    }
+    .detail-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    .detail-title {
+        font-size: 24px;
+        font-weight: bold;
+    }
+    .detail-actions {
+        display: flex;
+        gap: 10px;
+    }
+    .card {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 30px;
+    }
+    .card-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        color: #333;
+        display: flex;
+        align-items: center;
+    }
+    .card-title i {
+        margin-right: 10px;
+        color: #79aec8;
+    }
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+    }
+    .info-item {
+        margin-bottom: 15px;
+    }
+    .info-label {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 5px;
+    }
+    .info-value {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+    }
+    .status-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .status-active {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+    }
+    .status-canceled {
+        background-color: #ffebee;
+        color: #c62828;
+    }
+    .status-expired {
+        background-color: #fff8e1;
+        color: #ff8f00;
+    }
+    .status-past_due {
+        background-color: #fff3e0;
+        color: #ef6c00;
+    }
+    .dashboard-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .dashboard-table th {
+        text-align: left;
+        padding: 12px 15px;
+        background-color: #f8f8f8;
+        border-bottom: 1px solid #ddd;
+    }
+    .dashboard-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid #eee;
+    }
+    .dashboard-table tr:hover {
+        background-color: #f5f5f5;
+    }
+    .btn {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 4px;
+        font-weight: bold;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn-primary {
+        background-color: #79aec8;
+        color: white;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #5c99b7;
+    }
+    .btn-secondary {
+        background-color: #f8f9fa;
+        color: #333;
+        border: 1px solid #ddd;
+    }
+    .btn-secondary:hover {
+        background-color: #e9ecef;
+    }
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+    }
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
+    .btn-success {
+        background-color: #28a745;
+        color: white;
+        border: none;
+    }
+    .btn-success:hover {
+        background-color: #218838;
+    }
+    .btn-warning {
+        background-color: #ffc107;
+        color: #212529;
+        border: none;
+    }
+    .btn-warning:hover {
+        background-color: #e0a800;
+    }
+    .action-form {
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid #eee;
+    }
+    .action-form-title {
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input,
+    .form-group select {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-actions {
+        display: flex;
+        gap: 10px;
+    }
+    .grid-2 {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 20px;
+    }
+    @media (max-width: 768px) {
+        .grid-2 {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="detail-container">
+    <div class="detail-header">
+        <div class="detail-title">
+            Subscription #{{ subscription.id }}
+        </div>
+        <div class="detail-actions">
+            <a href="{% url 'subscription:admin_subscription_list' %}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+            <a href="{% url 'subscription:admin_subscription_dashboard' %}" class="btn btn-secondary">
+                <i class="fas fa-chart-bar"></i> Dashboard
+            </a>
+        </div>
+    </div>
+
+    <div class="grid-2">
+        <div>
+            <!-- Subscription Details -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-info-circle"></i> Subscription Details
+                </div>
+
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Status</div>
+                        <div class="info-value">
+                            <span class="status-badge status-{{ subscription.status }}">
+                                {{ subscription.get_status_display }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Plan</div>
+                        <div class="info-value">{{ subscription.plan.name }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Plan Type</div>
+                        <div class="info-value">{{ subscription.plan.get_plan_type_display }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Billing Cycle</div>
+                        <div class="info-value">{{ subscription.plan.get_billing_cycle_display }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Price</div>
+                        <div class="info-value">${{ subscription.plan.price }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Start Date</div>
+                        <div class="info-value">{{ subscription.start_date|date:"F d, Y H:i" }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">End Date</div>
+                        <div class="info-value">{{ subscription.end_date|date:"F d, Y H:i" }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Days Remaining</div>
+                        <div class="info-value">{{ subscription.days_remaining }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Auto Renew</div>
+                        <div class="info-value">{{ subscription.auto_renew|yesno:"Yes,No" }}</div>
+                    </div>
+
+                    {% if subscription.canceled_at %}
+                    <div class="info-item">
+                        <div class="info-label">Canceled At</div>
+                        <div class="info-value">{{ subscription.canceled_at|date:"F d, Y H:i" }}</div>
+                    </div>
+                    {% endif %}
+
+                    <div class="info-item">
+                        <div class="info-label">Created At</div>
+                        <div class="info-value">{{ subscription.created_at|date:"F d, Y H:i" }}</div>
+                    </div>
+
+                    <div class="info-item">
+                        <div class="info-label">Updated At</div>
+                        <div class="info-value">{{ subscription.updated_at|date:"F d, Y H:i" }}</div>
+                    </div>
+                </div>
+
+                <!-- Subscription Actions -->
+                <div class="action-form">
+                    <div class="action-form-title">Subscription Actions</div>
+
+                    <div class="form-actions">
+                        {% if subscription.status == 'active' %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="cancel">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to cancel this subscription?');">
+                                <i class="fas fa-times-circle"></i> Cancel Subscription
+                            </button>
+                        </form>
+                        {% elif subscription.status == 'canceled' or subscription.status == 'expired' %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="activate">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check-circle"></i> Activate Subscription
+                            </button>
+                        </form>
+                        {% endif %}
+                    </div>
+
+                    <div class="action-form" style="border-top: none;">
+                        <div class="action-form-title">Extend Subscription</div>
+                        <form method="post" class="form-group">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="extend">
+                            <div class="form-group">
+                                <label for="days">Number of Days</label>
+                                <input type="number" id="days" name="days" min="1" value="30">
+                            </div>
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-calendar-plus"></i> Extend Subscription
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment History -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-credit-card"></i> Payment History
+                </div>
+
+                <table class="dashboard-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Transaction ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for payment in payments %}
+                        <tr>
+                            <td>{{ payment.id }}</td>
+                            <td>{{ payment.payment_date|date:"M d, Y H:i" }}</td>
+                            <td>${{ payment.amount }}</td>
+                            <td>{{ payment.payment_method }}</td>
+                            <td>
+                                <span class="status-badge status-{{ payment.status }}">
+                                    {{ payment.get_status_display }}
+                                </span>
+                            </td>
+                            <td>{{ payment.transaction_id }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 30px;">
+                                No payments found for this subscription.
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div>
+            <!-- User Details -->
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-user"></i> User Details
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Name</div>
+                    <div class="info-value">{{ subscription.user.get_full_name }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">{{ subscription.user.email }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Phone</div>
+                    <div class="info-value">
+                        {% if subscription.user.phone_number %}
+                        {{ subscription.user.phone_number }}
+                        {% else %}
+                        <span style="color: #999;">Not provided</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Premium Status</div>
+                    <div class="info-value">
+                        {% if subscription.user.is_premium %}
+                        <span style="color: #2e7d32;">Premium</span>
+                        {% else %}
+                        <span style="color: #c62828;">Not Premium</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Joined</div>
+                    <div class="info-value">{{ subscription.user.date_joined|date:"F d, Y" }}</div>
+                </div>
+
+                <div class="action-form">
+                    <a href="{% url 'admin:accounts_user_change' subscription.user.id %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Edit User
+                    </a>
+                </div>
+            </div>
+
+            <!-- Group Details (if applicable) -->
+            {% if subscription.is_group_admin and subscription.group %}
+            <div class="card">
+                <div class="card-title">
+                    <i class="fas fa-users"></i> Group Details
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Group Name</div>
+                    <div class="info-value">{{ subscription.group.name }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Group Type</div>
+                    <div class="info-value">{{ subscription.group.get_group_type_display }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Member Count</div>
+                    <div class="info-value">{{ subscription.group.member_count }}</div>
+                </div>
+
+                <div class="info-item">
+                    <div class="info-label">Max Members</div>
+                    <div class="info-value">
+                        {% if subscription.group.max_members %}
+                        {{ subscription.group.max_members }}
+                        {% else %}
+                        Unlimited
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="action-form">
+                    <a href="{% url 'admin:accounts_usergroup_change' subscription.group.id %}" class="btn btn-primary">
+                        <i class="fas fa-edit"></i> Manage Group
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

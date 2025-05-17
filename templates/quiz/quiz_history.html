@@ -1,0 +1,288 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Quiz History - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Quiz History</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Track your progress and review your quiz performance.</p>
+        </div>
+    </div>
+
+    <!-- Quiz Statistics -->
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-12">
+        <!-- Section Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+            <h2 class="text-xl font-bold flex items-center">
+                <i class="fas fa-chart-bar mr-2"></i>
+                Your Quiz Statistics
+            </h2>
+        </div>
+
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-blue-50 border border-blue-100 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-clipboard-list text-blue-600 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-blue-700 mb-1">{{ quiz_attempts|length }}</div>
+                    <div class="text-gray-600">Total Quizzes</div>
+                </div>
+
+                <div class="bg-green-50 border border-green-100 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-green-700 mb-1">{{ completed_quizzes|length }}</div>
+                    <div class="text-gray-600">Completed</div>
+                </div>
+
+                <div class="bg-yellow-50 border border-yellow-100 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-hourglass-half text-yellow-600 text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-yellow-700 mb-1">{{ in_progress_quizzes|length }}</div>
+                    <div class="text-gray-600">In Progress</div>
+                </div>
+
+                <div class="bg-orange-50 border border-orange-100 p-6 rounded-xl text-center">
+                    <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                        <i class="fas fa-percentage text-[#ff4703] text-xl"></i>
+                    </div>
+                    <div class="text-3xl font-bold text-[#ff4703] mb-1">{{ avg_score }}%</div>
+                    <div class="text-gray-600">Average Score</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Filters -->
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-12">
+        <!-- Section Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+            <h2 class="text-xl font-bold flex items-center">
+                <i class="fas fa-filter mr-2"></i>
+                Filter Quizzes
+            </h2>
+        </div>
+
+        <div class="p-6">
+            <form method="GET" action="{% url 'quiz:quiz_history' %}" class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="form-control">
+                    <label class="block text-gray-700 font-medium mb-2" for="subject">
+                        <i class="fas fa-book mr-2 text-blue-600"></i>
+                        Subject
+                    </label>
+                    <select name="subject" id="subject"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Subjects</option>
+                        {% for subject in subjects %}
+                            <option value="{{ subject.slug }}" {% if selected_subject == subject.slug %}selected{% endif %}>{{ subject.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-control">
+                    <label class="block text-gray-700 font-medium mb-2" for="status">
+                        <i class="fas fa-tasks mr-2 text-blue-600"></i>
+                        Status
+                    </label>
+                    <select name="status" id="status"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">All Statuses</option>
+                        <option value="completed" {% if selected_status == 'completed' %}selected{% endif %}>Completed</option>
+                        <option value="in_progress" {% if selected_status == 'in_progress' %}selected{% endif %}>In Progress</option>
+                        <option value="timed_out" {% if selected_status == 'timed_out' %}selected{% endif %}>Timed Out</option>
+                    </select>
+                </div>
+
+                <div class="form-control">
+                    <label class="block text-gray-700 font-medium mb-2" for="date_from">
+                        <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                        From Date
+                    </label>
+                    <input type="date" name="date_from" id="date_from"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           value="{{ date_from|date:'Y-m-d' }}">
+                </div>
+
+                <div class="form-control">
+                    <label class="block text-gray-700 font-medium mb-2" for="date_to">
+                        <i class="fas fa-calendar-alt mr-2 text-blue-600"></i>
+                        To Date
+                    </label>
+                    <input type="date" name="date_to" id="date_to"
+                           class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           value="{{ date_to|date:'Y-m-d' }}">
+                </div>
+
+                <div class="md:col-span-4 flex justify-end mt-4">
+                    <button type="submit" class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors flex items-center">
+                        <i class="fas fa-filter mr-2"></i>
+                        Apply Filters
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Quiz List -->
+    <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+        <!-- Section Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+            <h2 class="text-xl font-bold flex items-center">
+                <i class="fas fa-history mr-2"></i>
+                Quiz Attempts
+            </h2>
+        </div>
+
+        <div class="p-6">
+            {% if quiz_attempts %}
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quiz</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            {% for attempt in quiz_attempts %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">{{ attempt.quiz.title }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-700">{{ attempt.quiz.subject.name }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-700">{{ attempt.started_at|date:"M d, Y" }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if attempt.status == 'completed' %}
+                                            <div class="text-sm font-medium {% if attempt.is_passed %}text-green-600{% else %}text-red-600{% endif %}">
+                                                {{ attempt.score_percentage }}%
+                                            </div>
+                                        {% else %}
+                                            <div class="text-sm text-gray-500">-</div>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if attempt.status == 'completed' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Completed
+                                            </span>
+                                        {% elif attempt.status == 'in_progress' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                In Progress
+                                            </span>
+                                        {% elif attempt.status == 'timed_out' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                Timed Out
+                                            </span>
+                                        {% else %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                                                {{ attempt.get_status_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <div class="flex space-x-2">
+                                            {% if attempt.status == 'completed' or attempt.status == 'timed_out' %}
+                                                <a href="{% url 'quiz:quiz_results' attempt.id %}"
+                                                   class="inline-flex items-center px-3 py-1.5 border border-blue-600 text-blue-600 rounded-md hover:bg-blue-50 transition-colors">
+                                                    <i class="fas fa-chart-bar mr-1"></i>
+                                                    Results
+                                                </a>
+                                            {% elif attempt.status == 'in_progress' %}
+                                                <a href="{% url 'quiz:resume_quiz' attempt.id %}"
+                                                   class="inline-flex items-center px-3 py-1.5 bg-[#ff4703] text-white rounded-md hover:bg-orange-600 transition-colors">
+                                                    <i class="fas fa-redo-alt mr-1"></i>
+                                                    Resume
+                                                </a>
+                                            {% endif %}
+
+                                            <a href="{% url 'quiz:take_quiz' attempt.quiz.id %}"
+                                               class="inline-flex items-center px-3 py-1.5 border border-gray-300 text-gray-700 rounded-md hover:bg-gray-50 transition-colors">
+                                                <i class="fas fa-sync-alt mr-1"></i>
+                                                Retry
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                {% if quiz_attempts.has_other_pages %}
+                    <div class="flex justify-center mt-10">
+                        <div class="inline-flex rounded-md shadow-sm">
+                            {% if quiz_attempts.has_previous %}
+                                <a href="?page={{ quiz_attempts.previous_page_number }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+                                   class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200 rounded-l-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+                                    <i class="fas fa-chevron-left"></i>
+                                </a>
+                            {% else %}
+                                <button disabled
+                                        class="px-4 py-2 text-sm font-medium text-gray-400 bg-white border border-gray-200 rounded-l-lg cursor-not-allowed">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                            {% endif %}
+
+                            {% for i in quiz_attempts.paginator.page_range %}
+                                {% if quiz_attempts.number == i %}
+                                    <button class="px-4 py-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:z-10 focus:ring-2 focus:ring-blue-700">
+                                        {{ i }}
+                                    </button>
+                                {% else %}
+                                    <a href="?page={{ i }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+                                       class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+                                        {{ i }}
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+
+                            {% if quiz_attempts.has_next %}
+                                <a href="?page={{ quiz_attempts.next_page_number }}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.date_from %}&date_from={{ request.GET.date_from }}{% endif %}{% if request.GET.date_to %}&date_to={{ request.GET.date_to }}{% endif %}"
+                                   class="px-4 py-2 text-sm font-medium text-blue-700 bg-white border border-gray-200 rounded-r-lg hover:bg-gray-100 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700">
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            {% else %}
+                                <button disabled
+                                        class="px-4 py-2 text-sm font-medium text-gray-400 bg-white border border-gray-200 rounded-r-lg cursor-not-allowed">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="text-center py-12">
+                    <div class="bg-white border border-gray-200 rounded-xl p-8 shadow-md max-w-2xl mx-auto">
+                        <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <i class="fas fa-clipboard-list text-blue-600 text-3xl"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-800 mb-3">No Quiz Attempts Found</h3>
+                        <p class="text-gray-600 mb-6 max-w-md mx-auto">You haven't taken any quizzes yet, or no quizzes match your filter criteria.</p>
+                        <a href="{% url 'quiz:quiz_home' %}"
+                           class="inline-flex items-center px-5 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                            <i class="fas fa-play-circle mr-2"></i>
+                            Take a Quiz
+                        </a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

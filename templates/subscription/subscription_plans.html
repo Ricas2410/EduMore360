@@ -1,0 +1,498 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% load subscription_extras %}
+
+{% block title %}Subscription Plans - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="text-center mb-16">
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white py-10 px-6 rounded-2xl shadow-lg mb-8">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Choose Your Perfect Plan</h1>
+            <p class="text-xl text-gray-200 max-w-3xl mx-auto">Unlock premium educational content and features to accelerate your learning journey</p>
+        </div>
+
+        <p class="text-lg text-gray-600 max-w-3xl mx-auto">Join thousands of students who have improved their academic performance with our comprehensive learning platform.</p>
+    </div>
+
+    <!-- No global billing toggle, each card has its own -->
+
+    <!-- Subscription Plans -->
+    <div class="max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 justify-center">
+            <!-- Free Plan First -->
+            {% for plan in monthly_plans %}
+                {% if plan.plan_type == 'free' %}
+                    <div class="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                        <!-- Gradient Header -->
+                        <div class="bg-gradient-to-r from-gray-600 to-gray-800 px-6 py-4 text-white">
+                            <h2 class="text-2xl font-extrabold mt-2">{{ plan.name }}</h2>
+                            <p class="text-sm text-gray-200">{{ plan.description|truncatechars:60 }}</p>
+                        </div>
+
+                        <div class="p-5 space-y-4">
+                            <!-- Price -->
+                            <div class="text-center">
+                                <div class="text-3xl font-extrabold text-gray-800">
+                                    $0<span class="text-sm font-medium text-gray-600">/forever</span>
+                                </div>
+                                <div class="text-xs text-gray-500">
+                                    Basic access to learning materials
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <ul class="space-y-2 text-gray-700 text-sm mt-4">
+                                {% for feature in plan.features.splitlines %}
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-check text-green-500"></i>
+                                        {{ feature|slice:"1:" }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <!-- CTA -->
+                            <div class="pt-4">
+                                <a href="{% url 'subscription:subscribe' plan.plan_type 'monthly' %}"
+                                   class="block text-center bg-[#ff4703] hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                    Start Free
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Tier One Plan -->
+            {% for plan in monthly_plans %}
+                {% if plan.plan_type == 'tier_one' %}
+                    <div class="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden" id="plan-{{ plan.id }}">
+                        <!-- Gradient Header -->
+                        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                            <h2 class="text-2xl font-extrabold mt-2">{{ plan.name }}</h2>
+                            <p class="text-sm text-gray-200">{{ plan.description|truncatechars:60 }}</p>
+                        </div>
+
+                        <div class="p-5 space-y-4">
+                            <!-- Toggle -->
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-sm text-gray-600">Monthly</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="togglePricing{{ plan.id }}" class="sr-only peer">
+                                    <div class="w-10 h-5 bg-gray-300 rounded-full peer peer-checked:bg-[#ff4703] transition-colors"></div>
+                                    <div class="absolute left-1 top-0.5 w-4 h-4 bg-white rounded-full peer-checked:translate-x-5 transform transition-transform"></div>
+                                </label>
+                                <span class="text-sm text-gray-600">Yearly</span>
+                            </div>
+
+                            <!-- Dynamic Price -->
+                            <div class="text-center">
+                                <div class="text-3xl font-extrabold text-gray-800" id="priceAmount{{ plan.id }}">
+                                    ${{ plan.price }}<span class="text-sm font-medium text-gray-600">/month</span>
+                                </div>
+                                <div class="text-xs text-gray-500" id="priceNote{{ plan.id }}">
+                                    Billed monthly · Cancel anytime
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    Displayed in USD, processed in GHS
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <ul class="space-y-2 text-gray-700 text-sm mt-4">
+                                {% for feature in plan.features.splitlines %}
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-check text-green-500"></i>
+                                        {{ feature|slice:"1:" }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <!-- CTA -->
+                            <div class="pt-4">
+                                {% if has_active_subscription %}
+                                    {% if current_plan_type == plan.plan_type %}
+                                        <a href="{% url 'subscription:manage_subscription' %}"
+                                           class="block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                            <i class="fas fa-check-circle mr-1"></i> Current Plan
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'subscription:manage_subscription' %}"
+                                           class="block text-center border-2 border-[#ff4703] text-[#ff4703] hover:bg-orange-50 font-semibold py-2.5 rounded-lg transition duration-200">
+                                            Manage Subscription
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'subscription:subscribe' plan.plan_type 'monthly' %}"
+                                       id="subscribeLink{{ plan.id }}"
+                                       class="block text-center bg-[#ff4703] hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                        Subscribe Now
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toggle Script for Basic Plan -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const toggle{{ plan.id }} = document.getElementById('togglePricing{{ plan.id }}');
+                            const priceAmount{{ plan.id }} = document.getElementById('priceAmount{{ plan.id }}');
+                            const priceNote{{ plan.id }} = document.getElementById('priceNote{{ plan.id }}');
+                            const subscribeLink{{ plan.id }} = document.getElementById('subscribeLink{{ plan.id }}');
+
+                            toggle{{ plan.id }}.addEventListener('change', function() {
+                                if (this.checked) {
+                                    priceAmount{{ plan.id }}.innerHTML = "${{ plan.yearly_price|floatformat:2 }}<span class='text-sm font-medium text-gray-600'>/year</span>";
+                                    priceNote{{ plan.id }}.textContent = "Save {{ plan.yearly_discount_percentage }}% compared to monthly billing";
+                                    subscribeLink{{ plan.id }}.href = "{% url 'subscription:subscribe' plan.plan_type 'yearly' %}";
+                                } else {
+                                    priceAmount{{ plan.id }}.innerHTML = "${{ plan.price }}<span class='text-sm font-medium text-gray-600'>/month</span>";
+                                    priceNote{{ plan.id }}.textContent = "Billed monthly · Cancel anytime";
+                                    subscribeLink{{ plan.id }}.href = "{% url 'subscription:subscribe' plan.plan_type 'monthly' %}";
+                                }
+                            });
+                        });
+                    </script>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Tier Two Plan -->
+            {% for plan in monthly_plans %}
+                {% if plan.plan_type == 'tier_two' %}
+                    <div class="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden" id="plan-{{ plan.id }}">
+                        <!-- Gradient Header -->
+                        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                            <h3 class="text-xs font-bold uppercase tracking-widest bg-yellow-400 text-black inline-flex items-center gap-1 px-2 py-0.5 rounded-full">
+                                <i class="fas fa-star text-[10px]"></i> Most Popular
+                            </h3>
+                            <h2 class="text-2xl font-extrabold mt-2">{{ plan.name }}</h2>
+                            <p class="text-sm text-gray-200">{{ plan.description|truncatechars:60 }}</p>
+                        </div>
+
+                        <div class="p-5 space-y-4">
+                            <!-- Toggle -->
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-sm text-gray-600">Monthly</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="togglePricing{{ plan.id }}" class="sr-only peer">
+                                    <div class="w-10 h-5 bg-gray-300 rounded-full peer peer-checked:bg-[#ff4703] transition-colors"></div>
+                                    <div class="absolute left-1 top-0.5 w-4 h-4 bg-white rounded-full peer-checked:translate-x-5 transform transition-transform"></div>
+                                </label>
+                                <span class="text-sm text-gray-600">Yearly</span>
+                            </div>
+
+                            <!-- Dynamic Price -->
+                            <div class="text-center">
+                                <div class="text-3xl font-extrabold text-gray-800" id="priceAmount{{ plan.id }}">
+                                    ${{ plan.price }}<span class="text-sm font-medium text-gray-600">/month</span>
+                                </div>
+                                <div class="text-xs text-gray-500" id="priceNote{{ plan.id }}">
+                                    Billed monthly · Cancel anytime
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    Displayed in USD, processed in GHS
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <ul class="space-y-2 text-gray-700 text-sm mt-4">
+                                {% for feature in plan.features.splitlines %}
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-check text-green-500"></i>
+                                        {{ feature|slice:"1:" }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <!-- CTA -->
+                            <div class="pt-4">
+                                {% if has_active_subscription %}
+                                    {% if current_plan_type == plan.plan_type %}
+                                        <a href="{% url 'subscription:manage_subscription' %}"
+                                           class="block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                            <i class="fas fa-check-circle mr-1"></i> Current Plan
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'subscription:manage_subscription' %}"
+                                           class="block text-center border-2 border-[#ff4703] text-[#ff4703] hover:bg-orange-50 font-semibold py-2.5 rounded-lg transition duration-200">
+                                            Manage Subscription
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'subscription:subscribe' plan.plan_type 'monthly' %}"
+                                       id="subscribeLink{{ plan.id }}"
+                                       class="block text-center bg-[#ff4703] hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                        Subscribe Now
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toggle Script for Pro Plan -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const toggle{{ plan.id }} = document.getElementById('togglePricing{{ plan.id }}');
+                            const priceAmount{{ plan.id }} = document.getElementById('priceAmount{{ plan.id }}');
+                            const priceNote{{ plan.id }} = document.getElementById('priceNote{{ plan.id }}');
+                            const subscribeLink{{ plan.id }} = document.getElementById('subscribeLink{{ plan.id }}');
+
+                            toggle{{ plan.id }}.addEventListener('change', function() {
+                                if (this.checked) {
+                                    priceAmount{{ plan.id }}.innerHTML = "${{ plan.yearly_price|floatformat:2 }}<span class='text-sm font-medium text-gray-600'>/year</span>";
+                                    priceNote{{ plan.id }}.textContent = "Save {{ plan.yearly_discount_percentage }}% compared to monthly billing";
+                                    subscribeLink{{ plan.id }}.href = "{% url 'subscription:subscribe' plan.plan_type 'yearly' %}";
+                                } else {
+                                    priceAmount{{ plan.id }}.innerHTML = "${{ plan.price }}<span class='text-sm font-medium text-gray-600'>/month</span>";
+                                    priceNote{{ plan.id }}.textContent = "Billed monthly · Cancel anytime";
+                                    subscribeLink{{ plan.id }}.href = "{% url 'subscription:subscribe' plan.plan_type 'monthly' %}";
+                                }
+                            });
+                        });
+                    </script>
+                {% endif %}
+            {% endfor %}
+
+            <!-- Tier Three Plan -->
+            {% for plan in monthly_plans %}
+                {% if plan.plan_type == 'tier_three' %}
+                    <div class="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden" id="plan-{{ plan.id }}">
+                        <!-- Gradient Header -->
+                        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                            <h2 class="text-2xl font-extrabold mt-2">{{ plan.name }}</h2>
+                            <p class="text-sm text-gray-200">{{ plan.description|truncatechars:60 }}</p>
+                        </div>
+
+                        <div class="p-5 space-y-4">
+                            <!-- Toggle -->
+                            <div class="flex items-center justify-center gap-2">
+                                <span class="text-sm text-gray-600">Monthly</span>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" id="togglePricing{{ plan.id }}" class="sr-only peer">
+                                    <div class="w-10 h-5 bg-gray-300 rounded-full peer peer-checked:bg-[#ff4703] transition-colors"></div>
+                                    <div class="absolute left-1 top-0.5 w-4 h-4 bg-white rounded-full peer-checked:translate-x-5 transform transition-transform"></div>
+                                </label>
+                                <span class="text-sm text-gray-600">Yearly</span>
+                            </div>
+
+                            <!-- Dynamic Price -->
+                            <div class="text-center">
+                                <div class="text-3xl font-extrabold text-gray-800" id="priceAmount{{ plan.id }}">
+                                    ${{ plan.price }}<span class="text-sm font-medium text-gray-600">/month</span>
+                                </div>
+                                <div class="text-xs text-gray-500" id="priceNote{{ plan.id }}">
+                                    Billed monthly · Cancel anytime
+                                </div>
+                                <div class="text-xs text-gray-500 mt-1">
+                                    Displayed in USD, processed in GHS
+                                </div>
+                            </div>
+
+                            <!-- Features -->
+                            <ul class="space-y-2 text-gray-700 text-sm mt-4">
+                                {% for feature in plan.features.splitlines %}
+                                    <li class="flex items-center gap-2">
+                                        <i class="fas fa-check text-green-500"></i>
+                                        {{ feature|slice:"1:" }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+
+                            <!-- CTA -->
+                            <div class="pt-4">
+                                {% if has_active_subscription %}
+                                    {% if current_plan_type == plan.plan_type %}
+                                        <a href="{% url 'subscription:manage_subscription' %}"
+                                           class="block text-center bg-green-600 hover:bg-green-700 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                            <i class="fas fa-check-circle mr-1"></i> Current Plan
+                                        </a>
+                                    {% else %}
+                                        <a href="{% url 'subscription:manage_subscription' %}"
+                                           class="block text-center border-2 border-[#ff4703] text-[#ff4703] hover:bg-orange-50 font-semibold py-2.5 rounded-lg transition duration-200">
+                                            Manage Subscription
+                                        </a>
+                                    {% endif %}
+                                {% else %}
+                                    <a href="{% url 'subscription:subscribe' plan.plan_type 'monthly' %}"
+                                       id="subscribeLink{{ plan.id }}"
+                                       class="block text-center bg-[#ff4703] hover:bg-orange-600 text-white font-semibold py-2.5 rounded-lg transition duration-200">
+                                        Subscribe Now
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Toggle Script for Family Plan -->
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const toggle{{ plan.id }} = document.getElementById('togglePricing{{ plan.id }}');
+                            const priceAmount{{ plan.id }} = document.getElementById('priceAmount{{ plan.id }}');
+                            const priceNote{{ plan.id }} = document.getElementById('priceNote{{ plan.id }}');
+                            const subscribeLink{{ plan.id }} = document.getElementById('subscribeLink{{ plan.id }}');
+
+                            toggle{{ plan.id }}.addEventListener('change', function() {
+                                if (this.checked) {
+                                    priceAmount{{ plan.id }}.innerHTML = "${{ plan.yearly_price|floatformat:2 }}<span class='text-sm font-medium text-gray-600'>/year</span>";
+                                    priceNote{{ plan.id }}.textContent = "Save {{ plan.yearly_discount_percentage }}% compared to monthly billing";
+                                    subscribeLink{{ plan.id }}.href = "{% url 'subscription:subscribe' plan.plan_type 'yearly' %}";
+                                } else {
+                                    priceAmount{{ plan.id }}.innerHTML = "${{ plan.price }}<span class='text-sm font-medium text-gray-600'>/month</span>";
+                                    priceNote{{ plan.id }}.textContent = "Billed monthly · Cancel anytime";
+                                    subscribeLink{{ plan.id }}.href = "{% url 'subscription:subscribe' plan.plan_type 'monthly' %}";
+                                }
+                            });
+                        });
+                    </script>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="mt-24 max-w-5xl mx-auto">
+        <div class="bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-800 to-black text-white p-6">
+                <h2 class="text-2xl font-extrabold text-center">Frequently Asked Questions</h2>
+                <p class="text-center text-gray-200 text-sm mt-2">Everything you need to know about our subscription plans</p>
+            </div>
+
+            <div class="p-6">
+                <div class="space-y-3">
+                    <div class="border border-gray-200 rounded-xl overflow-hidden">
+                        <button class="w-full flex items-center justify-between p-3 text-left bg-gray-50 hover:bg-gray-100 transition-colors"
+                                onclick="toggleFaq(this)">
+                            <div class="flex items-center">
+                                <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-question text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="font-medium text-gray-800 text-sm">What can I do with the free plan?</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden p-3 pt-0 pl-14">
+                            <p class="text-gray-600 py-3 text-sm">The free plan lets you try out some of our learning materials for one specific curriculum and one specific grade level. You can take a limited number of quizzes and track your basic progress. It's a great way to see if EduMore360 is right for you before upgrading to a premium plan.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-xl overflow-hidden">
+                        <button class="w-full flex items-center justify-between p-3 text-left bg-gray-50 hover:bg-gray-100 transition-colors"
+                                onclick="toggleFaq(this)">
+                            <div class="flex items-center">
+                                <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-calendar-alt text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="font-medium text-gray-800 text-sm">Can I cancel my subscription anytime?</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden p-3 pt-0 pl-14">
+                            <p class="text-gray-600 py-3 text-sm">Yes! You can cancel your subscription at any time. You'll still have access to all premium features until the end of your current billing period.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-xl overflow-hidden">
+                        <button class="w-full flex items-center justify-between p-3 text-left bg-gray-50 hover:bg-gray-100 transition-colors"
+                                onclick="toggleFaq(this)">
+                            <div class="flex items-center">
+                                <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-users text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="font-medium text-gray-800 text-sm">How does the family plan work?</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden p-3 pt-0 pl-14">
+                            <p class="text-gray-600 py-3 text-sm">The Tier Two and Tier Three plans allow up to 5 family members to use EduMore360 with a single subscription. The account administrator can add family members to the account, and each person gets their own personalized learning experience with access to the same curriculum content.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-xl overflow-hidden">
+                        <button class="w-full flex items-center justify-between p-3 text-left bg-gray-50 hover:bg-gray-100 transition-colors"
+                                onclick="toggleFaq(this)">
+                            <div class="flex items-center">
+                                <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-credit-card text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="font-medium text-gray-800 text-sm">What payment methods do you accept?</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden p-3 pt-0 pl-14">
+                            <p class="text-gray-600 py-3 text-sm">We accept all major credit cards, bank transfers, and mobile money payments. All transactions are processed securely through our payment provider Paystack. While prices are displayed in USD for international consistency, payments are processed in GHS (Ghana Cedis) at the current exchange rate.</p>
+                        </div>
+                    </div>
+
+                    <div class="border border-gray-200 rounded-xl overflow-hidden">
+                        <button class="w-full flex items-center justify-between p-3 text-left bg-gray-50 hover:bg-gray-100 transition-colors"
+                                onclick="toggleFaq(this)">
+                            <div class="flex items-center">
+                                <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                    <i class="fas fa-undo-alt text-blue-600 text-xs"></i>
+                                </div>
+                                <span class="font-medium text-gray-800 text-sm">Do you offer a money-back guarantee?</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-400 transform transition-transform duration-300"></i>
+                        </button>
+                        <div class="faq-content hidden p-3 pt-0 pl-14">
+                            <p class="text-gray-600 py-3 text-sm">Yes, we offer a 7-day money-back guarantee. If you're not satisfied with your subscription, you can request a full refund within 7 days of your initial purchase.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="mt-16 mb-12 max-w-5xl mx-auto">
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl p-8 shadow-lg border border-gray-200">
+            <div class="text-center">
+                <h2 class="text-2xl font-extrabold mb-3">Ready to Enhance Your Learning Experience?</h2>
+                <p class="text-gray-200 mb-6 max-w-3xl mx-auto">Join thousands of students who have accelerated their academic success with EduMore360</p>
+
+                <div class="flex flex-col md:flex-row justify-center gap-4">
+                    <a href="{% url 'core:contact' %}" class="px-6 py-3 bg-white text-blue-800 hover:bg-gray-100 font-semibold rounded-lg shadow transition-colors flex items-center justify-center text-sm">
+                        <i class="fas fa-comment-dots mr-2"></i>
+                        Have Questions? Contact Us
+                    </a>
+                    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg shadow transition-colors flex items-center justify-center text-sm">
+                        <i class="fas fa-arrow-up mr-2"></i>
+                        View Plans Again
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Toggle Script -->
+    <script>
+        function toggleFaq(button) {
+            // Toggle the active state of the button
+            button.classList.toggle('active');
+
+            // Find the content div that follows this button
+            const content = button.nextElementSibling;
+
+            // Toggle the hidden class on the content
+            content.classList.toggle('hidden');
+
+            // Toggle the rotation of the chevron icon
+            const icon = button.querySelector('.fa-chevron-down');
+            if (content.classList.contains('hidden')) {
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                icon.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        // Open the first FAQ by default
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstFaqButton = document.querySelector('.border.border-gray-200 button');
+            if (firstFaqButton) {
+                toggleFaq(firstFaqButton);
+            }
+        });
+    </script>
+</div>
+{% endblock %}

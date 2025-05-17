@@ -1,0 +1,146 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Search Results - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex flex-col md:flex-row gap-6">
+        <!-- Sidebar -->
+        <div class="w-full md:w-1/4">
+            <div class="bg-base-200 rounded-lg p-4 shadow-md">
+                <h2 class="text-xl font-bold mb-4">Search Filters</h2>
+                <div class="divider"></div>
+                
+                <form method="GET" action="{% url 'search:search' %}">
+                    <div class="form-control mb-4">
+                        <label class="label">
+                            <span class="label-text">Search Query</span>
+                        </label>
+                        <input type="text" name="q" value="{{ query }}" class="input input-bordered w-full" placeholder="Enter search terms...">
+                    </div>
+                    
+                    <div class="form-control mb-4">
+                        <label class="label">
+                            <span class="label-text">Search Type</span>
+                        </label>
+                        <select name="type" class="select select-bordered w-full">
+                            <option value="all" {% if search_type == 'all' %}selected{% endif %}>All</option>
+                            <option value="subjects" {% if search_type == 'subjects' %}selected{% endif %}>Subjects</option>
+                            <option value="topics" {% if search_type == 'topics' %}selected{% endif %}>Topics</option>
+                            <option value="notes" {% if search_type == 'notes' %}selected{% endif %}>Notes</option>
+                            <option value="questions" {% if search_type == 'questions' %}selected{% endif %}>Questions</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-full">Search</button>
+                </form>
+                
+                <div class="divider">OR</div>
+                
+                <a href="{% url 'search:advanced_search' %}" class="btn btn-outline w-full">Advanced Search</a>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="w-full md:w-3/4">
+            <div class="bg-base-100 rounded-lg p-6 shadow-md">
+                <div class="flex justify-between items-center mb-6">
+                    <h1 class="text-2xl font-bold">Search Results</h1>
+                    <div class="badge badge-primary">{{ total_count }} results</div>
+                </div>
+                
+                {% if query %}
+                    <p class="mb-6">Showing results for: <span class="font-bold">{{ query }}</span></p>
+                    
+                    {% if results %}
+                        <div class="space-y-6">
+                            {% for result in results %}
+                                <div class="bg-base-200 p-4 rounded-lg">
+                                    <div class="flex items-center gap-2 mb-2">
+                                        {% if result.type == 'subject' %}
+                                            <div class="badge badge-primary">Subject</div>
+                                        {% elif result.type == 'topic' %}
+                                            <div class="badge badge-secondary">Topic</div>
+                                        {% elif result.type == 'note' %}
+                                            <div class="badge badge-accent">Note</div>
+                                        {% elif result.type == 'question' %}
+                                            <div class="badge badge-info">Question</div>
+                                        {% endif %}
+                                        
+                                        <h2 class="text-lg font-bold">{{ result.title }}</h2>
+                                    </div>
+                                    
+                                    <p class="mb-3">{{ result.description|safe|truncatewords:30 }}</p>
+                                    
+                                    <div class="flex flex-wrap gap-2 mb-3">
+                                        {% if result.curriculum %}
+                                            <div class="badge badge-outline">{{ result.curriculum }}</div>
+                                        {% endif %}
+                                        
+                                        {% if result.class_level %}
+                                            <div class="badge badge-outline">{{ result.class_level }}</div>
+                                        {% endif %}
+                                        
+                                        {% if result.subject %}
+                                            <div class="badge badge-outline">{{ result.subject }}</div>
+                                        {% endif %}
+                                        
+                                        {% if result.topic %}
+                                            <div class="badge badge-outline">{{ result.topic }}</div>
+                                        {% endif %}
+                                    </div>
+                                    
+                                    <a href="{{ result.url }}" class="btn btn-sm btn-primary">View</a>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <!-- Pagination -->
+                        {% if results.has_other_pages %}
+                            <div class="flex justify-center mt-8">
+                                <div class="btn-group">
+                                    {% if results.has_previous %}
+                                        <a href="?q={{ query }}&type={{ search_type }}&page={{ results.previous_page_number }}" class="btn">«</a>
+                                    {% else %}
+                                        <button class="btn btn-disabled">«</button>
+                                    {% endif %}
+                                    
+                                    {% for i in results.paginator.page_range %}
+                                        {% if results.number == i %}
+                                            <button class="btn btn-active">{{ i }}</button>
+                                        {% else %}
+                                            <a href="?q={{ query }}&type={{ search_type }}&page={{ i }}" class="btn">{{ i }}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                    
+                                    {% if results.has_next %}
+                                        <a href="?q={{ query }}&type={{ search_type }}&page={{ results.next_page_number }}" class="btn">»</a>
+                                    {% else %}
+                                        <button class="btn btn-disabled">»</button>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% else %}
+                        <div class="text-center py-8">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <h2 class="text-xl font-bold mb-2">No results found</h2>
+                            <p class="text-gray-600">Try different keywords or filters</p>
+                        </div>
+                    {% endif %}
+                {% else %}
+                    <div class="text-center py-8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                        <h2 class="text-xl font-bold mb-2">Enter a search query</h2>
+                        <p class="text-gray-600">Use the search box to find subjects, topics, notes, and questions</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

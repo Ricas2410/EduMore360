@@ -1,0 +1,383 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Profile - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <!-- Header Section -->
+    <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Your Profile</h1>
+            <p class="text-xl text-blue-100 max-w-3xl mx-auto">Manage your account and track your learning progress</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Profile Information -->
+        <div class="md:col-span-1">
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-user-circle mr-2"></i>
+                        Profile Information
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="flex flex-col items-center text-center">
+                        {% if user.profile_picture %}
+                            <img src="{{ user.profile_picture.url }}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full object-cover mb-4 border-4 border-blue-100">
+                        {% else %}
+                            <div class="w-32 h-32 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white text-4xl mb-4">
+                                {{ user.first_name|first }}{{ user.last_name|first }}
+                            </div>
+                        {% endif %}
+
+                        <h1 class="text-2xl font-bold text-gray-800">{{ user.get_full_name }}</h1>
+                        <p class="text-gray-600">{{ user.email }}</p>
+
+                        {% if user.is_premium %}
+                            <div class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#ff4703] text-white mt-2">
+                                <i class="fas fa-crown mr-1"></i>
+                                Premium
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="border-t border-gray-200 my-6"></div>
+
+                    <div class="space-y-3">
+                        {% if user.phone_number %}
+                            <div class="flex items-center">
+                                <i class="fas fa-phone text-blue-600 mr-3"></i>
+                                <span class="text-gray-700">{{ user.phone_number }}</span>
+                            </div>
+                        {% endif %}
+
+                        {% if user.preferred_curriculum %}
+                            <div class="flex items-center">
+                                <i class="fas fa-book text-blue-600 mr-3"></i>
+                                <span class="text-gray-700">{{ user.preferred_curriculum.name }}</span>
+                            </div>
+                        {% endif %}
+
+                        {% if user.preferred_class_level %}
+                            <div class="flex items-center">
+                                <i class="fas fa-graduation-cap text-blue-600 mr-3"></i>
+                                <span class="text-gray-700">{{ user.preferred_class_level.name }}</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="flex items-center">
+                            <i class="fas fa-calendar-alt text-blue-600 mr-3"></i>
+                            <span class="text-gray-700">Joined {{ user.date_joined|date:"F Y" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-200 my-6"></div>
+
+                    <div class="space-y-3">
+                        <a href="{% url 'accounts:edit_profile' %}"
+                           class="block w-full py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg text-center transition-colors">
+                            <i class="fas fa-user-edit mr-2"></i>
+                            Edit Profile
+                        </a>
+                        <a href="{% url 'accounts:change_password' %}"
+                           class="block w-full py-2.5 border-2 border-blue-600 text-blue-600 font-medium rounded-lg text-center hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-lock mr-2"></i>
+                            Change Password
+                        </a>
+                        <a href="{% url 'accounts:preferences' %}"
+                           class="block w-full py-2.5 border-2 border-blue-600 text-blue-600 font-medium rounded-lg text-center hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-cog mr-2"></i>
+                            Preferences
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            {% if subscription %}
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mt-6">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-credit-card mr-2"></i>
+                        Subscription
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-4 mb-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Plan:</span>
+                            <span class="font-bold text-gray-800">{{ subscription.plan.name }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Status:</span>
+                            <span class="font-bold">
+                                {% if subscription.status == 'active' %}
+                                    <span class="text-green-600 flex items-center">
+                                        <i class="fas fa-check-circle mr-1"></i> Active
+                                    </span>
+                                {% elif subscription.status == 'past_due' %}
+                                    <span class="text-yellow-600 flex items-center">
+                                        <i class="fas fa-exclamation-circle mr-1"></i> Past Due
+                                    </span>
+                                {% elif subscription.status == 'canceled' %}
+                                    <span class="text-red-600 flex items-center">
+                                        <i class="fas fa-times-circle mr-1"></i> Canceled
+                                    </span>
+                                {% else %}
+                                    <span class="text-red-600 flex items-center">
+                                        <i class="fas fa-times-circle mr-1"></i> Expired
+                                    </span>
+                                {% endif %}
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Type:</span>
+                            <span class="font-bold text-gray-800">
+                                {{ subscription.plan.get_plan_type_display }}
+                                ({{ subscription.plan.get_billing_cycle_display }})
+                            </span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Price:</span>
+                            <span class="font-bold text-gray-800">${{ subscription.plan.price }} USD</span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Started:</span>
+                            <span class="font-bold text-gray-800">{{ subscription.start_date|date:"M d, Y" }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-gray-600 font-medium">Renewal:</span>
+                            <span class="font-bold text-gray-800">{{ subscription.end_date|date:"M d, Y" }}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <span class="text-gray-600 font-medium">Auto-renew:</span>
+                            <span class="font-bold text-gray-800">
+                                {% if subscription.auto_renew %}
+                                    <span class="text-green-600 flex items-center">
+                                        <i class="fas fa-check-circle mr-1"></i> Yes
+                                    </span>
+                                {% else %}
+                                    <span class="text-red-600 flex items-center">
+                                        <i class="fas fa-times-circle mr-1"></i> No
+                                    </span>
+                                {% endif %}
+                            </span>
+                        </div>
+                    </div>
+
+                    <a href="{% url 'subscription:manage_subscription' %}"
+                       class="block w-full py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg text-center transition-colors">
+                        <i class="fas fa-cog mr-2"></i>
+                        Manage Subscription
+                    </a>
+                </div>
+            </div>
+            {% else %}
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mt-6">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-credit-card mr-2"></i>
+                        Subscription
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="flex items-center p-4 mb-6 bg-blue-50 text-blue-800 rounded-lg border border-blue-200">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-600"></i>
+                        </div>
+                        <p class="font-medium">You don't have an active subscription.</p>
+                    </div>
+
+                    <a href="{% url 'subscription:subscription_plans' %}"
+                       class="block w-full py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg text-center transition-colors">
+                        <i class="fas fa-crown mr-2"></i>
+                        View Premium Plans
+                    </a>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Statistics and Activity -->
+        <div class="md:col-span-2 space-y-6">
+            <!-- Statistics -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-chart-bar mr-2"></i>
+                        Learning Statistics
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        <div class="bg-blue-50 border border-blue-100 p-4 rounded-xl text-center">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-clipboard-list text-blue-600 text-xl"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-blue-700 mb-1">{{ total_quizzes }}</div>
+                            <div class="text-sm text-gray-600 font-medium">Quizzes Taken</div>
+                        </div>
+
+                        <div class="bg-green-50 border border-green-100 p-4 rounded-xl text-center">
+                            <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-green-700 mb-1">{{ completed_quizzes }}</div>
+                            <div class="text-sm text-gray-600 font-medium">Completed</div>
+                        </div>
+
+                        <div class="bg-orange-50 border border-orange-100 p-4 rounded-xl text-center">
+                            <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-percentage text-[#ff4703] text-xl"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-[#ff4703] mb-1">{{ avg_score }}%</div>
+                            <div class="text-sm text-gray-600 font-medium">Avg. Score</div>
+                        </div>
+
+                        <div class="bg-purple-50 border border-purple-100 p-4 rounded-xl text-center">
+                            <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <i class="fas fa-star text-purple-600 text-xl"></i>
+                            </div>
+                            <div class="text-3xl font-bold text-purple-700 mb-1">{{ total_points }}</div>
+                            <div class="text-sm text-gray-600 font-medium">Points Earned</div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3 mt-6">
+                        <a href="{% url 'accounts:progress_overview' %}"
+                           class="inline-flex items-center px-4 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-chart-line mr-2"></i>
+                            View Progress
+                        </a>
+                        <a href="{% url 'quiz:quiz_history' %}"
+                           class="inline-flex items-center px-4 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-history mr-2"></i>
+                            Quiz History
+                        </a>
+                        <a href="{% url 'core:achievement_list' %}"
+                           class="inline-flex items-center px-4 py-2 border-2 border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-trophy mr-2"></i>
+                            Achievements ({{ total_achievements }})
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bio -->
+            {% if user.bio %}
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-user-edit mr-2"></i>
+                        About Me
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+                        <p class="text-gray-700">{{ user.bio }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Recent Activity -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Section Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-xl font-bold flex items-center">
+                        <i class="fas fa-history mr-2"></i>
+                        Recent Activity
+                    </h2>
+                </div>
+
+                <div class="p-6">
+                    {% if recent_quizzes %}
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quiz</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                {% for quiz in recent_quizzes %}
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">{{ quiz.quiz.title }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium {% if quiz.score_percentage >= 70 %}text-green-600{% else %}text-red-600{% endif %}">
+                                            {{ quiz.score_percentage }}%
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-700">{{ quiz.started_at|date:"M d, Y" }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        {% if quiz.status == 'completed' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                                Completed
+                                            </span>
+                                        {% elif quiz.status == 'in_progress' %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                                In Progress
+                                            </span>
+                                        {% else %}
+                                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
+                                                {{ quiz.get_status_display }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                    <div class="flex items-center p-4 mb-6 bg-blue-50 text-blue-800 rounded-lg border border-blue-200">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-4 flex-shrink-0">
+                            <i class="fas fa-info-circle text-blue-600"></i>
+                        </div>
+                        <p class="font-medium">You haven't taken any quizzes yet. Start learning to see your activity here!</p>
+                    </div>
+                    {% endif %}
+
+                    <div class="flex flex-wrap justify-center gap-3 mt-6">
+                        <a href="{% url 'curriculum:curriculum_list' %}"
+                           class="inline-flex items-center px-5 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                            <i class="fas fa-book-open mr-2"></i>
+                            Start Learning
+                        </a>
+                        <a href="{% url 'quiz:quiz_home' %}"
+                           class="inline-flex items-center px-5 py-2.5 border-2 border-blue-600 text-blue-600 font-medium rounded-lg hover:bg-blue-50 transition-colors">
+                            <i class="fas fa-question-circle mr-2"></i>
+                            Take a Quiz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

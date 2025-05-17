@@ -1,0 +1,113 @@
+{% extends 'admin/site_settings/base.html' %}
+{% load static %}
+
+{% block settings_title %}Email Settings{% endblock %}
+{% block settings_header %}Email Configuration{% endblock %}
+
+{% block settings_actions %}
+<button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#testEmailModal">
+    <i class="fas fa-paper-plane me-2"></i> Send Test Email
+</button>
+{% endblock %}
+
+{% block settings_content %}
+<form method="POST" action="{% url 'my_admin:site_settings_email' %}">
+    {% csrf_token %}
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="smtp_host" class="form-label">SMTP Host</label>
+                <input type="text" class="form-control" id="smtp_host" name="smtp_host"
+                       value="{{ settings.smtp_host }}" required>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="smtp_port" class="form-label">SMTP Port</label>
+                <input type="number" class="form-control" id="smtp_port" name="smtp_port"
+                       value="{{ settings.smtp_port }}" required>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="smtp_username" class="form-label">SMTP Username</label>
+                <input type="text" class="form-control" id="smtp_username" name="smtp_username"
+                       value="{{ settings.smtp_username }}">
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="smtp_password" class="form-label">SMTP Password</label>
+                <input type="password" class="form-control" id="smtp_password" name="smtp_password"
+                       value="{{ settings.smtp_password }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="default_from_email" class="form-label">Default From Email</label>
+                <input type="email" class="form-control" id="default_from_email" name="default_from_email"
+                       value="{{ settings.default_from_email }}" required>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" id="smtp_use_tls" name="smtp_use_tls"
+                       {% if settings.smtp_use_tls %}checked{% endif %}>
+                <label class="form-check-label" for="smtp_use_tls">
+                    Use TLS
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i> Save Changes
+        </button>
+    </div>
+</form>
+
+<!-- Test Email Modal -->
+<div class="modal fade" id="testEmailModal" tabindex="-1" aria-labelledby="testEmailModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="testEmailModalLabel">Send Test Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="POST" action="{% url 'my_admin:site_settings_test_email' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="test_email" class="form-label">Recipient Email</label>
+                        <input type="email" class="form-control" id="test_email" name="test_email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="test_subject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="test_subject" name="test_subject"
+                               value="Test Email from EduMore360" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="test_message" class="form-label">Message</label>
+                        <textarea class="form-control" id="test_message" name="test_message" rows="3">This is a test email from EduMore360.</textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Send Test Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

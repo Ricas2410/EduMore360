@@ -1,0 +1,35 @@
+{
+  "name": "edumore360",
+  "version": "1.0.0",
+  "description": "EduMore360 Educational Platform",
+  "scripts": {
+    "start": "npm run dev",
+    "build": "npm run build:clean && npm run build:tailwind",
+    "build:clean": "rimraf ../static/css/dist",
+    "build:tailwind": "cross-env NODE_ENV=production tailwindcss --postcss -i ./src/input.css -o ../static/css/styles.css --minify",
+    "dev": "cross-env NODE_ENV=development tailwindcss --postcss -i ./src/input.css -o ../static/css/styles.css -w",
+    "tailwindcss": "tailwindcss"
+  },
+  "keywords": [
+    "education",
+    "platform",
+    "django",
+    "tailwindcss"
+  ],
+  "author": "EduMore360",
+  "license": "MIT",
+  "devDependencies": {
+    "@tailwindcss/aspect-ratio": "^0.4.2",
+    "@tailwindcss/forms": "^0.5.3",
+    "@tailwindcss/line-clamp": "^0.4.2",
+    "@tailwindcss/typography": "^0.5.9",
+    "cross-env": "^7.0.3",
+    "daisyui": "^2.51.6",
+    "postcss": "^8.4.23",
+    "postcss-import": "^15.1.0",
+    "postcss-nested": "^6.0.1",
+    "postcss-simple-vars": "^7.0.1",
+    "rimraf": "^5.0.0",
+    "tailwindcss": "^3.3.2"
+  }
+}

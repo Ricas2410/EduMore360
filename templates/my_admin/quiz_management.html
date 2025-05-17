@@ -1,0 +1,390 @@
+{% extends 'my_admin/base.html' %}
+
+{% block title %}Quiz Management - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Quiz Management{% endblock %}
+
+{% block content %}
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Quiz Management</h1>
+    <div class="d-flex">
+        <a href="{% url 'my_admin:quiz_admin:import_questions' %}" class="d-none d-sm-inline-block btn btn-success shadow-sm mr-2">
+            <i class="fas fa-file-import fa-sm text-white-50 mr-2"></i>Import Questions
+        </a>
+        <a href="{% url 'my_admin:quiz_admin:create_quiz' %}" class="d-none d-sm-inline-block btn btn-primary shadow-sm">
+            <i class="fas fa-plus fa-sm text-white-50 mr-2"></i>Add New Quiz
+        </a>
+    </div>
+</div>
+
+<!-- Search and Filter -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Search & Filter Quizzes</h6>
+    </div>
+    <div class="card-body">
+        <form method="get" action="{% url 'my_admin:quiz_management' %}" class="mb-0">
+            <div class="row">
+                <div class="col-md-4 mb-3">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Search by title..." name="search" value="{{ search_query }}">
+                    </div>
+                </div>
+                <div class="col-md-8 mb-3">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <select class="form-control" name="curriculum">
+                                <option value="">All Curricula</option>
+                                {% for curriculum in curricula %}
+                                <option value="{{ curriculum.id }}" {% if selected_curriculum == curriculum.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ curriculum.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" name="class_level">
+                                <option value="">All Class Levels</option>
+                                {% for class_level in class_levels %}
+                                <option value="{{ class_level.id }}"
+                                        data-curriculum-id="{{ class_level.curriculum.id }}"
+                                        {% if selected_class_level == class_level.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ class_level.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" name="subject">
+                                <option value="">All Subjects</option>
+                                {% for subject in subjects %}
+                                <option value="{{ subject.id }}"
+                                        data-curriculum-id="{{ subject.curriculum.id }}"
+                                        data-class-level-id="{{ subject.class_level.id }}"
+                                        {% if selected_subject == subject.id|stringformat:"s" %}selected{% endif %}>
+                                    {{ subject.name }}
+                                </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-control" name="status">
+                                <option value="">All Status</option>
+                                <option value="active" {% if selected_status == 'active' %}selected{% endif %}>Active</option>
+                                <option value="inactive" {% if selected_status == 'inactive' %}selected{% endif %}>Inactive</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <select class="form-control" name="topic">
+                        <option value="">All Topics</option>
+                        {% for topic in topics %}
+                        <option value="{{ topic.id }}"
+                                data-subject-id="{{ topic.subject.id }}"
+                                data-class-level-id="{{ topic.subject.class_level.id }}"
+                                data-curriculum-id="{{ topic.subject.curriculum.id }}"
+                                {% if selected_topic == topic.id|stringformat:"s" %}selected{% endif %}>
+                            {{ topic.name }} ({{ topic.subject.name }})
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-8 text-right">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-filter mr-1"></i> Apply Filters
+                    </button>
+                    <a href="{% url 'my_admin:quiz_management' %}" class="btn btn-secondary">
+                        <i class="fas fa-undo mr-1"></i> Reset
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Quiz List -->
+<div class="card shadow mb-4">
+    <div class="card-header py-3 d-flex justify-content-between align-items-center">
+        <h6 class="m-0 font-weight-bold text-primary">All Quizzes</h6>
+        <span class="badge badge-primary">{{ quizzes.count }} quizzes found</span>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="quizTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Curriculum</th>
+                        <th>Class Level</th>
+                        <th>Subject</th>
+                        <th>Topic</th>
+                        <th>Questions</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quiz in quizzes %}
+                    <tr>
+                        <td>{{ quiz.title }}</td>
+                        <td>{{ quiz.curriculum.name }}</td>
+                        <td>{{ quiz.class_level.name }}</td>
+                        <td>{{ quiz.subject.name }}</td>
+                        <td>{% if quiz.topic %}{{ quiz.topic.name }}{% else %}-{% endif %}</td>
+                        <td>{{ quiz.question_count }}</td>
+                        <td>
+                            {% if quiz.is_active %}
+                            <span class="badge bg-success text-white">Active</span>
+                            {% else %}
+                            <span class="badge bg-danger text-white">Inactive</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <a href="{% url 'my_admin:quiz_admin:add_questions' quiz.id %}" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-plus"></i> Questions
+                                </a>
+                                <a href="{% url 'my_admin:quiz_admin:review_quiz' quiz.id %}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i> Edit & Review
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="8" class="text-center">
+                            {% if search_query or selected_curriculum or selected_class_level or selected_subject or selected_topic or selected_status %}
+                                No quizzes found matching your filters. <a href="{% url 'my_admin:quiz_management' %}">Clear filters</a> to see all quizzes.
+                            {% else %}
+                                No quizzes found. Click "Add New Quiz" to create your first quiz.
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Quiz Creation Guide -->
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quiz Creation Guide</h6>
+            </div>
+            <div class="card-body">
+                <h5>Creating a New Quiz</h5>
+                <ol>
+                    <li>Click the "Add New Quiz" button.</li>
+                    <li>Fill in the quiz details:
+                        <ul>
+                            <li>Quiz Title: A descriptive name</li>
+                            <li>Curriculum: Select the relevant curriculum</li>
+                            <li>Grade Level: Select the target grade</li>
+                            <li>Subject: Select the relevant subject</li>
+                            <li>Topic: Select the specific topic (optional)</li>
+                            <li>Instructions: Any specific guidance for users (optional)</li>
+                        </ul>
+                    </li>
+                    <li>Click "Create Quiz" to proceed to adding questions.</li>
+                </ol>
+
+                <h5>Adding Questions</h5>
+                <p>You can add questions individually or import them in bulk:</p>
+
+                <h6>Method 1: Add Questions Individually</h6>
+                <ol>
+                    <li>Choose the question type (Multiple Choice or Short Answer).</li>
+                    <li>Enter the question text.</li>
+                    <li>For Multiple Choice:
+                        <ul>
+                            <li>Add at least two answer options</li>
+                            <li>Designate the correct answer</li>
+                        </ul>
+                    </li>
+                    <li>For Short Answer:
+                        <ul>
+                            <li>Enter one or more acceptable answers</li>
+                        </ul>
+                    </li>
+                    <li>Add an explanation (shown when the answer is incorrect).</li>
+                    <li>Click "Save Question" to add the question to the quiz.</li>
+                </ol>
+
+                <h6>Method 2: Import Questions via CSV</h6>
+                <ol>
+                    <li>Click the "Import Questions" button at the top of the page.</li>
+                    <li>Download the CSV template if you don't have one.</li>
+                    <li>Fill in the template with your questions.</li>
+                    <li>Upload the completed CSV file.</li>
+                    <li>The system will automatically create or update quizzes based on the imported questions.</li>
+                </ol>
+
+                <h5>Finalizing the Quiz</h5>
+                <ol>
+                    <li>After adding questions, click "Review & Finalize Quiz".</li>
+                    <li>Configure quiz settings:
+                        <ul>
+                            <li>Number of questions to include</li>
+                            <li>Time per question</li>
+                            <li>Passing score</li>
+                            <li>Randomization options</li>
+                        </ul>
+                    </li>
+                    <li>Click "Save and Publish Quiz" to make the quiz available to users.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quiz Best Practices</h6>
+            </div>
+            <div class="card-body">
+                <h5>Writing Effective Questions</h5>
+                <ul>
+                    <li>Keep questions clear and concise</li>
+                    <li>Avoid ambiguous wording</li>
+                    <li>Ensure questions align with curriculum objectives</li>
+                    <li>Use appropriate difficulty levels</li>
+                    <li>Include explanations for incorrect answers to aid learning</li>
+                </ul>
+
+                <h5>Multiple Choice Tips</h5>
+                <ul>
+                    <li>Provide 3-5 answer options</li>
+                    <li>Make all options plausible</li>
+                    <li>Avoid "All of the above" or "None of the above" options</li>
+                    <li>Keep options similar in length and structure</li>
+                    <li>Randomize the correct answer position</li>
+                </ul>
+
+                <h5>Short Answer Tips</h5>
+                <ul>
+                    <li>Consider multiple correct answers or variations</li>
+                    <li>Be specific about what you're asking for</li>
+                    <li>Consider case sensitivity and punctuation</li>
+                    <li>Provide clear instructions on expected answer format</li>
+                </ul>
+
+                <h5>Quiz Settings</h5>
+                <ul>
+                    <li>Set appropriate time limits per question (typically 30-60 seconds)</li>
+                    <li>Include a reasonable number of questions (20-40 is recommended)</li>
+                    <li>Set a fair passing score (70-80% is standard)</li>
+                    <li>Enable randomization to prevent memorization</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Initialize DataTable with custom options
+        $('#quizTable').DataTable({
+            "paging": true,
+            "pageLength": 25,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+            "ordering": true,
+            "info": true,
+            "autoWidth": false,
+            "responsive": true,
+            "searching": false, // Disable built-in search since we have our own
+            "language": {
+                "emptyTable": "No quizzes found",
+                "info": "Showing _START_ to _END_ of _TOTAL_ quizzes",
+                "infoEmpty": "Showing 0 to 0 of 0 quizzes",
+                "lengthMenu": "Show _MENU_ quizzes per page"
+            }
+        });
+
+        // Dynamic filtering - update class levels based on curriculum
+        $('select[name="curriculum"]').change(function() {
+            var curriculumId = $(this).val();
+            var classLevelSelect = $('select[name="class_level"]');
+
+            // Reset class level selection
+            classLevelSelect.val('');
+
+            // If no curriculum is selected, show all class levels
+            if (!curriculumId) {
+                classLevelSelect.find('option').show();
+                return;
+            }
+
+            // Hide class levels that don't belong to the selected curriculum
+            classLevelSelect.find('option').each(function() {
+                var $option = $(this);
+                if ($option.val() === '' || $option.data('curriculum-id') == curriculumId) {
+                    $option.show();
+                } else {
+                    $option.hide();
+                }
+            });
+        });
+
+        // Dynamic filtering - update subjects based on class level
+        $('select[name="class_level"]').change(function() {
+            var classLevelId = $(this).val();
+            var subjectSelect = $('select[name="subject"]');
+
+            // Reset subject selection
+            subjectSelect.val('');
+
+            // If no class level is selected, show all subjects
+            if (!classLevelId) {
+                subjectSelect.find('option').show();
+                return;
+            }
+
+            // Hide subjects that don't belong to the selected class level
+            subjectSelect.find('option').each(function() {
+                var $option = $(this);
+                if ($option.val() === '' || $option.data('class-level-id') == classLevelId) {
+                    $option.show();
+                } else {
+                    $option.hide();
+                }
+            });
+        });
+
+        // Dynamic filtering - update topics based on subject
+        $('select[name="subject"]').change(function() {
+            var subjectId = $(this).val();
+            var topicSelect = $('select[name="topic"]');
+
+            // Reset topic selection
+            topicSelect.val('');
+
+            // If no subject is selected, show all topics
+            if (!subjectId) {
+                topicSelect.find('option').show();
+                return;
+            }
+
+            // Hide topics that don't belong to the selected subject
+            topicSelect.find('option').each(function() {
+                var $option = $(this);
+                if ($option.val() === '' || $option.data('subject-id') == subjectId) {
+                    $option.show();
+                } else {
+                    $option.hide();
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

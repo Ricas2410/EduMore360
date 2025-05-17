@@ -1,0 +1,74 @@
+services:
+  # Web service
+  - type: web
+    name: edumore360
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn edumore360.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: "edumore360.onrender.com"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: edumore360_db
+          property: connectionString
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USE_TLS
+        value: true
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: PAYSTACK_SECRET_KEY
+        sync: false
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false
+
+  # Celery worker service
+  - type: worker
+    name: edumore360-worker
+    env: python
+    buildCommand: "./build.sh"
+    startCommand: "celery -A edumore360 worker --loglevel=info"
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: ALLOWED_HOSTS
+        value: "edumore360.onrender.com"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: edumore360_db
+          property: connectionString
+      - key: EMAIL_HOST
+        value: "smtp.gmail.com"
+      - key: EMAIL_PORT
+        value: 587
+      - key: EMAIL_USE_TLS
+        value: true
+      - key: EMAIL_HOST_USER
+        sync: false
+      - key: EMAIL_HOST_PASSWORD
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: PAYSTACK_SECRET_KEY
+        sync: false
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false
+
+# Database
+databases:
+  - name: edumore360_db
+    databaseName: edumore360
+    user: edumore360

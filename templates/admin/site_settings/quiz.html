@@ -1,0 +1,71 @@
+{% extends 'admin/site_settings/base.html' %}
+{% load static %}
+
+{% block settings_title %}Quiz Settings{% endblock %}
+{% block settings_header %}Quiz Configuration{% endblock %}
+
+{% block settings_content %}
+<form method="POST" action="{% url 'my_admin:site_settings_quiz' %}">
+    {% csrf_token %}
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="quiz_feedback_time" class="form-label">Question Feedback Time (seconds)</label>
+                <input type="number" class="form-control" id="quiz_feedback_time" name="quiz_feedback_time"
+                       value="{{ settings.quiz_feedback_time }}" min="1" max="30">
+                <div class="form-text">
+                    How long to show feedback after a user answers a question before automatically proceeding to the next question.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" id="quiz_show_immediate_feedback" name="quiz_show_immediate_feedback"
+                       {% if settings.quiz_show_immediate_feedback %}checked{% endif %}>
+                <label class="form-check-label" for="quiz_show_immediate_feedback">
+                    Show Immediate Feedback
+                </label>
+                <div class="form-text">
+                    Show feedback immediately after a user answers a question.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="quiz_randomize_questions" name="quiz_randomize_questions"
+                       {% if settings.quiz_randomize_questions %}checked{% endif %}>
+                <label class="form-check-label" for="quiz_randomize_questions">
+                    Randomize Questions
+                </label>
+                <div class="form-text">
+                    Randomize the order of questions in quizzes.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="quiz_randomize_choices" name="quiz_randomize_choices"
+                       {% if settings.quiz_randomize_choices %}checked{% endif %}>
+                <label class="form-check-label" for="quiz_randomize_choices">
+                    Randomize Choices
+                </label>
+                <div class="form-text">
+                    Randomize the order of choices in multiple-choice questions.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i> Save Changes
+        </button>
+    </div>
+</form>
+{% endblock %}

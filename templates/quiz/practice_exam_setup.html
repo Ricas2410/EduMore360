@@ -1,0 +1,115 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Practice Exam Setup - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header Section -->
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white rounded-2xl shadow-lg p-8 mb-12">
+            <div class="text-center">
+                <h1 class="text-3xl md:text-5xl font-extrabold mb-4">Practice Exam Setup</h1>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">Customize your practice exam for {{ subject.name }}</p>
+            </div>
+        </div>
+        
+        <!-- Setup Form -->
+        <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                <h2 class="text-xl font-bold flex items-center">
+                    <i class="fas fa-cog mr-2"></i>
+                    Exam Configuration
+                </h2>
+            </div>
+            
+            <div class="p-6">
+                <form method="POST" action="{% url 'quiz:practice_exam_setup' curriculum_code=curriculum.code class_level_id=class_level.id subject_slug=subject.slug %}">
+                    {% csrf_token %}
+                    
+                    <!-- Number of Questions -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2" for="question_count">
+                            <i class="fas fa-list-ol text-blue-600 mr-2"></i>
+                            Number of Questions
+                        </label>
+                        <select name="question_count" id="question_count" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                            <option value="10">10 questions</option>
+                            <option value="20">20 questions</option>
+                            <option value="30">30 questions</option>
+                            <option value="40" selected>40 questions</option>
+                            <option value="50">50 questions</option>
+                        </select>
+                        <p class="text-sm text-gray-500 mt-1">Select how many questions you want in your practice exam.</p>
+                    </div>
+                    
+                    <!-- Topic Selection -->
+                    <div class="mb-6">
+                        <label class="block text-gray-700 font-medium mb-2">
+                            <i class="fas fa-book text-blue-600 mr-2"></i>
+                            Topics to Include
+                        </label>
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                            <div class="flex items-center mb-4">
+                                <input type="checkbox" id="select_all" class="mr-2">
+                                <label for="select_all" class="font-medium">Select All Topics</label>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {% for topic in topics %}
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="topics" id="topic_{{ topic.id }}" value="{{ topic.id }}" class="topic-checkbox mr-2">
+                                    <label for="topic_{{ topic.id }}">{{ topic.name }}</label>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <p class="text-sm text-gray-500 mt-4">If no topics are selected, questions will be randomly selected from all topics.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="flex justify-end mt-8">
+                        <button type="submit" class="px-6 py-3 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors flex items-center">
+                            <i class="fas fa-play-circle mr-2"></i>
+                            Start Practice Exam
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectAllCheckbox = document.getElementById('select_all');
+        const topicCheckboxes = document.querySelectorAll('.topic-checkbox');
+        
+        // Select all topics
+        selectAllCheckbox.addEventListener('change', function() {
+            topicCheckboxes.forEach(checkbox => {
+                checkbox.checked = selectAllCheckbox.checked;
+            });
+        });
+        
+        // Update select all checkbox when individual topics are checked/unchecked
+        topicCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function() {
+                const allChecked = Array.from(topicCheckboxes).every(cb => cb.checked);
+                const noneChecked = Array.from(topicCheckboxes).every(cb => !cb.checked);
+                
+                if (allChecked) {
+                    selectAllCheckbox.checked = true;
+                    selectAllCheckbox.indeterminate = false;
+                } else if (noneChecked) {
+                    selectAllCheckbox.checked = false;
+                    selectAllCheckbox.indeterminate = false;
+                } else {
+                    selectAllCheckbox.indeterminate = true;
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

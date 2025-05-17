@@ -1,0 +1,313 @@
+{% extends 'my_admin/base.html' %}
+{% load i18n static %}
+
+{% block title %}Add Questions - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Add Questions to {{ quiz.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .question-form {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #f8f9fc;
+        border-radius: 0.35rem;
+        border-left: 0.25rem solid #4e73df;
+    }
+    .question-type-selector {
+        margin-bottom: 1.5rem;
+    }
+    .question-type-selector label {
+        margin-right: 1.5rem;
+    }
+    .multiple-choice-form, .short-answer-form {
+        display: none;
+        margin-top: 1.5rem;
+    }
+    .choice-row, .answer-row {
+        margin-bottom: 0.75rem;
+    }
+    .choice-row {
+        display: flex;
+        align-items: center;
+    }
+    .choice-row input[type="radio"] {
+        margin-right: 1rem;
+    }
+    .choice-row input[type="text"] {
+        flex-grow: 1;
+    }
+    .add-choice-btn, .add-answer-btn {
+        margin-top: 0.75rem;
+    }
+    .question-item {
+        margin-bottom: 1rem;
+        padding: 1rem;
+        border-radius: 0.35rem;
+        background-color: #fff;
+        border-left: 0.25rem solid #1cc88a;
+    }
+    .question-actions {
+        margin-top: 0.75rem;
+    }
+    .question-actions button, .question-actions a {
+        margin-right: 0.5rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quiz Information</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>Curriculum:</strong> {{ quiz.curriculum.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Class Level:</strong> {{ quiz.class_level.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Subject:</strong> {{ quiz.subject.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Topic:</strong> {% if quiz.topic %}{{ quiz.topic.name }}{% else %}General{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Add New Question</h6>
+            </div>
+            <div class="card-body">
+                <form id="question-form" method="post">
+                    {% csrf_token %}
+
+                    <div class="question-type-selector">
+                        <label class="font-weight-bold">Question Type:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="question_type" id="multiple_choice" value="multiple_choice" required>
+                            <label class="form-check-label" for="multiple_choice">Multiple Choice</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="question_type" id="short_answer" value="short_answer">
+                            <label class="form-check-label" for="short_answer">Short Answer</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question_text" class="font-weight-bold">Question Text:</label>
+                        <textarea class="form-control" id="question_text" name="question_text" rows="3" required></textarea>
+                    </div>
+
+                    <div class="multiple-choice-form">
+                        <h5 class="text-primary">Answer Choices</h5>
+                        <p class="text-muted">Add at least two choices and select the correct answer.</p>
+
+                        <div id="choices-container">
+                            <div class="choice-row">
+                                <input type="radio" name="correct_choice" value="0" required>
+                                <input type="text" class="form-control" name="choices[]" placeholder="Enter choice 1" required>
+                            </div>
+                            <div class="choice-row">
+                                <input type="radio" name="correct_choice" value="1" required>
+                                <input type="text" class="form-control" name="choices[]" placeholder="Enter choice 2" required>
+                            </div>
+                        </div>
+
+                        <button type="button" id="add-choice-btn" class="btn btn-sm btn-secondary add-choice-btn">
+                            <i class="fas fa-plus"></i> Add Another Choice
+                        </button>
+                    </div>
+
+                    <div class="short-answer-form">
+                        <h5 class="text-primary">Acceptable Answers</h5>
+                        <p class="text-muted">Add one or more acceptable answers for this question.</p>
+
+                        <div id="answers-container">
+                            <div class="answer-row">
+                                <input type="text" class="form-control" name="answers[]" placeholder="Enter acceptable answer" required>
+                            </div>
+                        </div>
+
+                        <button type="button" id="add-answer-btn" class="btn btn-sm btn-secondary add-answer-btn">
+                            <i class="fas fa-plus"></i> Add Another Answer
+                        </button>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label for="explanation" class="font-weight-bold">Explanation:</label>
+                        <textarea class="form-control" id="explanation" name="explanation" rows="3" placeholder="Explanation shown when the answer is incorrect"></textarea>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-primary">Save Question</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-12">
+        <a href="/my-admin/quiz/review-quiz/{{ quiz.id }}/" class="btn btn-success">
+            <i class="fas fa-check"></i> Review & Finalize Quiz
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <h6 class="m-0 font-weight-bold text-primary">Existing Questions ({{ existing_questions.count }})</h6>
+            </div>
+            <div class="card-body">
+                {% if existing_questions %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Question</th>
+                                    <th>Type</th>
+                                    <th>Created</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for question in existing_questions %}
+                                <tr id="question-{{ question.id }}">
+                                    <td>{{ question.text|safe|truncatewords:10 }}</td>
+                                    <td>{{ question.get_question_type_display }}</td>
+                                    <td>{{ question.created_at|date:"M d, Y" }}</td>
+                                    <td>
+                                        <button class="btn btn-sm btn-danger delete-question-btn" data-question-id="{{ question.id }}">
+                                            <i class="fas fa-trash"></i> Delete
+                                        </button>
+                                        <a href="{% url 'my_admin:quiz_admin:edit_question' question.id %}" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-edit"></i> Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="text-center py-4">
+                        <p>No questions have been added yet. Use the form above to add questions.</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Handle question type selection
+        $('input[name="question_type"]').change(function() {
+            var questionType = $(this).val();
+            if (questionType === 'multiple_choice') {
+                $('.multiple-choice-form').show();
+                $('.short-answer-form').hide();
+            } else {
+                $('.multiple-choice-form').hide();
+                $('.short-answer-form').show();
+            }
+        });
+
+        // Add more choices for multiple choice questions
+        $('#add-choice-btn').click(function() {
+            var choiceCount = $('.choice-row').length;
+            var newChoice = `
+                <div class="choice-row">
+                    <input type="radio" name="correct_choice" value="${choiceCount}" required>
+                    <input type="text" class="form-control" name="choices[]" placeholder="Enter choice ${choiceCount + 1}" required>
+                </div>
+            `;
+            $('#choices-container').append(newChoice);
+        });
+
+        // Add more answers for short answer questions
+        $('#add-answer-btn').click(function() {
+            var answerCount = $('.answer-row').length;
+            var newAnswer = `
+                <div class="answer-row">
+                    <input type="text" class="form-control" name="answers[]" placeholder="Enter acceptable answer ${answerCount + 1}" required>
+                </div>
+            `;
+            $('#answers-container').append(newAnswer);
+        });
+
+        // Handle question form submission
+        $('#question-form').submit(function(e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: "{% url 'my_admin:quiz_admin:save_question' quiz.id %}",
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        // Reset the form
+                        $('#question-form')[0].reset();
+                        // Hide both form types
+                        $('.multiple-choice-form, .short-answer-form').hide();
+                        // Reload the page to show the new question
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while saving the question.');
+                }
+            });
+        });
+
+        // Handle question deletion
+        $(document).on('click', '.delete-question-btn', function() {
+            if (confirm('Are you sure you want to delete this question?')) {
+                var questionId = $(this).data('question-id');
+
+                $.ajax({
+                    url: "/my-admin/quiz/delete-question/" + questionId + "/", // Using direct URL as the ID is dynamic
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            // Remove the question from the list
+                            $('#question-' + questionId).remove();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred while deleting the question.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

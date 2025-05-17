@@ -1,0 +1,74 @@
+{% extends 'admin/site_settings/base.html' %}
+{% load static %}
+
+{% block settings_title %}General Settings{% endblock %}
+{% block settings_header %}General Configuration{% endblock %}
+
+{% block settings_content %}
+<form method="POST" action="{% url 'my_admin:site_settings_general' %}">
+    {% csrf_token %}
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="site_name" class="form-label">Site Name</label>
+                <input type="text" class="form-control" id="site_name" name="site_name"
+                       value="{{ settings.site_name }}" required>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" id="maintenance_mode" name="maintenance_mode"
+                       {% if settings.maintenance_mode %}checked{% endif %}>
+                <label class="form-check-label" for="maintenance_mode">
+                    Maintenance Mode
+                </label>
+                <div class="form-text">
+                    When enabled, only administrators can access the site.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="site_description" class="form-label">Site Description</label>
+        <textarea class="form-control" id="site_description" name="site_description" rows="3">{{ settings.site_description }}</textarea>
+        <div class="form-text">
+            A brief description of your site. This may be used in meta tags for SEO.
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label for="session_timeout_minutes" class="form-label">Session Timeout (minutes)</label>
+                <input type="number" class="form-control" id="session_timeout_minutes" name="session_timeout_minutes"
+                       value="{{ settings.session_timeout_minutes }}" min="5" max="1440">
+                <div class="form-text">
+                    How long a user session remains active without activity.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="mb-3 form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" id="enforce_single_session" name="enforce_single_session"
+                       {% if settings.enforce_single_session %}checked{% endif %}>
+                <label class="form-check-label" for="enforce_single_session">
+                    Enforce Single Session
+                </label>
+                <div class="form-text">
+                    When enabled, users can only be logged in from one device at a time.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save me-2"></i> Save Changes
+        </button>
+    </div>
+</form>
+{% endblock %}

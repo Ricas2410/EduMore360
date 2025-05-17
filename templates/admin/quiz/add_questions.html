@@ -1,0 +1,291 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'admin/css/forms.css' %}">
+<style>
+    .question-form {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+        background-color: #f9f9f9;
+    }
+    .form-row {
+        margin-bottom: 15px;
+    }
+    .form-row label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    .form-row input[type="text"],
+    .form-row textarea,
+    .form-row select {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+    }
+    .form-row textarea {
+        height: 100px;
+    }
+    .required label:after {
+        content: " *";
+        color: #f00;
+    }
+    .help-text {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+    .choice-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .choice-row input[type="radio"] {
+        margin-right: 10px;
+    }
+    .choice-row input[type="text"] {
+        flex-grow: 1;
+    }
+    .add-choice-btn, .add-answer-btn {
+        margin-top: 10px;
+    }
+    .question-type-selector {
+        margin-bottom: 20px;
+    }
+    .question-type-selector label {
+        margin-right: 15px;
+    }
+    .question-list {
+        margin-top: 30px;
+    }
+    .question-item {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #fff;
+    }
+    .question-item h3 {
+        margin-top: 0;
+    }
+    .question-actions {
+        margin-top: 10px;
+    }
+    .question-actions button {
+        margin-right: 10px;
+    }
+    .multiple-choice-form, .short-answer-form {
+        display: none;
+    }
+</style>
+{% endblock %}
+
+{% block extrahead %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Handle question type selection
+        $('input[name="question_type"]').change(function() {
+            var questionType = $(this).val();
+            if (questionType === 'multiple_choice') {
+                $('.multiple-choice-form').show();
+                $('.short-answer-form').hide();
+            } else {
+                $('.multiple-choice-form').hide();
+                $('.short-answer-form').show();
+            }
+        });
+
+        // Add more choices for multiple choice questions
+        $('#add-choice-btn').click(function() {
+            var choiceCount = $('.choice-row').length;
+            var newChoice = `
+                <div class="choice-row">
+                    <input type="radio" name="correct_choice" value="${choiceCount}" required>
+                    <input type="text" name="choices[]" placeholder="Enter choice ${choiceCount + 1}" required>
+                </div>
+            `;
+            $('#choices-container').append(newChoice);
+        });
+
+        // Add more answers for short answer questions
+        $('#add-answer-btn').click(function() {
+            var answerCount = $('.answer-row').length;
+            var newAnswer = `
+                <div class="answer-row">
+                    <input type="text" name="answers[]" placeholder="Enter acceptable answer ${answerCount + 1}" required>
+                </div>
+            `;
+            $('#answers-container').append(newAnswer);
+        });
+
+        // Handle question form submission
+        $('#question-form').submit(function(e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: "/my-admin/quiz/save-question/{{ quiz.id }}/",
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        // Reset the form
+                        $('#question-form')[0].reset();
+                        // Hide both form types
+                        $('.multiple-choice-form, .short-answer-form').hide();
+                        // Reload the page to show the new question
+                        location.reload();
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while saving the question.');
+                }
+            });
+        });
+
+        // Handle question deletion
+        $(document).on('click', '.delete-question-btn', function() {
+            if (confirm('Are you sure you want to delete this question?')) {
+                var questionId = $(this).data('question-id');
+
+                $.ajax({
+                    url: "/my-admin/quiz/delete-question/" + questionId + "/",
+                    type: 'POST',
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name="csrfmiddlewaretoken"]').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert(response.message);
+                            // Remove the question from the list
+                            $('#question-' + questionId).remove();
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function() {
+                        alert('An error occurred while deleting the question.');
+                    }
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="/my-admin/quiz/">Quiz Management</a>
+    &rsaquo; Add Questions to {{ quiz.title }}
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Add Questions to {{ quiz.title }}</h1>
+
+    <div class="quiz-info">
+        <p><strong>Curriculum:</strong> {{ quiz.curriculum.name }}</p>
+        <p><strong>Class Level:</strong> {{ quiz.class_level.name }}</p>
+        <p><strong>Subject:</strong> {{ quiz.subject.name }}</p>
+        {% if quiz.topic %}
+            <p><strong>Topic:</strong> {{ quiz.topic.name }}</p>
+        {% endif %}
+    </div>
+
+    <div class="question-form">
+        <h2>Add New Question</h2>
+
+        <form id="question-form" method="post">
+            {% csrf_token %}
+
+            <div class="question-type-selector">
+                <label><input type="radio" name="question_type" value="multiple_choice" required> Multiple Choice</label>
+                <label><input type="radio" name="question_type" value="short_answer"> Short Answer</label>
+            </div>
+
+            <div class="form-row required">
+                <label for="id_question_text">Question Text:</label>
+                <textarea id="id_question_text" name="question_text" required></textarea>
+            </div>
+
+            <div class="multiple-choice-form">
+                <h3>Answer Choices</h3>
+                <p class="help-text">Add at least two choices and select the correct answer.</p>
+
+                <div id="choices-container">
+                    <div class="choice-row">
+                        <input type="radio" name="correct_choice" value="0" required>
+                        <input type="text" name="choices[]" placeholder="Enter choice 1" required>
+                    </div>
+                    <div class="choice-row">
+                        <input type="radio" name="correct_choice" value="1" required>
+                        <input type="text" name="choices[]" placeholder="Enter choice 2" required>
+                    </div>
+                </div>
+
+                <button type="button" id="add-choice-btn" class="add-choice-btn">Add Another Choice</button>
+            </div>
+
+            <div class="short-answer-form">
+                <h3>Acceptable Answers</h3>
+                <p class="help-text">Add one or more acceptable answers for this question.</p>
+
+                <div id="answers-container">
+                    <div class="answer-row">
+                        <input type="text" name="answers[]" placeholder="Enter acceptable answer" required>
+                    </div>
+                </div>
+
+                <button type="button" id="add-answer-btn" class="add-answer-btn">Add Another Answer</button>
+            </div>
+
+            <div class="form-row">
+                <label for="id_explanation">Explanation:</label>
+                <textarea id="id_explanation" name="explanation"></textarea>
+                <div class="help-text">Explanation shown when the answer is incorrect.</div>
+            </div>
+
+            <div class="submit-row">
+                <input type="submit" value="Save Question" class="default">
+            </div>
+        </form>
+    </div>
+
+    <div class="actions">
+        <a href="/my-admin/quiz/review-quiz/{{ quiz.id }}/" class="button">Review & Finalize Quiz</a>
+    </div>
+
+    <div class="question-list">
+        <h2>Existing Questions ({{ existing_questions.count }})</h2>
+
+        {% if existing_questions %}
+            {% for question in existing_questions %}
+                <div id="question-{{ question.id }}" class="question-item">
+                    <h3>{{ question.text|safe|truncatewords:10 }}</h3>
+                    <div class="question-meta">
+                        <p><strong>Type:</strong> {{ question.get_question_type_display }}</p>
+                        <p><strong>Created:</strong> {{ question.created_at|date:"M d, Y" }}</p>
+                    </div>
+                    <div class="question-actions">
+                        <button class="delete-question-btn" data-question-id="{{ question.id }}">Delete</button>
+                        <a href="{% url 'admin:quiz_question_change' question.id %}" class="button">Edit</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No questions have been added yet. Use the form above to add questions.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

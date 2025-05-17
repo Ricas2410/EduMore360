@@ -1,0 +1,777 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Manage Subscription - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="text-center mb-12">
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white py-8 px-6 rounded-2xl shadow-lg mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Manage Your Subscription</h1>
+            <p class="text-gray-200 max-w-3xl mx-auto">View and manage your subscription details, payment methods, and billing history</p>
+        </div>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Main Content -->
+        <div class="lg:w-2/3">
+            <!-- Current Subscription -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+                <!-- Gradient Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-2xl font-extrabold">Current Subscription</h2>
+                </div>
+
+                <div class="p-6">
+                    {% if subscription %}
+                        <div class="flex items-center p-4 bg-gray-50 rounded-xl mb-6 border border-gray-200">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-lg text-gray-800">{{ subscription.plan.name }}</h3>
+                                <p class="text-gray-600">{{ subscription.plan.get_billing_cycle_display }} Subscription</p>
+                            </div>
+                            <div class="text-2xl font-extrabold text-gray-800">${{ subscription.plan.price }}</div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div class="text-sm text-gray-600">Status</div>
+                                <div class="font-medium {% if subscription.status == 'active' %}text-green-600{% elif subscription.status == 'past_due' %}text-yellow-600{% else %}text-red-600{% endif %}">
+                                    {{ subscription.get_status_display }}
+                                </div>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div class="text-sm text-gray-600">Start Date</div>
+                                <div class="font-medium text-gray-800">{{ subscription.start_date|date:"M d, Y" }}</div>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div class="text-sm text-gray-600">Renewal Date</div>
+                                <div class="font-medium text-gray-800">{{ subscription.end_date|date:"M d, Y" }}</div>
+                            </div>
+
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
+                                <div class="text-sm text-gray-600">Auto-renew</div>
+                                <div class="font-medium text-gray-800">{{ subscription.auto_renew|yesno:"Yes,No" }}</div>
+                            </div>
+
+                            {% if subscription.scheduled_plan %}
+                            <div class="bg-blue-50 p-4 rounded-xl border border-blue-200 md:col-span-2">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <div class="text-sm text-blue-600 font-semibold">Scheduled Change</div>
+                                        <div class="font-medium text-gray-800">
+                                            Your subscription will change to {{ subscription.scheduled_plan.name }}
+                                            on {{ subscription.end_date|date:"M d, Y" }}
+                                        </div>
+                                    </div>
+                                    <form method="post" action="{% url 'subscription:cancel_scheduled_change' subscription.id %}">
+                                        {% csrf_token %}
+                                        <button type="submit" class="px-3 py-1.5 bg-gray-200 hover:bg-gray-300 text-gray-800 text-sm font-medium rounded transition-colors">
+                                            <i class="fas fa-times mr-1"></i> Cancel Change
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            {% if subscription.status == 'active' %}
+                                <form method="post" action="{% url 'subscription:toggle_auto_renew' subscription.id %}" class="inline">
+                                    {% csrf_token %}
+                                    <button type="submit" class="px-4 py-2.5 {% if subscription.auto_renew %}bg-red-600 hover:bg-red-700 text-white{% else %}bg-green-600 hover:bg-green-700 text-white{% endif %} font-semibold rounded-lg transition duration-200 flex items-center">
+                                        <i class="fas fa-{% if subscription.auto_renew %}toggle-off{% else %}toggle-on{% endif %} mr-2"></i>
+                                        {% if subscription.auto_renew %}
+                                            Turn Off Auto-renew
+                                        {% else %}
+                                            Turn On Auto-renew
+                                        {% endif %}
+                                    </button>
+                                </form>
+
+                                <button class="px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition duration-200 flex items-center"
+                                        id="cancel-subscription"
+                                        data-url="{% url 'subscription:cancel_subscription' subscription.id %}">
+                                    <i class="fas fa-times-circle mr-2"></i>
+                                    Cancel Subscription
+                                </button>
+                            {% elif subscription.status == 'canceled' %}
+                                <a href="{% url 'subscription:subscription_plans' %}"
+                                   class="px-4 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-200 flex items-center">
+                                    <i class="fas fa-plus-circle mr-2"></i>
+                                    Resubscribe
+                                </a>
+                            {% elif subscription.status == 'past_due' %}
+                                <a href="{% url 'subscription:payment' subscription.id %}"
+                                   class="px-4 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-200 flex items-center">
+                                    <i class="fas fa-credit-card mr-2"></i>
+                                    Update Payment
+                                </a>
+                            {% elif subscription.status == 'expired' %}
+                                <a href="{% url 'subscription:subscription_plans' %}"
+                                   class="px-4 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-200 flex items-center">
+                                    <i class="fas fa-sync mr-2"></i>
+                                    Renew Subscription
+                                </a>
+                            {% endif %}
+
+                            <a href="{% url 'subscription:change_plan' %}"
+                               class="px-4 py-2.5 border-2 border-[#ff4703] text-[#ff4703] font-semibold rounded-lg hover:bg-orange-50 transition duration-200 flex items-center">
+                                <i class="fas fa-exchange-alt mr-2"></i>
+                                Change Plan
+                            </a>
+                        </div>
+                    {% elif pending_subscription %}
+                        <div class="flex items-center p-4 bg-yellow-50 rounded-xl mb-6 border border-yellow-200">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-lg text-gray-800">{{ pending_subscription.plan.name }}</h3>
+                                <p class="text-gray-600">{{ pending_subscription.plan.get_billing_cycle_display }} Subscription</p>
+                                <div class="mt-2 text-yellow-700">
+                                    <i class="fas fa-exclamation-circle mr-1"></i> Payment Pending
+                                </div>
+                            </div>
+                            <div class="text-2xl font-extrabold text-gray-800">${{ pending_subscription.plan.price }}</div>
+                        </div>
+
+                        <div class="bg-yellow-50 p-6 rounded-xl border border-yellow-200 mb-6">
+                            <h3 class="font-bold text-lg text-yellow-800 mb-2">Payment Required</h3>
+                            <p class="text-gray-700 mb-4">Your subscription is pending payment. Please complete the payment process to activate your subscription.</p>
+
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a href="{% url 'subscription:payment' pending_subscription.id %}"
+                                   class="px-4 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-200 flex items-center justify-center">
+                                    <i class="fas fa-credit-card mr-2"></i>
+                                    Complete Payment
+                                </a>
+
+                                <a href="{% url 'subscription:payment_cancel' pending_subscription.id %}"
+                                   class="px-4 py-2.5 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition duration-200 flex items-center justify-center">
+                                    <i class="fas fa-times-circle mr-2"></i>
+                                    Cancel Subscription
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-8">
+                            <div class="bg-gray-50 p-8 rounded-xl border border-gray-200">
+                                <i class="fas fa-exclamation-triangle text-gray-400 text-4xl mb-4"></i>
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">No Active Subscription</h3>
+                                <p class="text-gray-600 mb-4">You don't have an active subscription. Subscribe to a plan to access premium features.</p>
+                                <a href="{% url 'subscription:subscription_plans' %}"
+                                   class="px-4 py-2.5 bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-200 inline-flex items-center">
+                                    <i class="fas fa-th-list mr-2"></i>
+                                    View Plans
+                                </a>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Payment Methods -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-8">
+                <!-- Gradient Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-2xl font-extrabold">Payment Methods</h2>
+                </div>
+
+                <div class="p-6">
+                    {% if payment_methods %}
+                        <div class="space-y-4 mb-6">
+                            {% for method in payment_methods %}
+                                <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-200">
+                                    <div class="flex items-center">
+                                        {% if method.type == 'card' %}
+                                            <div class="w-12 h-8 bg-gray-200 rounded-md mr-4 flex items-center justify-center">
+                                                {% if method.brand == 'visa' %}
+                                                    <span class="text-blue-700 font-bold">VISA</span>
+                                                {% elif method.brand == 'mastercard' %}
+                                                    <span class="text-red-600 font-bold">MC</span>
+                                                {% else %}
+                                                    <span>{{ method.brand }}</span>
+                                                {% endif %}
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-gray-800">{{ method.brand|title }} •••• {{ method.last4 }}</div>
+                                                <div class="text-sm text-gray-600">Expires {{ method.exp_month }}/{{ method.exp_year }}</div>
+                                            </div>
+                                        {% elif method.type == 'bank_account' %}
+                                            <div class="w-12 h-8 bg-gray-200 rounded-md mr-4 flex items-center justify-center">
+                                                <span class="font-bold">Bank</span>
+                                            </div>
+                                            <div>
+                                                <div class="font-medium text-gray-800">{{ method.bank_name }}</div>
+                                                <div class="text-sm text-gray-600">•••• {{ method.last4 }}</div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="flex items-center">
+                                        {% if method.is_default %}
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded-full mr-2">Default</span>
+                                        {% else %}
+                                            <button class="text-sm text-blue-600 hover:text-blue-800 mr-3"
+                                                    hx-post="{% url 'subscription:set_default_payment_method' method.id %}"
+                                                    hx-swap="outerHTML">
+                                                Set Default
+                                            </button>
+                                        {% endif %}
+
+                                        <button class="text-sm text-red-600 hover:text-red-800"
+                                                hx-post="{% url 'subscription:remove_payment_method' method.id %}"
+                                                hx-confirm="Are you sure you want to remove this payment method?"
+                                                hx-swap="outerHTML">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p class="text-gray-600 mb-6">You don't have any saved payment methods.</p>
+                    {% endif %}
+
+                    <button class="px-4 py-2.5 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition duration-200 flex items-center"
+                            id="add-payment-method">
+                        <i class="fas fa-plus mr-2"></i>
+                        Add Payment Method
+                    </button>
+                </div>
+            </div>
+
+            <!-- Billing History -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Gradient Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-2xl font-extrabold">Billing History</h2>
+                </div>
+
+                <div class="p-6">
+                    {% if invoices %}
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    {% for invoice in invoices %}
+                                        <tr class="{% cycle 'bg-white' 'bg-gray-50' %}">
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ invoice.date|date:"M d, Y" }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">{{ invoice.description }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800">${{ invoice.amount }}</td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                {% if invoice.status == 'paid' %}
+                                                    <span class="bg-green-100 text-green-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Paid</span>
+                                                {% elif invoice.status == 'pending' %}
+                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Pending</span>
+                                                {% else %}
+                                                    <span class="bg-red-100 text-red-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">Failed</span>
+                                                {% endif %}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <a href="{{ invoice.receipt_url }}" target="_blank" class="text-blue-600 hover:text-blue-900">
+                                                    <i class="fas fa-file-invoice"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <div class="text-center py-6">
+                            <p class="text-gray-600">No billing history available.</p>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:w-1/3">
+            <!-- Plan Details -->
+            {% if subscription and subscription.status == 'active' %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                    <!-- Gradient Header -->
+                    <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                        <h2 class="text-2xl font-extrabold">Plan Features</h2>
+                    </div>
+
+                    <div class="p-6">
+                        <ul class="space-y-3">
+                            {% for feature in subscription.plan.features.splitlines %}
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-green-500 mr-2 mt-1"></i>
+                                    <span class="text-gray-700">{{ feature|slice:"1:" }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% elif pending_subscription %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                    <!-- Gradient Header -->
+                    <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                        <h2 class="text-2xl font-extrabold">Pending Plan Features</h2>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 mb-4">
+                            <p class="text-yellow-700 text-sm">
+                                <i class="fas fa-exclamation-circle mr-1"></i>
+                                These features will be available after payment is completed.
+                            </p>
+                        </div>
+                        <ul class="space-y-3">
+                            {% for feature in pending_subscription.plan.features.splitlines %}
+                                <li class="flex items-start">
+                                    <i class="fas fa-check text-gray-400 mr-2 mt-1"></i>
+                                    <span class="text-gray-500">{{ feature|slice:"1:" }}</span>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Family Members -->
+            {% if subscription and subscription.status == 'active' and subscription.plan.plan_type == 'family' %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                    <!-- Gradient Header -->
+                    <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                        <h2 class="text-2xl font-extrabold">Family Members</h2>
+                    </div>
+
+                    <div class="p-6">
+                        {% if family_members %}
+                            <div class="space-y-3">
+                                {% for member in family_members %}
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl border border-gray-200">
+                                        <div class="flex items-center">
+                                            {% if member.profile_picture %}
+                                                <img src="{{ member.profile_picture.url }}" alt="{{ member.get_full_name }}" class="w-8 h-8 rounded-full object-cover mr-3">
+                                            {% else %}
+                                                <div class="w-8 h-8 rounded-full bg-blue-600 flex items-center justify-center text-white text-sm font-bold mr-3">
+                                                    {{ member.first_name|first }}{{ member.last_name|first }}
+                                                </div>
+                                            {% endif %}
+                                            <div>
+                                                <div class="font-medium text-gray-800">{{ member.get_full_name }}</div>
+                                                <div class="text-xs text-gray-600">{{ member.email }}</div>
+                                            </div>
+                                        </div>
+
+                                        <button class="text-sm text-red-600 hover:text-red-800"
+                                                hx-post="{% url 'subscription:remove_group_member' member.id %}"
+                                                hx-confirm="Are you sure you want to remove this family member?"
+                                                hx-swap="outerHTML">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+
+                            {% if family_members|length < 5 %}
+                                <div class="mt-4">
+                                    <button class="px-4 py-2 w-full border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition duration-200 flex items-center justify-center"
+                                            id="add-family-member">
+                                        <i class="fas fa-user-plus mr-2"></i>
+                                        Add Family Member
+                                    </button>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <p class="text-gray-600 mb-4">You haven't added any family members yet.</p>
+
+                            <button class="px-4 py-2 w-full bg-[#ff4703] hover:bg-orange-600 text-white font-semibold rounded-lg transition duration-200 flex items-center justify-center"
+                                    id="add-family-member">
+                                <i class="fas fa-user-plus mr-2"></i>
+                                Add Family Member
+                            </button>
+                        {% endif %}
+                    </div>
+                </div>
+            {% elif pending_subscription and pending_subscription.plan.plan_type == 'family' %}
+                <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden mb-6">
+                    <!-- Gradient Header -->
+                    <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                        <h2 class="text-2xl font-extrabold">Family Members</h2>
+                    </div>
+
+                    <div class="p-6">
+                        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+                            <h3 class="font-bold text-yellow-800 mb-2">Payment Required</h3>
+                            <p class="text-gray-700">You'll be able to add family members after completing your payment.</p>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Need Help -->
+            <div class="bg-white border border-gray-200 rounded-2xl shadow-lg overflow-hidden">
+                <!-- Gradient Header -->
+                <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white">
+                    <h2 class="text-2xl font-extrabold">Need Help?</h2>
+                </div>
+
+                <div class="p-6">
+                    <div class="space-y-3">
+                        <a href="{% url 'core:faq' %}" class="flex items-center p-3 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition duration-200">
+                            <i class="fas fa-question-circle text-blue-600 mr-3 text-lg"></i>
+                            <span class="text-gray-800">Frequently Asked Questions</span>
+                        </a>
+
+                        <a href="{% url 'core:contact' %}" class="flex items-center p-3 bg-gray-50 rounded-xl border border-gray-200 hover:bg-gray-100 transition duration-200">
+                            <i class="fas fa-envelope text-blue-600 mr-3 text-lg"></i>
+                            <span class="text-gray-800">Contact Support</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Payment Method Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden" id="add-payment-method-modal">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white rounded-t-2xl">
+            <h3 class="text-xl font-extrabold">Add Payment Method</h3>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6">
+            <form id="payment-form">
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="card-holder-name">Cardholder Name</label>
+                    <input type="text" id="card-holder-name" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="card-element">Card Details</label>
+                    <div id="card-element" class="border border-gray-300 rounded-lg p-4 bg-gray-50"></div>
+                    <div id="card-errors" class="text-red-600 text-sm mt-2"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="flex items-center cursor-pointer">
+                        <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-600 rounded focus:ring-blue-500" id="set-default">
+                        <span class="ml-2 text-gray-700">Set as default payment method</span>
+                    </label>
+                </div>
+
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors" id="close-modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors">
+                        Add Payment Method
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Add Family Member Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center hidden" id="add-family-member-modal">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4">
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-blue-800 to-black px-6 py-4 text-white rounded-t-2xl">
+            <h3 class="text-xl font-extrabold">Add Family Member</h3>
+        </div>
+
+        <!-- Modal Body -->
+        <div class="p-6">
+            <form id="family-member-form" method="POST" action="{% url 'subscription:add_group_member' %}">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label class="block text-sm font-medium text-gray-700 mb-1" for="email">Email Address</label>
+                    <input type="email" id="email" name="email" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    <p class="text-xs text-gray-500 mt-1">Enter the email address of the person you want to add to your family plan.</p>
+                </div>
+
+                <div id="family-member-form-feedback" class="mb-4 hidden">
+                    <div class="p-3 rounded-lg text-sm"></div>
+                </div>
+
+                <div class="flex justify-end space-x-3 mt-6">
+                    <button type="button" class="px-4 py-2 border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors" id="close-family-modal">
+                        Cancel
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-[#ff4703] hover:bg-orange-600 text-white font-medium rounded-lg transition-colors" id="add-family-member-submit">
+                        <span class="button-text">Add Member</span>
+                        <span class="button-loader hidden">
+                            <i class="fas fa-spinner fa-spin"></i> Adding...
+                        </span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    // Modal functionality
+    document.getElementById('add-payment-method')?.addEventListener('click', function() {
+        document.getElementById('add-payment-method-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('close-modal')?.addEventListener('click', function() {
+        document.getElementById('add-payment-method-modal').classList.add('hidden');
+    });
+
+    document.getElementById('add-family-member')?.addEventListener('click', function() {
+        document.getElementById('add-family-member-modal').classList.remove('hidden');
+    });
+
+    document.getElementById('close-family-modal')?.addEventListener('click', function() {
+        document.getElementById('add-family-member-modal').classList.add('hidden');
+    });
+
+    // Close modals when clicking outside
+    window.addEventListener('click', function(event) {
+        const paymentModal = document.getElementById('add-payment-method-modal');
+        const familyModal = document.getElementById('add-family-member-modal');
+
+        if (event.target === paymentModal) {
+            paymentModal.classList.add('hidden');
+        }
+
+        if (event.target === familyModal) {
+            familyModal.classList.add('hidden');
+        }
+    });
+
+    // Handle family member form submission
+    const familyMemberForm = document.getElementById('family-member-form');
+    if (familyMemberForm) {
+        familyMemberForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Show loading state
+            const submitButton = document.getElementById('add-family-member-submit');
+            const buttonText = submitButton.querySelector('.button-text');
+            const buttonLoader = submitButton.querySelector('.button-loader');
+            const feedbackDiv = document.getElementById('family-member-form-feedback');
+            const feedbackContent = feedbackDiv.querySelector('div');
+
+            buttonText.classList.add('hidden');
+            buttonLoader.classList.remove('hidden');
+            submitButton.disabled = true;
+
+            // Get form data
+            const formData = new FormData(familyMemberForm);
+
+            // Send AJAX request
+            fetch(familyMemberForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Reset loading state
+                buttonText.classList.remove('hidden');
+                buttonLoader.classList.add('hidden');
+                submitButton.disabled = false;
+
+                // Show feedback
+                feedbackDiv.classList.remove('hidden');
+
+                if (data.success) {
+                    // Success
+                    feedbackContent.className = 'p-3 rounded-lg text-sm bg-green-50 text-green-800 border border-green-200';
+                    feedbackContent.innerHTML = `<i class="fas fa-check-circle mr-1"></i> ${data.message}`;
+
+                    // Reload the page after a delay
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1500);
+                } else {
+                    // Error
+                    feedbackContent.className = 'p-3 rounded-lg text-sm bg-red-50 text-red-800 border border-red-200';
+                    feedbackContent.innerHTML = `<i class="fas fa-exclamation-circle mr-1"></i> ${data.message}`;
+                }
+            })
+            .catch(error => {
+                // Reset loading state
+                buttonText.classList.remove('hidden');
+                buttonLoader.classList.add('hidden');
+                submitButton.disabled = false;
+
+                // Show error feedback
+                feedbackDiv.classList.remove('hidden');
+                feedbackContent.className = 'p-3 rounded-lg text-sm bg-red-50 text-red-800 border border-red-200';
+                feedbackContent.innerHTML = '<i class="fas fa-exclamation-circle mr-1"></i> An error occurred. Please try again.';
+
+                console.error('Error:', error);
+            });
+        });
+    }
+
+    // Handle cancel subscription button
+    const cancelSubscriptionButton = document.getElementById('cancel-subscription');
+    if (cancelSubscriptionButton) {
+        cancelSubscriptionButton.addEventListener('click', function(event) {
+            event.preventDefault();
+
+            if (confirm('Are you sure you want to cancel your subscription? You will lose access to premium features at the end of your current billing period.')) {
+                // Show loading state
+                cancelSubscriptionButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Canceling...';
+                cancelSubscriptionButton.disabled = true;
+
+                // Get the URL from the data-url attribute
+                const url = cancelSubscriptionButton.getAttribute('data-url');
+
+                // Send AJAX request
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRFToken': '{{ csrf_token }}'
+                    }
+                })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('Failed to cancel subscription');
+                    }
+                })
+                .then(data => {
+                    if (data.success) {
+                        // Show success message
+                        alert(data.message);
+                        // Reload the page
+                        window.location.reload();
+                    } else {
+                        throw new Error(data.message || 'Failed to cancel subscription');
+                    }
+                })
+                .catch(error => {
+                    // Reset button
+                    cancelSubscriptionButton.innerHTML = '<i class="fas fa-times-circle mr-2"></i> Cancel Subscription';
+                    cancelSubscriptionButton.disabled = false;
+
+                    alert('An error occurred while canceling your subscription. Please try again.');
+                    console.error('Error:', error);
+                });
+            }
+        });
+    }
+
+    // Stripe Elements
+    const stripe = Stripe('pk_test_your_stripe_key');
+    const elements = stripe.elements();
+
+    // Create card element with custom style
+    const cardElement = elements.create('card', {
+        style: {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
+                }
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        }
+    });
+
+    cardElement.mount('#card-element');
+
+    // Handle form submission
+    const form = document.getElementById('payment-form');
+    const cardHolderName = document.getElementById('card-holder-name');
+    const setDefault = document.getElementById('set-default');
+
+    form?.addEventListener('submit', async (event) => {
+        event.preventDefault();
+
+        // Disable the submit button to prevent multiple submissions
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+        submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processing...';
+
+        try {
+            // Create payment method
+            const { paymentMethod, error } = await stripe.createPaymentMethod({
+                type: 'card',
+                card: cardElement,
+                billing_details: {
+                    name: cardHolderName.value,
+                },
+            });
+
+            if (error) {
+                // Display error
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+
+                // Re-enable the submit button
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Add Payment Method';
+            } else {
+                // Payment method created successfully, submit to server
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = "{% url 'subscription:add_payment_method' %}";
+
+                // Add CSRF token
+                const csrfToken = document.createElement('input');
+                csrfToken.type = 'hidden';
+                csrfToken.name = 'csrfmiddlewaretoken';
+                csrfToken.value = '{{ csrf_token }}';
+                form.appendChild(csrfToken);
+
+                // Add payment method ID
+                const paymentMethodInput = document.createElement('input');
+                paymentMethodInput.type = 'hidden';
+                paymentMethodInput.name = 'payment_method_id';
+                paymentMethodInput.value = paymentMethod.id;
+                form.appendChild(paymentMethodInput);
+
+                // Add set as default flag
+                const setDefaultInput = document.createElement('input');
+                setDefaultInput.type = 'hidden';
+                setDefaultInput.name = 'set_default';
+                setDefaultInput.value = setDefault.checked ? 'true' : 'false';
+                form.appendChild(setDefaultInput);
+
+                // Add to document and submit
+                document.body.appendChild(form);
+                form.submit();
+            }
+        } catch (error) {
+            console.error('Error:', error);
+
+            // Re-enable the submit button
+            submitButton.disabled = false;
+            submitButton.innerHTML = 'Add Payment Method';
+
+            // Display generic error
+            const errorElement = document.getElementById('card-errors');
+            errorElement.textContent = 'An unexpected error occurred. Please try again.';
+        }
+    });
+</script>
+{% endblock %}

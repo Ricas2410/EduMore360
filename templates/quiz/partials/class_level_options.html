@@ -1,0 +1,4 @@
+<option value="">All Class Levels</option>
+{% for class_level in class_levels %}
+    <option value="{{ class_level.id }}" {% if selected_class_level == class_level.id %}selected{% endif %}>{{ class_level.name }}</option>
+{% endfor %}

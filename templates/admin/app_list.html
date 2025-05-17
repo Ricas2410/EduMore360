@@ -1,0 +1,37 @@
+{% extends "admin/app_list.html" %}
+{% load i18n %}
+
+{% block content %}
+{{ block.super }}
+{% if app_list %}
+  {% for app in app_list %}
+    {% if app.app_label == 'subscription' %}
+      <div class="module" style="margin-top: 20px;">
+        <table>
+          <caption>
+            <a href="{% url 'subscription:admin_subscription_dashboard' %}" class="section" title="{% trans 'Subscription Management Dashboard' %}">
+              {% trans 'Subscription Management Dashboard' %}
+            </a>
+          </caption>
+          <tr>
+            <th scope="row">
+              <a href="{% url 'subscription:admin_subscription_dashboard' %}">
+                {% trans 'Dashboard' %}
+              </a>
+            </th>
+            <td><a href="{% url 'subscription:admin_subscription_dashboard' %}" class="changelink">{% trans 'View' %}</a></td>
+          </tr>
+          <tr>
+            <th scope="row">
+              <a href="{% url 'subscription:admin_subscription_list' %}">
+                {% trans 'All Subscriptions' %}
+              </a>
+            </th>
+            <td><a href="{% url 'subscription:admin_subscription_list' %}" class="changelink">{% trans 'View' %}</a></td>
+          </tr>
+        </table>
+      </div>
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endblock %}

@@ -1,0 +1,227 @@
+{% extends 'my_admin/base.html' %}
+{% load i18n static %}
+
+{% block title %}Edit Question - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Edit Question{% endblock %}
+
+{% block extra_css %}
+<style>
+    .question-form {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background-color: #f8f9fc;
+        border-radius: 0.35rem;
+        border-left: 0.25rem solid #4e73df;
+    }
+    .question-type-selector {
+        margin-bottom: 1.5rem;
+    }
+    .question-type-selector label {
+        margin-right: 1.5rem;
+    }
+    .multiple-choice-form, .short-answer-form {
+        margin-top: 1.5rem;
+    }
+    .choice-row, .answer-row {
+        margin-bottom: 0.75rem;
+    }
+    .choice-row {
+        display: flex;
+        align-items: center;
+    }
+    .choice-row input[type="radio"] {
+        margin-right: 1rem;
+    }
+    .choice-row input[type="text"] {
+        flex-grow: 1;
+    }
+    .add-choice-btn, .add-answer-btn {
+        margin-top: 0.75rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card shadow">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Question Information</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <p><strong>Curriculum:</strong> {{ question.curriculum.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Class Level:</strong> {{ question.class_level.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Subject:</strong> {{ question.subject.name }}</p>
+                    </div>
+                    <div class="col-md-3">
+                        <p><strong>Topic:</strong> {% if question.topic %}{{ question.topic.name }}{% else %}General{% endif %}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Edit Question</h6>
+            </div>
+            <div class="card-body">
+                <form id="question-form" method="post">
+                    {% csrf_token %}
+
+                    <div class="question-type-selector">
+                        <label class="font-weight-bold">Question Type:</label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="question_type" id="multiple_choice" value="multiple_choice" {% if question.question_type == 'multiple_choice' %}checked{% endif %} required>
+                            <label class="form-check-label" for="multiple_choice">Multiple Choice</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="question_type" id="short_answer" value="short_answer" {% if question.question_type == 'short_answer' %}checked{% endif %}>
+                            <label class="form-check-label" for="short_answer">Short Answer</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="question_text" class="font-weight-bold">Question Text:</label>
+                        <textarea class="form-control" id="question_text" name="question_text" rows="3" required>{{ question.text }}</textarea>
+                    </div>
+
+                    <div class="multiple-choice-form" {% if question.question_type != 'multiple_choice' %}style="display: none;"{% endif %}>
+                        <h5 class="text-primary">Answer Choices</h5>
+                        <p class="text-muted">Add at least two choices and select the correct answer.</p>
+
+                        <div id="choices-container">
+                            {% for choice in question.questionchoice_set.all %}
+                            <div class="choice-row">
+                                <input type="radio" name="correct_choice" value="{{ forloop.counter0 }}" {% if choice.is_correct %}checked{% endif %} required>
+                                <input type="text" class="form-control" name="choices[]" value="{{ choice.text }}" placeholder="Enter choice {{ forloop.counter }}" required>
+                            </div>
+                            {% empty %}
+                            <div class="choice-row">
+                                <input type="radio" name="correct_choice" value="0" required>
+                                <input type="text" class="form-control" name="choices[]" placeholder="Enter choice 1" required>
+                            </div>
+                            <div class="choice-row">
+                                <input type="radio" name="correct_choice" value="1" required>
+                                <input type="text" class="form-control" name="choices[]" placeholder="Enter choice 2" required>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="button" id="add-choice-btn" class="btn btn-sm btn-secondary add-choice-btn">
+                            <i class="fas fa-plus"></i> Add Another Choice
+                        </button>
+                    </div>
+
+                    <div class="short-answer-form" {% if question.question_type != 'short_answer' %}style="display: none;"{% endif %}>
+                        <h5 class="text-primary">Acceptable Answers</h5>
+                        <p class="text-muted">Add one or more acceptable answers for this question.</p>
+
+                        <div id="answers-container">
+                            {% for answer in question.shortanswer_set.all %}
+                            <div class="answer-row">
+                                <input type="text" class="form-control" name="answers[]" value="{{ answer.text }}" placeholder="Enter acceptable answer {{ forloop.counter }}" required>
+                            </div>
+                            {% empty %}
+                            <div class="answer-row">
+                                <input type="text" class="form-control" name="answers[]" placeholder="Enter acceptable answer" required>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <button type="button" id="add-answer-btn" class="btn btn-sm btn-secondary add-answer-btn">
+                            <i class="fas fa-plus"></i> Add Another Answer
+                        </button>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <label for="explanation" class="font-weight-bold">Explanation:</label>
+                        <textarea class="form-control" id="explanation" name="explanation" rows="3" placeholder="Explanation shown when the answer is incorrect">{{ question.explanation }}</textarea>
+                    </div>
+
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <a href="javascript:history.back()" class="btn btn-secondary">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Handle question type selection
+        $('input[name="question_type"]').change(function() {
+            var questionType = $(this).val();
+            if (questionType === 'multiple_choice') {
+                $('.multiple-choice-form').show();
+                $('.short-answer-form').hide();
+            } else {
+                $('.multiple-choice-form').hide();
+                $('.short-answer-form').show();
+            }
+        });
+
+        // Add more choices for multiple choice questions
+        $('#add-choice-btn').click(function() {
+            var choiceCount = $('.choice-row').length;
+            var newChoice = `
+                <div class="choice-row">
+                    <input type="radio" name="correct_choice" value="${choiceCount}" required>
+                    <input type="text" class="form-control" name="choices[]" placeholder="Enter choice ${choiceCount + 1}" required>
+                </div>
+            `;
+            $('#choices-container').append(newChoice);
+        });
+
+        // Add more answers for short answer questions
+        $('#add-answer-btn').click(function() {
+            var answerCount = $('.answer-row').length;
+            var newAnswer = `
+                <div class="answer-row">
+                    <input type="text" class="form-control" name="answers[]" placeholder="Enter acceptable answer ${answerCount + 1}" required>
+                </div>
+            `;
+            $('#answers-container').append(newAnswer);
+        });
+
+        // Handle question form submission
+        $('#question-form').submit(function(e) {
+            e.preventDefault();
+
+            var formData = $(this).serialize();
+
+            $.ajax({
+                url: "{% url 'my_admin:quiz_admin:update_question' question.id %}",
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response.success) {
+                        alert(response.message);
+                        // Redirect back to the previous page
+                        window.location.href = document.referrer;
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while saving the question.');
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}

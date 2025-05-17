@@ -1,0 +1,135 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load account %}
+{% load socialaccount %}
+{% load static %}
+
+{% block title %}{% trans "Sign In" %} - EduMore360{% endblock %}
+
+{% block extra_css %}
+<!-- Google Material Icons CDN -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<div class="bg-white min-h-screen flex items-center justify-center">
+  <!-- Main Form Section -->
+  <div class="w-full max-w-md bg-gradient-to-br from-blue-700 to-black text-white rounded-xl shadow-xl p-8 space-y-8">
+
+    <!-- Edumore Logo and Title -->
+    <div class="text-center mb-6">
+      <h1 class="text-4xl font-extrabold text-white-400">EduMore360</h1>
+      <p class="text-lg text-gray-200">{% trans "Welcome back! Let's get you logged in." %}</p>
+    </div>
+
+    {% if socialaccount_providers %}
+    <div class="mb-6">
+      <div class="flex justify-center space-x-4">
+        {% if 'google' in socialaccount_providers %}
+        <a href="{% provider_login_url 'google' %}" class="w-full py-3 bg-gray-800 hover:bg-gray-700 text-white rounded-lg font-semibold focus:outline-none transition flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 24 24" fill="#4285F4">
+            <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+          </svg>
+          {% trans "Continue with Google" %}
+        </a>
+        {% endif %}
+      </div>
+
+      <div class="relative flex items-center justify-center mt-6 mb-6">
+        <div class="absolute border-t border-gray-600 w-full"></div>
+        <div class="relative bg-transparent px-4 text-sm text-gray-300">{% trans "OR" %}</div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Login Form -->
+    <form class="login space-y-6" method="POST" action="{% url 'account_login' %}">
+      {% csrf_token %}
+
+      {% if form.non_field_errors %}
+      <div class="bg-red-900 bg-opacity-20 border-l-4 border-red-500 p-4 mb-6">
+        <div class="flex">
+          <div class="flex-shrink-0">
+            <span class="material-icons text-red-400">error_outline</span>
+          </div>
+          <div class="ml-3">
+            {% for error in form.non_field_errors %}
+            <p class="text-sm text-red-200">{{ error }}</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Email Input -->
+      <div>
+        <label for="id_login" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+          <span class="material-icons text-blue-400 mr-2 text-sm">email</span>
+          {% trans "Email" %}
+        </label>
+        <div class="relative">
+          <input id="id_login" name="login" type="email" required
+                 class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                 placeholder="Enter your email"/>
+          <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">alternate_email</span>
+        </div>
+        {% if form.login.errors %}
+        <div class="mt-1 text-sm text-red-300">
+          {% for error in form.login.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Password Input -->
+      <div>
+        <label for="id_password" class="flex items-center text-sm font-semibold text-gray-200 mb-2">
+          <span class="material-icons text-blue-400 mr-2 text-sm">lock</span>
+          {% trans "Password" %}
+        </label>
+        <div class="relative">
+          <input id="id_password" name="password" type="password" required
+                 class="w-full px-4 py-3 pl-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none bg-gray-800 text-white"
+                 placeholder="Enter your password"/>
+          <span class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">lock_outline</span>
+        </div>
+        {% if form.password.errors %}
+        <div class="mt-1 text-sm text-red-300">
+          {% for error in form.password.errors %}
+          <p>{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Remember Me Checkbox -->
+      <div class="flex items-center justify-between">
+        <label for="id_remember" class="flex items-center">
+          <input id="id_remember" name="remember" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"/>
+          <span class="flex items-center ml-2 text-sm text-gray-200">
+            <span class="material-icons text-blue-400 mr-2 text-sm">remember_me</span>
+            {% trans "Remember me" %}
+          </span>
+        </label>
+        <a href="{% url 'account_reset_password' %}" class="flex items-center text-sm text-blue-400 hover:underline">
+          <span class="material-icons text-blue-400 mr-1 text-sm">help_outline</span>
+          {% trans "Forgot password?" %}
+        </a>
+      </div>
+
+      {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      <!-- Submit Button -->
+      <button type="submit" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold focus:outline-none transition">{% trans "Login" %}</button>
+    </form>
+
+    <!-- Signup Link -->
+    <p class="text-center text-sm text-gray-200">{% trans "Don't have an account?" %}
+      <a href="{% url 'account_signup' %}" class="text-blue-400 hover:underline">{% trans "Sign up" %}</a>
+    </p>
+  </div>
+</div>
+{% endblock %}

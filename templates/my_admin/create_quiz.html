@@ -1,0 +1,198 @@
+{% extends 'my_admin/base.html' %}
+{% load i18n static %}
+
+{% block title %}Create New Quiz - EduMore360 Admin{% endblock %}
+
+{% block page_title %}Create New Quiz{% endblock %}
+
+{% block extra_css %}
+<style>
+    .form-row {
+        margin-bottom: 1.5rem;
+    }
+    .form-row label {
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+    .form-row .help-text {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 0.25rem;
+    }
+    .required label:after {
+        content: " *";
+        color: #e74a3b;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Create New Quiz</h6>
+    </div>
+    <div class="card-body">
+        <form method="post" action="/my-admin/quiz/create-quiz/">
+            {% csrf_token %}
+            
+            <div class="form-row required">
+                <label for="id_title">Quiz Title</label>
+                <input type="text" class="form-control" id="id_title" name="title" required>
+                <div class="help-text">A descriptive name for the quiz.</div>
+            </div>
+            
+            <div class="form-row">
+                <label for="id_description">Description</label>
+                <textarea class="form-control" id="id_description" name="description" rows="3"></textarea>
+                <div class="help-text">A brief description of the quiz (optional).</div>
+            </div>
+            
+            <div class="form-row required">
+                <label for="id_curriculum">Curriculum</label>
+                <select class="form-control" id="id_curriculum" name="curriculum" required>
+                    <option value="">Select Curriculum</option>
+                    {% for curriculum in curricula %}
+                        <option value="{{ curriculum.id }}">{{ curriculum.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-row required">
+                <label for="id_class_level">Class Level</label>
+                <select class="form-control" id="id_class_level" name="class_level" required>
+                    <option value="">Select Class Level</option>
+                </select>
+            </div>
+            
+            <div class="form-row required">
+                <label for="id_subject">Subject</label>
+                <select class="form-control" id="id_subject" name="subject" required>
+                    <option value="">Select Subject</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <label for="id_topic">Topic (Optional)</label>
+                <select class="form-control" id="id_topic" name="topic">
+                    <option value="">Select Topic</option>
+                </select>
+            </div>
+            
+            <div class="form-row">
+                <label for="id_instructions">Instructions (Optional)</label>
+                <textarea class="form-control" id="id_instructions" name="instructions" rows="3"></textarea>
+                <div class="help-text">Any specific guidance for users taking this quiz.</div>
+            </div>
+            
+            <div class="form-row">
+                <button type="submit" class="btn btn-primary">Create Quiz</button>
+                <a href="/my-admin/quiz/" class="btn btn-secondary ml-2">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quiz Creation Guide</h6>
+            </div>
+            <div class="card-body">
+                <h5>Creating an Effective Quiz</h5>
+                <p>Follow these steps to create a high-quality quiz:</p>
+                <ol>
+                    <li><strong>Choose a clear title</strong> - Make it descriptive and specific</li>
+                    <li><strong>Select the appropriate curriculum and class level</strong> - This determines who will see the quiz</li>
+                    <li><strong>Add a variety of questions</strong> - Mix multiple choice and short answer questions</li>
+                    <li><strong>Include explanations</strong> - Help students learn from their mistakes</li>
+                    <li><strong>Review and test</strong> - Make sure all questions work as expected</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-6">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Quiz Settings</h6>
+            </div>
+            <div class="card-body">
+                <h5>Quiz Configuration Options</h5>
+                <p>After creating your quiz, you'll be able to configure:</p>
+                <ul>
+                    <li><strong>Time per question</strong> - How long students have to answer each question</li>
+                    <li><strong>Randomization</strong> - Whether to randomize question and answer order</li>
+                    <li><strong>Passing score</strong> - The minimum percentage required to pass</li>
+                    <li><strong>Question selection</strong> - How many questions to include from the pool</li>
+                    <li><strong>Feedback options</strong> - When and how to show feedback to students</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    $(document).ready(function() {
+        // Handle curriculum change
+        $('#id_curriculum').change(function() {
+            var curriculumId = $(this).val();
+            if (curriculumId) {
+                // Clear dependent dropdowns
+                $('#id_class_level').html('<option value="">Select Class Level</option>');
+                $('#id_subject').html('<option value="">Select Subject</option>');
+                $('#id_topic').html('<option value="">Select Topic (Optional)</option>');
+                
+                // Get class levels for this curriculum
+                $.getJSON("/my-admin/quiz/get-class-levels/", {curriculum_id: curriculumId}, function(data) {
+                    var options = '<option value="">Select Class Level</option>';
+                    $.each(data.class_levels, function(index, classLevel) {
+                        options += '<option value="' + classLevel.id + '">' + classLevel.name + '</option>';
+                    });
+                    $('#id_class_level').html(options);
+                });
+            }
+        });
+        
+        // Handle class level change
+        $('#id_class_level').change(function() {
+            var classLevelId = $(this).val();
+            if (classLevelId) {
+                // Clear dependent dropdowns
+                $('#id_subject').html('<option value="">Select Subject</option>');
+                $('#id_topic').html('<option value="">Select Topic (Optional)</option>');
+                
+                // Get subjects for this class level
+                $.getJSON("/my-admin/quiz/get-subjects/", {class_level_id: classLevelId}, function(data) {
+                    var options = '<option value="">Select Subject</option>';
+                    $.each(data.subjects, function(index, subject) {
+                        options += '<option value="' + subject.id + '">' + subject.name + '</option>';
+                    });
+                    $('#id_subject').html(options);
+                });
+            }
+        });
+        
+        // Handle subject change
+        $('#id_subject').change(function() {
+            var subjectId = $(this).val();
+            if (subjectId) {
+                // Clear dependent dropdown
+                $('#id_topic').html('<option value="">Select Topic (Optional)</option>');
+                
+                // Get topics for this subject
+                $.getJSON("/my-admin/quiz/get-topics/", {subject_id: subjectId}, function(data) {
+                    var options = '<option value="">Select Topic (Optional)</option>';
+                    $.each(data.topics, function(index, topic) {
+                        options += '<option value="' + topic.id + '">' + topic.name + '</option>';
+                    });
+                    $('#id_topic').html(options);
+                });
+            }
+        });
+    });
+</script>
+{% endblock %}

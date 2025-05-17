@@ -1,0 +1,4 @@
+<option value="">All Topics</option>
+{% for topic in topics %}
+    <option value="{{ topic.slug }}">{{ topic.name }}</option>
+{% endfor %}

@@ -1,0 +1,114 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: gunicorn edumore360.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    env_file:
+      - .env.production
+    depends_on:
+      - db
+      - redis
+    networks:
+      - edumore_network
+    restart: always
+
+  db:
+    image: postgres:14
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env.production
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - edumore_network
+    restart: always
+
+  redis:
+    image: redis:7
+    volumes:
+      - redis_data:/data
+    networks:
+      - edumore_network
+    restart: always
+
+  celery:
+    build: .
+    command: celery -A edumore360 worker -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env.production
+    depends_on:
+      - db
+      - redis
+      - web
+    networks:
+      - edumore_network
+    restart: always
+
+  celery-beat:
+    build: .
+    command: celery -A edumore360 beat -l info
+    volumes:
+      - .:/app
+    env_file:
+      - .env.production
+    depends_on:
+      - db
+      - redis
+      - web
+    networks:
+      - edumore_network
+    restart: always
+
+  flower:
+    build: .
+    command: celery -A edumore360 flower
+    volumes:
+      - .:/app
+    env_file:
+      - .env.production
+    ports:
+      - "5555:5555"
+    depends_on:
+      - db
+      - redis
+      - web
+      - celery
+    networks:
+      - edumore_network
+    restart: always
+
+  nginx:
+    image: nginx:1.25
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/ssl:/etc/nginx/ssl
+      - static_volume:/app/staticfiles
+      - media_volume:/app/media
+    depends_on:
+      - web
+    networks:
+      - edumore_network
+    restart: always
+
+networks:
+  edumore_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  static_volume:
+  media_volume:

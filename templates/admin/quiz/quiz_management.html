@@ -1,0 +1,76 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+<link rel="stylesheet" href="{% static 'admin/css/forms.css' %}">
+<style>
+    .quiz-card {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #fff;
+    }
+    .quiz-card h3 {
+        margin-top: 0;
+    }
+    .quiz-card .meta {
+        color: #666;
+        font-size: 0.9em;
+        margin-bottom: 10px;
+    }
+    .quiz-actions {
+        margin-top: 10px;
+    }
+    .quiz-actions a {
+        margin-right: 10px;
+    }
+    .add-quiz-btn {
+        margin-bottom: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; Quiz Management
+</div>
+{% endblock %}
+
+{% block content %}
+<div id="content-main">
+    <h1>Quiz Management</h1>
+
+    <div class="add-quiz-btn">
+        <a href="{% url 'quiz_admin:create_quiz' %}" class="button">Add New Quiz</a>
+    </div>
+
+    <div class="quiz-list">
+        {% if quizzes %}
+            {% for quiz in quizzes %}
+                <div class="quiz-card">
+                    <h3>{{ quiz.title }}</h3>
+                    <div class="meta">
+                        <div>Curriculum: {{ quiz.curriculum.name }}</div>
+                        <div>Class Level: {{ quiz.class_level.name }}</div>
+                        <div>Subject: {{ quiz.subject.name }}</div>
+                        {% if quiz.topic %}
+                            <div>Topic: {{ quiz.topic.name }}</div>
+                        {% endif %}
+                        <div>Created: {{ quiz.created_at|date:"M d, Y" }}</div>
+                        <div>Status: {% if quiz.is_active %}Active{% else %}Inactive{% endif %}</div>
+                    </div>
+                    <div class="quiz-actions">
+                        <a href="{% url 'quiz_admin:add_questions' quiz.id %}" class="button">Add Questions</a>
+                        <a href="{% url 'quiz_admin:review_quiz' quiz.id %}" class="button">Review & Edit</a>
+                        <a href="{% url 'admin:quiz_quiz_change' quiz.id %}" class="button">Edit Settings</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No quizzes found. Click "Add New Quiz" to create your first quiz.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

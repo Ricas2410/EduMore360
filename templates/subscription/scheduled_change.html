@@ -1,0 +1,95 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Scheduled Plan Change - EduMore360{% endblock %}
+
+{% block content %}
+<div class="container mx-auto py-12 px-4">
+    <div class="text-center mb-12">
+        <div class="bg-gradient-to-r from-blue-800 to-black text-white py-8 px-6 rounded-2xl shadow-lg mb-8">
+            <h1 class="text-3xl md:text-4xl font-extrabold mb-2">Subscription Change Scheduled</h1>
+            <p class="text-gray-200 max-w-3xl mx-auto">Your subscription plan change has been scheduled</p>
+        </div>
+    </div>
+
+    <!-- Scheduled Change Info -->
+    <div class="max-w-4xl mx-auto mb-12">
+        <div class="bg-white border border-gray-200 rounded-xl shadow-md p-6">
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-calendar-check text-blue-600 text-3xl"></i>
+                </div>
+                <h2 class="text-2xl font-bold text-gray-800 mb-2">Change Scheduled Successfully</h2>
+                <p class="text-gray-600 max-w-md mx-auto">Your subscription plan will change at the end of your current billing period.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                <div class="bg-gray-50 border border-gray-200 rounded-xl p-5">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">Current Plan</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-gray-800">{{ current_subscription.plan.name }}</p>
+                            <p class="text-sm text-gray-600">{{ current_subscription.plan.get_billing_cycle_display }}</p>
+                        </div>
+                        <div class="text-xl font-bold text-gray-800">
+                            ${{ current_subscription.plan.price }}
+                            <span class="text-sm font-medium text-gray-600">
+                                /{% if current_subscription.plan.billing_cycle == 'monthly' %}month{% else %}year{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        <i class="fas fa-calendar-alt mr-1"></i> 
+                        Active until {{ current_subscription.end_date|date:"F j, Y" }}
+                    </p>
+                </div>
+                
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-5">
+                    <h3 class="text-lg font-bold text-gray-800 mb-3">New Plan</h3>
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="font-medium text-gray-800">{{ scheduled_plan.name }}</p>
+                            <p class="text-sm text-gray-600">{{ scheduled_plan.get_billing_cycle_display }}</p>
+                        </div>
+                        <div class="text-xl font-bold text-gray-800">
+                            ${{ scheduled_plan.price }}
+                            <span class="text-sm font-medium text-gray-600">
+                                /{% if scheduled_plan.billing_cycle == 'monthly' %}month{% else %}year{% endif %}
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-600">
+                        <i class="fas fa-calendar-check mr-1"></i> 
+                        Will start on {{ current_subscription.end_date|date:"F j, Y" }}
+                    </p>
+                </div>
+            </div>
+            
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-600 mb-4 md:mb-0">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        You will receive an email notification when your plan changes.
+                    </p>
+                    
+                    <form method="post" action="{% url 'subscription:cancel_scheduled_change' current_subscription.id %}">
+                        {% csrf_token %}
+                        <button type="submit" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors">
+                            <i class="fas fa-times-circle mr-2"></i>
+                            Cancel Scheduled Change
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Back to Manage Subscription -->
+    <div class="max-w-4xl mx-auto mt-8 text-center">
+        <a href="{% url 'subscription:manage_subscription' %}" class="inline-flex items-center px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium rounded-lg transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Subscription Management
+        </a>
+    </div>
+</div>
+{% endblock %}
