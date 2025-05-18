@@ -11,12 +11,11 @@ env = environ.Env()
 # Read .env file explicitly
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env.bool('DEBUG', default=True)
+DEBUG = env.bool('DEBUG', default=False)
 
 # Set allowed hosts from environment variable
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
@@ -61,6 +60,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'django_htmx',
     'tailwind',
+    'storages',
 
     # Local apps
     'accounts.apps.AccountsConfig',
@@ -175,7 +175,6 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Note: django.contrib.staticfiles is already included in INSTALLED_APPS by default
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -298,3 +297,25 @@ PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY', default='')
 
 # Currency conversion settings
 USD_TO_GHS_RATE = env.float('USD_TO_GHS_RATE', default=13.5)
+
+# Backblaze B2 Cloud Storage Settings
+# Use B2 for media storage in both development and production
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# B2 credentials
+AWS_ACCESS_KEY_ID = env('B2_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('B2_APPLICATION_KEY')
+AWS_STORAGE_BUCKET_NAME = env('B2_BUCKET_NAME')
+
+# B2 specific settings
+AWS_S3_ENDPOINT_URL = 'https://s3.us-east-005.backblazeb2.com'
+AWS_S3_REGION_NAME = 'us-east-005'
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = 'private'  # Use private ACL for files
+AWS_S3_VERIFY = True
+AWS_QUERYSTRING_AUTH = True  # Enable query string authentication for URLs
+AWS_QUERYSTRING_EXPIRE = 3600  # URLs expire after 1 hour (3600 seconds)
+
+# Media files - using signed URLs
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.us-east-005.backblazeb2.com/'

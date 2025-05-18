@@ -126,8 +126,9 @@
 
         /* Custom background image if provided */
         {% if theme.background_image %}
+        {% load media_tags %}
         body {
-            background-image: url('{{ theme.background_image.url }}');
+            background-image: url('{% media_url theme.background_image.name %}');
             background-attachment: fixed;
             background-size: cover;
         }
@@ -136,7 +137,7 @@
         /* Custom header image if provided */
         {% if theme.header_image %}
         header {
-            background-image: url('{{ theme.header_image.url }}');
+            background-image: url('{% media_url theme.header_image.name %}');
             background-size: cover;
             background-position: center;
         }
@@ -145,7 +146,7 @@
         /* Custom footer image if provided */
         {% if theme.footer_image %}
         footer {
-            background-image: url('{{ theme.footer_image.url }}');
+            background-image: url('{% media_url theme.footer_image.name %}');
             background-size: cover;
             background-position: center;
         }
@@ -307,7 +308,7 @@
                         <div class="dropdown dropdown-end">
                             <label tabindex="0" class="cursor-pointer">
                                 {% if user.profile_picture %}
-                                    <img src="{{ user.profile_picture.url }}" alt="{{ user.get_full_name }}" class="w-10 h-10 rounded-full border-2 border-[#ff4703]" />
+                                    <img src="{% media_url user.profile_picture.name %}" alt="{{ user.get_full_name }}" class="w-10 h-10 rounded-full border-2 border-[#ff4703]" />
                                 {% else %}
                                     <div class="w-10 h-10 rounded-full border-2 border-[#ff4703] bg-blue-600 flex items-center justify-center text-white font-bold">
                                         {{ user.first_name|first|upper }}{{ user.last_name|first|upper }}

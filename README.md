@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # EduMore360
 
 EduMore360 is a comprehensive educational platform for students from kindergarten through grade 12, aligned with US and Ghana curriculum standards. The platform provides interactive learning experiences, quizzes with immediate feedback, and progress tracking.
@@ -313,6 +312,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Contact
 
 For questions or support, please contact [your-email@example.com](mailto:your-email@example.com).
-=======
-# edumore360
->>>>>>> 95d489ad35498b578cce8f23739e66b6d614803f

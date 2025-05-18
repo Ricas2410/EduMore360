@@ -12,7 +12,8 @@
         <section class="relative overflow-hidden {% if hero.use_bright_colors %}bg-gradient-to-r from-blue-800 via-purple-900 to-blue-900{% else %}bg-gradient-to-r from-blue-900 to-black{% endif %} text-white rounded-2xl p-10 md:p-16 shadow-lg">
             {% if hero.background_image %}
             <div class="absolute inset-0 z-0">
-                <img src="{{ hero.background_image.url }}" alt="Background" class="w-full h-full object-cover opacity-20">
+                {% load media_tags %}
+                <img src="{% media_url hero.background_image.name %}" alt="Background" class="w-full h-full object-cover opacity-20">
             </div>
             {% endif %}
 
@@ -44,7 +45,7 @@
                 <div class="md:w-1/2 flex justify-center md:justify-end mt-8 md:mt-0">
                     {% if hero.mascot_image %}
                     <div class="relative {% if hero.animation_enabled %}animate__animated animate__bounceInRight{% endif %}">
-                        <img src="{{ hero.mascot_image.url }}" alt="{{ hero.mascot_name }}" class="max-h-[400px] w-auto">
+                        <img src="{% media_url hero.mascot_image.name %}" alt="{{ hero.mascot_name }}" class="max-h-[400px] w-auto">
                         {% if hero.mascot_name %}
                         <div class="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-white text-primary px-5 py-2 rounded-full font-bold shadow">
                             {{ hero.mascot_name }}
@@ -53,7 +54,7 @@
                     </div>
                     {% elif hero.foreground_image %}
                     <div class="{% if hero.animation_enabled %}animate__animated animate__zoomIn{% endif %}">
-                        <img src="{{ hero.foreground_image.url }}" alt="Hero image" class="max-h-[400px] w-auto">
+                        <img src="{% media_url hero.foreground_image.name %}" alt="Hero image" class="max-h-[400px] w-auto">
                     </div>
                     {% else %}
                     <div class="{% if hero.animation_enabled %}animate__animated animate__zoomIn{% endif %}">
