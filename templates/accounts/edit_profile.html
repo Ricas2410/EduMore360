@@ -50,7 +50,8 @@
                         <div class="flex flex-col md:flex-row items-center gap-6">
                             <div>
                                 {% if user.profile_picture %}
-                                    <img src="{{ user.profile_picture.url }}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100">
+                                    {% load media_tags %}
+                                    <img src="{% media_url user.profile_picture.name %}" alt="{{ user.get_full_name }}" class="w-32 h-32 rounded-full object-cover border-4 border-blue-100">
                                 {% else %}
                                     <div class="w-32 h-32 rounded-full bg-gradient-to-r from-blue-600 to-blue-800 flex items-center justify-center text-white text-3xl font-bold">
                                         {{ user.first_name|first }}{{ user.last_name|first }}

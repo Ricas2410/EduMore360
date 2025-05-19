@@ -18,8 +18,9 @@
       <div class="relative">
         <button id="profile-dropdown-button" class="flex items-center bg-white/20 hover:bg-white/30 rounded-full pl-3 pr-4 py-2 transition-all duration-300 focus:outline-none">
           {% if user.profile_picture %}
+          {% load media_tags %}
           <img
-            src="{{ user.profile_picture.url }}"
+            src="{% media_url user.profile_picture.name %}"
             alt="{{ user.get_full_name }}"
             class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-white shadow-lg"
           />

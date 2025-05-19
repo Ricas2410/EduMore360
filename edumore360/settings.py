@@ -3,7 +3,6 @@ import os
 from pathlib import Path
 import environ
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Initialize environment variables
@@ -11,10 +10,8 @@ env = environ.Env()
 # Read .env file explicitly
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', default=False)
 
 # Set allowed hosts from environment variable
@@ -129,10 +126,6 @@ DATABASES = {
     'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR}/db.sqlite3')
 }
 
-
-# Password validation
-# https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -149,9 +142,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.0/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -161,9 +151,6 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.0/howto/static-files/
-
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -171,9 +158,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # WhiteNoise configuration for static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+# Media files (overridden by B2 settings below if enabled)
 
 
 # Default primary key field type
@@ -286,9 +271,7 @@ SUMMERNOTE_CONFIG = {
     'attachment_absolute_uri': True,
 }
 
-# Summernote file upload settings
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+# Summernote theme
 SUMMERNOTE_THEME = 'bs4'  # Use Bootstrap 4 theme
 
 # Paystack settings
@@ -298,24 +281,24 @@ PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY', default='')
 # Currency conversion settings
 USD_TO_GHS_RATE = env.float('USD_TO_GHS_RATE', default=13.5)
 
-# Backblaze B2 Cloud Storage Settings
-# Use B2 for media storage in both development and production
+# Wasabi Cloud Storage Settings
+# Use Wasabi for media storage in both development and production
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-# B2 credentials
-AWS_ACCESS_KEY_ID = env('B2_KEY_ID')
-AWS_SECRET_ACCESS_KEY = env('B2_APPLICATION_KEY')
-AWS_STORAGE_BUCKET_NAME = env('B2_BUCKET_NAME')
+# Wasabi credentials from environment variables
+AWS_ACCESS_KEY_ID = env('WASABI_ACCESS_KEY')
+AWS_SECRET_ACCESS_KEY = env('WASABI_SECRET_KEY')
+AWS_STORAGE_BUCKET_NAME = env('WASABI_BUCKET_NAME')
+AWS_S3_REGION_NAME = env('WASABI_REGION')
 
-# B2 specific settings
-AWS_S3_ENDPOINT_URL = 'https://s3.us-east-005.backblazeb2.com'
-AWS_S3_REGION_NAME = 'us-east-005'
+# Wasabi specific settings
+AWS_S3_ENDPOINT_URL = f'https://s3.{AWS_S3_REGION_NAME}.wasabisys.com'
 AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = 'private'  # Use private ACL for files
+AWS_DEFAULT_ACL = 'private'  # Use private ACL since public access is not allowed
 AWS_S3_VERIFY = True
-AWS_QUERYSTRING_AUTH = True  # Enable query string authentication for URLs
-AWS_QUERYSTRING_EXPIRE = 3600  # URLs expire after 1 hour (3600 seconds)
+AWS_QUERYSTRING_AUTH = True  # Enable query string auth for private files
+AWS_QUERYSTRING_EXPIRE = 86400  # URLs expire after 24 hours (86400 seconds)
 
-# Media files - using signed URLs
-MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.us-east-005.backblazeb2.com/'
+# Media files URL - Wasabi format
+MEDIA_URL = f'https://s3.{AWS_S3_REGION_NAME}.wasabisys.com/{AWS_STORAGE_BUCKET_NAME}/'
