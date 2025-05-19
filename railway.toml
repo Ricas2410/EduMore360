@@ -1,9 +1,9 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "python -m pip install --upgrade pip && pip install -r requirements.txt && python manage.py collectstatic --noinput"
+buildCommand = "python -m pip install --upgrade pip && pip install -r requirements.txt && python manage.py collectstatic --noinput --settings=edumore360.settings_prod"
 
 [deploy]
-startCommand = "gunicorn edumore360.wsgi:application"
+startCommand = "gunicorn edumore360.wsgi:application --env DJANGO_SETTINGS_MODULE=edumore360.settings_prod"
 healthcheckPath = "/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"

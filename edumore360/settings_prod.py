@@ -98,7 +98,9 @@ else:
     CELERY_RESULT_BACKEND = 'django-db'
     CELERY_TASK_ALWAYS_EAGER = True
     CELERY_TASK_EAGER_PROPAGATES = True
-    INSTALLED_APPS += ['django_celery_results']
+    # Only add django_celery_results if it's not already in INSTALLED_APPS
+    if 'django_celery_results' not in INSTALLED_APPS:
+        INSTALLED_APPS += ['django_celery_results']
 
 # Email settings - use SMTP in production
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
