@@ -8,13 +8,16 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from .settings import *  # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True  # Temporarily enabled for troubleshooting
+
+# Allow all Railway domains and any custom domains
+ALLOWED_HOSTS = ['*', '.up.railway.app', '.railway.app']
 
 # Security settings
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_HSTS_PRELOAD = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = False  # Temporarily disabled for troubleshooting
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
