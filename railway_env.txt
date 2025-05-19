@@ -27,6 +27,12 @@ USD_TO_GHS_RATE="13.5"
 # CORS Settings
 CORS_ALLOWED_ORIGINS="https://edumore360.up.railway.app"
 
+# Database Settings (Railway will automatically set this when you add a PostgreSQL service)
+# DATABASE_URL="postgresql://postgres:password@containers-us-west-1.railway.app:5432/railway"
+
+# Redis Settings (Railway will automatically set this when you add a Redis service)
+# REDIS_URL="redis://default:password@containers-us-west-1.railway.app:6379"
+
 # Django Settings Module
 DJANGO_SETTINGS_MODULE="edumore360.settings_prod"
 
