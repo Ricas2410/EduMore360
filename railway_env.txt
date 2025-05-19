@@ -1,0 +1,34 @@
+# Django Settings
+SECRET_KEY="5#e98z!#hxs)ms55c+yw0!r-+q3w$4p=yz7w!0b13^d=e@bx)1"
+DEBUG="False"
+ALLOWED_HOSTS="edumore360.up.railway.app,*.railway.app"
+
+# Wasabi Cloud Storage
+WASABI_ACCESS_KEY="RD7YA4Z2P3LF7E4JEZUO"
+WASABI_SECRET_KEY="QY8JXIshozz5J6CU3AzBCvyArDqXtd13wNEyMho7"
+WASABI_BUCKET_NAME="edumore360-media"
+WASABI_REGION="us-east-1"
+
+# Email Settings
+EMAIL_HOST="smtp.gmail.com"
+EMAIL_PORT="587"
+EMAIL_USE_TLS="True"
+EMAIL_HOST_USER="skillnetservices@gmail.com"
+EMAIL_HOST_PASSWORD="tdms ckdk tmgo fado"
+DEFAULT_FROM_EMAIL="skillnetservices@gmail.com"
+
+# Paystack Settings
+PAYSTACK_SECRET_KEY="sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+PAYSTACK_PUBLIC_KEY="pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+
+# Currency Settings
+USD_TO_GHS_RATE="13.5"
+
+# CORS Settings
+CORS_ALLOWED_ORIGINS="https://edumore360.up.railway.app"
+
+# Django Settings Module
+DJANGO_SETTINGS_MODULE="edumore360.settings_prod"
+
+# Port
+PORT="8000"

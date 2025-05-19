@@ -10,7 +10,7 @@ env = environ.Env()
 # Read .env file explicitly
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-SECRET_KEY = env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY', default='5#e98z!#hxs)ms55c+yw0!r-+q3w$4p=yz7w!0b13^d=e@bx)1')
 
 DEBUG = env.bool('DEBUG', default=False)
 
@@ -210,9 +210,9 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = env.int('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='skillnetservices@gmail.com')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='tdms ckdk tmgo fado')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='skillnetservices@gmail.com')
 
 # Fallback to console backend if SMTP credentials are not provided
 if not (EMAIL_HOST_USER and EMAIL_HOST_PASSWORD) and DEBUG:
@@ -275,8 +275,8 @@ SUMMERNOTE_CONFIG = {
 SUMMERNOTE_THEME = 'bs4'  # Use Bootstrap 4 theme
 
 # Paystack settings
-PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY', default='')
-PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY', default='')
+PAYSTACK_SECRET_KEY = env('PAYSTACK_SECRET_KEY', default='sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+PAYSTACK_PUBLIC_KEY = env('PAYSTACK_PUBLIC_KEY', default='pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 # Currency conversion settings
 USD_TO_GHS_RATE = env.float('USD_TO_GHS_RATE', default=13.5)
@@ -286,10 +286,10 @@ USD_TO_GHS_RATE = env.float('USD_TO_GHS_RATE', default=13.5)
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Wasabi credentials from environment variables
-AWS_ACCESS_KEY_ID = env('WASABI_ACCESS_KEY')
-AWS_SECRET_ACCESS_KEY = env('WASABI_SECRET_KEY')
-AWS_STORAGE_BUCKET_NAME = env('WASABI_BUCKET_NAME')
-AWS_S3_REGION_NAME = env('WASABI_REGION')
+AWS_ACCESS_KEY_ID = env('WASABI_ACCESS_KEY', default='RD7YA4Z2P3LF7E4JEZUO')
+AWS_SECRET_ACCESS_KEY = env('WASABI_SECRET_KEY', default='QY8JXIshozz5J6CU3AzBCvyArDqXtd13wNEyMho7')
+AWS_STORAGE_BUCKET_NAME = env('WASABI_BUCKET_NAME', default='edumore360-media')
+AWS_S3_REGION_NAME = env('WASABI_REGION', default='us-east-1')
 
 # Wasabi specific settings
 AWS_S3_ENDPOINT_URL = f'https://s3.{AWS_S3_REGION_NAME}.wasabisys.com'
