@@ -13,6 +13,14 @@ DEBUG = True  # Temporarily enabled for troubleshooting
 # Allow all Railway domains and any custom domains
 ALLOWED_HOSTS = ['*', '.up.railway.app', '.railway.app']
 
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # For development
+CORS_ALLOWED_ORIGINS = [
+    "https://edumore360.up.railway.app",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+
 # Security settings
 SECURE_HSTS_SECONDS = 31536000  # 1 year
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True

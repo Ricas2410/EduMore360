@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'django_htmx',
     'tailwind',
     'storages',
+    'corsheaders',
 
     # Local apps
     'accounts.apps.AccountsConfig',
@@ -68,6 +69,7 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'theme.apps.ThemeConfig',
     'my_admin.apps.MyAdminConfig',
+    'healthcheck',
 ]
 
 # Tailwind configuration
@@ -87,6 +89,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',  # Add WhiteNoise for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # CORS middleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -122,9 +125,19 @@ WSGI_APPLICATION = 'edumore360.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR}/db.sqlite3')
-}
+# Check for DATABASE_URL environment variable
+if 'DATABASE_URL' in os.environ:
+    import dj_database_url
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    DATABASES = {
+        'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR}/db.sqlite3')
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -302,3 +315,30 @@ AWS_QUERYSTRING_EXPIRE = 86400  # URLs expire after 24 hours (86400 seconds)
 
 # Media files URL - Wasabi format
 MEDIA_URL = f'https://s3.{AWS_S3_REGION_NAME}.wasabisys.com/{AWS_STORAGE_BUCKET_NAME}/'
+
+# CORS settings
+CORS_ALLOW_ALL_ORIGINS = True  # For development
+CORS_ALLOWED_ORIGINS = [
+    "https://edumore360.up.railway.app",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+CORS_ALLOW_HEADERS = [
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-csrftoken",
+    "x-requested-with",
+]
