@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'theme.apps.ThemeConfig',
     'my_admin.apps.MyAdminConfig',
     'healthcheck',
+    'minimal_health',  # Minimal health check app
 ]
 
 # Tailwind configuration

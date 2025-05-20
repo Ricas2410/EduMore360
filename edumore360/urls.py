@@ -7,7 +7,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
-    path('health/', include('healthcheck.urls')),
+    path('health/', include('minimal_health.urls')),  # Use the minimal health check app
     path('admin/', admin.site.urls),
     path('my-admin/', include('my_admin.urls')),
     path('accounts/', include('allauth.urls')),
