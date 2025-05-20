@@ -28,7 +28,7 @@ USD_TO_GHS_RATE="13.5"
 CORS_ALLOWED_ORIGINS="https://edumore360.up.railway.app"
 
 # Database Settings (Railway will automatically set this when you add a PostgreSQL service)
-# DATABASE_URL="postgresql://postgres:password@containers-us-west-1.railway.app:5432/railway"
+DATABASE_URL="postgresql://neondb_owner:npg_R5dEIG2wvtSl@ep-soft-violet-a58sv217-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
 
 # Redis Settings (Railway will automatically set this when you add a Redis service)
 # REDIS_URL="redis://default:password@containers-us-west-1.railway.app:6379"
