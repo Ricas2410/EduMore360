@@ -1,6 +1,6 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "python -m pip install --upgrade pip && pip install -r requirements_fixed.txt && python manage.py collectstatic --noinput || echo 'Collectstatic failed, but continuing'"
+buildCommand = "python -m pip install --upgrade pip && pip install -r requirements_fixed.txt && python manage.py migrate && python manage.py collectstatic --noinput || echo 'Collectstatic failed, but continuing'"
 
 [deploy]
 startCommand = "gunicorn hybrid_app:application --log-level debug --timeout 120 --workers 1"
