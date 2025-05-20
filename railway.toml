@@ -1,9 +1,9 @@
 [build]
 builder = "NIXPACKS"
-buildCommand = "python -m pip install --upgrade pip && pip install gunicorn"
+buildCommand = "python -m pip install --upgrade pip && pip install -r requirements_fixed.txt && python manage.py collectstatic --noinput || echo 'Collectstatic failed, but continuing'"
 
 [deploy]
-startCommand = "gunicorn railway_app:application --log-level debug --timeout 120 --workers 1"
+startCommand = "gunicorn hybrid_app:application --log-level debug --timeout 120 --workers 1"
 healthcheckPath = "/health/"
 healthcheckTimeout = 300
 restartPolicyType = "ON_FAILURE"

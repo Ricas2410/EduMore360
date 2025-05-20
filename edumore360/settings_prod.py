@@ -67,15 +67,36 @@ MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 # Make sure we don't add duplicates
 security_middleware = [
     'django.middleware.security.SecurityMiddleware',
-    'csp.middleware.CSPMiddleware',
-    'django_permissions_policy.PermissionsPolicyMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
-# Only add middleware that's not already in the list
+# Only add middleware that's not already in the list and is available
 for middleware in security_middleware:
     if middleware not in MIDDLEWARE:
         MIDDLEWARE.append(middleware)
+
+# Try to add optional middleware if available
+try:
+    import csp
+    if 'csp.middleware.CSPMiddleware' not in MIDDLEWARE:
+        MIDDLEWARE.append('csp.middleware.CSPMiddleware')
+except ImportError:
+    pass
+
+try:
+    import django_permissions_policy
+    if 'django_permissions_policy.PermissionsPolicyMiddleware' not in MIDDLEWARE:
+        MIDDLEWARE.append('django_permissions_policy.PermissionsPolicyMiddleware')
+except ImportError:
+    pass
+
+try:
+    import corsheaders
+    if 'corsheaders.middleware.CorsMiddleware' not in MIDDLEWARE:
+        # Insert CORS middleware in the correct position (after SessionMiddleware, before CommonMiddleware)
+        session_index = MIDDLEWARE.index('django.contrib.sessions.middleware.SessionMiddleware')
+        MIDDLEWARE.insert(session_index + 1, 'corsheaders.middleware.CorsMiddleware')
+except (ImportError, ValueError):
+    pass
 
 # Database - use PostgreSQL in production
 # We're using the same database configuration as in settings.py
