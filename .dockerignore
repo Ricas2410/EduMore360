@@ -1,0 +1,5 @@
+# Ignore everything
+*
+
+# Allow only the minimal application
+!railway_app.py
