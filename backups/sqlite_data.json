@@ -1,1 +1,6452 @@
 [
+{
+  "model": "sessions.session",
+  "pk": "2azln5hhd9tfhsr4ti3fjzungdjm81tc",
+  "fields": {
+    "session_data": "eyJhY2NvdW50X3ZlcmlmaWVkX2VtYWlsIjpudWxsfQ:1uGC84:R7WAGyr8iD7DOGjsREMXf85J2LCeS7_IyXMnc9RMxrM",
+    "expire_date": "2025-05-31T07:38:44.037Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "8pesi5ez9ol0dfby702tx4sqk75975v0",
+  "fields": {
+    "session_data": ".eJxVjEkOAiEURO_C2hAIzaA7vQj5AwZih04EVsa725he6LLeq6qXiDB6jqOlZywsLkIrcfqFCPRIdRpY14klEG2jdvntHLrJ655S7YWgl63ejtXfVYaW9x9HGCygQp2M10oHNoGMcQHu3iXPC4INoEgvjNMqZE6WwNuz8hqteH8A5n88vg:1uEJFU:ADIQe4lV-D4LTdmx_fSTf7Pb2ERH-hT39tdgDjdI7Mw",
+    "expire_date": "2025-05-26T02:50:36.492Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "cwguwcu674t2h12romr5w8icpha2ogrk",
+  "fields": {
+    "session_data": ".eJyNj8uOwjAMRf_F6wqpKLz6M5ZJPMUiJJWbgCrUfx-3IEbsZuf4HuvcPIG8zzUVvLPKj3BAvpFE6FKNsfmkMfeSoHtCHVlxuEIHDA2s7PvUU5FsDNwoBSpZJwNG6VMdoCtauQHlIMq-YNWP4Uu34BTx-iDtR9PNtipUeDHb0POyhLUMnif0OayR6ehFX8wdObyE9l6rTThccvof-a7zR1rkqyqnYl_7gpZIkhSxggHJ8vbgDm5_bE9usz3udq1z8_wLxlZ9Dg:1uGCIw:rEDrmTPXtMukHv-ViPAuheAkJdlTu-t3hf5JJagAFwE",
+    "expire_date": "2025-05-31T07:49:58.339Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "f1k9k15rwf2qblli5plj7ssyv7ta6o11",
+  "fields": {
+    "session_data": ".eJxVkMFOxDAMRP_F56pKNk2T9oT2zhcgVDmOoYE2WTWpAK3232lgL3uzPDPPGl8BidIey4R7mTmWQFhCitPKZU4-w_hyhf8ZRrhgzl9p89AAFhil6czJdCerWtNpKwbVAK8YlsO6BZrXFP0TpQUdF2wprXB7beDv0rRn3qZQoVLAw9IhfXKsiv_A-J6OYCxbcG21tHc1t8_J83K-ex8AM-b5SPfkrEYnnGRlpJDWK0tK9RbfTM_Gdw61RUGy866qwnnPmtDoQRjpdIVmzrl-g78vYfs5Gp_E0Atx-wVzgWao:1uFNrI:vJKA_V98rfdDbhgJtHrMZ2tdOXLnN9uFIcJLgwXeWEA",
+    "expire_date": "2025-05-29T01:58:04.060Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "ibfrttgbyne3hv5nxcou2499z1vywwte",
+  "fields": {
+    "session_data": ".eJxVjEsOAiEQBe_C2hCEnoF26d4zkB66kVEDyXxWxrsbklno9lXVe6tI-1bivsoSZ1YXNajT7zZRekrtgB9U702nVrdlnnRX9EFXfWssr-vh_h0UWkuvg4Cz5DA59Gc75SCjRwDIA6NPPIIlxJxCNiLWGmEOYEwwFtATo_p8AdzpN5c:1uGkYe:_a8eT7DvjeUpsKrAgWkGStNp4NoEdqIzyzD5lwmYwms",
+    "expire_date": "2025-06-01T20:24:28.828Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "jdj2zrexkwx893b6qac7r6ex5pt9v2ug",
+  "fields": {
+    "session_data": ".eJxVkMFOxDAMRP_F56pKtk2T9oT2zhcgVDmOoYE2WSWpAK3232lgL3uzPDPPGl8BieIeyox7WTgUT1h8DPPGZYkuw_Ryhf8ZJrhgzl8xOWgAC0xS9_rUq0HLVulxNGJsgDf062FNnpYtBvdEcUXLBVuKG9xeG_i7NO-Z0-wrVAp4WFqkTw5VcR8Y3uMRDCV521ZLe1dz-xwdr-e79wGwYF6O9EDWKLTCSu60FNK4zlDXDQbf9MDa9RaVQUGyd7aqwjrHilCrUWhpVYVmzrl-g78vPv0cjU9iHIS4_QJ8rmay:1uFGPn:qPx853wvDtfQ5JtLZo2yDlpI4ThlrkZgnOOkf47KVuQ",
+    "expire_date": "2025-05-28T18:01:11.906Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "m6p4osfzthnpxfr59xljd6dcc8bbubge",
+  "fields": {
+    "session_data": ".eJxVkEFOxDAMRe_idVUltGnSrhB7ToBQ5TiGBtpklKSaQaO5Ow3MZnaW3__Pkq-ARHEPZca9LByKJyw-hnnjskSXYXq7wv8ME5ww53NMDhrAApPUvR7MqMaxVbIbn7RugDf06xFNnpYtBvdMcUXLBVuKG9zeG_i7NO-Z0-yrVAp4WFqkbw6VuC8Mn_EohpK8bWukvdPcvkbH68s9-yBYMC9HeyBrFFphJXdaCmlcZ6jrBoMfemDteovKoCDZO1upsM6xItRqFFpaVaWZc67f4MvJpx-YxO0XIMhliA:1uH7tv:rcllrqB_rEmTO0ATnSVDcF3MJJnzmYZxZy1wY5z5tIc",
+    "expire_date": "2025-06-02T21:19:59.912Z"
+  }
+},
+{
+  "model": "sessions.session",
+  "pk": "tm13r4707qwkscnbeekncg5hvu5iopdi",
+  "fields": {
+    "session_data": ".eJxVjEsOAiEQBe_C2hCEnoF26d4zkB66kVEDyXxWxrsbklno9lXVe6tI-1bivsoSZ1YXNajT7zZRekrtgB9U702nVrdlnnRX9EFXfWssr-vh_h0UWkuvg4Cz5DA59Gc75SCjRwDIA6NPPIIlxJxCNiLWGmEOYEwwFtATo_p8AdzpN5c:1uGBdn:-L287PPBadbMzY74VorXqkO9_0JQzaknCIDWXt1g9VE",
+    "expire_date": "2025-05-31T07:07:27.107Z"
+  }
+},
+{
+  "model": "sites.site",
+  "fields": {
+    "domain": "edumore360.com",
+    "name": "EduMore360"
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$3QP352o7LptOZ5g0Bj4yFh$FOvRC17073e//KSQTR31Te1Ac/PC/3BqlYwq4HdU6Vo=",
+    "last_login": null,
+    "is_superuser": true,
+    "is_staff": true,
+    "email": "admin@edumore360.com",
+    "first_name": "Admin",
+    "last_name": "User",
+    "is_active": true,
+    "date_joined": "2025-05-11T22:50:49.723Z",
+    "profile_picture": "",
+    "bio": "",
+    "phone_number": "",
+    "is_premium": false,
+    "subscription_end_date": null,
+    "preferred_curriculum": null,
+    "preferred_class_level": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$UJhDPfpk3QypzkUemqgaCh$601+3OIqN/j9EY1suZiogd67WLdk5N4qHF6ts9jJsv8=",
+    "last_login": null,
+    "is_superuser": false,
+    "is_staff": false,
+    "email": "student@edumore360.com",
+    "first_name": "Student",
+    "last_name": "User",
+    "is_active": true,
+    "date_joined": "2025-05-11T22:50:50.665Z",
+    "profile_picture": "",
+    "bio": "",
+    "phone_number": "",
+    "is_premium": false,
+    "subscription_end_date": null,
+    "preferred_curriculum": null,
+    "preferred_class_level": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$ksMir9epfH2lgr9snpiIQw$xowUDkkwYgE9oB/qQPOI4/Ww7LnPxb6pFkHl+u77/ec=",
+    "last_login": null,
+    "is_superuser": false,
+    "is_staff": true,
+    "email": "teacher@edumore360.com",
+    "first_name": "Teacher",
+    "last_name": "User",
+    "is_active": true,
+    "date_joined": "2025-05-11T22:50:51.544Z",
+    "profile_picture": "",
+    "bio": "",
+    "phone_number": "",
+    "is_premium": false,
+    "subscription_end_date": null,
+    "preferred_curriculum": null,
+    "preferred_class_level": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$dFgPVzM9F6cc5wLW0X6g48$rUbT3PYSYUuBwcXZYthNjYfKQ+wTAWE25eq4AvXYfr0=",
+    "last_login": "2025-05-18T20:24:28.300Z",
+    "is_superuser": true,
+    "is_staff": true,
+    "email": "admin@mail.com",
+    "first_name": "Admin",
+    "last_name": "User",
+    "is_active": true,
+    "date_joined": "2025-05-11T22:59:32.879Z",
+    "profile_picture": "",
+    "bio": "",
+    "phone_number": "",
+    "is_premium": false,
+    "subscription_end_date": null,
+    "preferred_curriculum": null,
+    "preferred_class_level": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$pVPSqzWYzXJpbMD2wfJPLj$7OKVEbKGOysEpqgvBPZMwA0S7vSTo/Nfht7M+69DHPo=",
+    "last_login": "2025-05-19T21:19:59.757Z",
+    "is_superuser": false,
+    "is_staff": false,
+    "email": "richmond@colabeta.com",
+    "first_name": "Nana",
+    "last_name": "Richmond",
+    "is_active": true,
+    "date_joined": "2025-05-12T02:50:06.053Z",
+    "profile_picture": "profile_pictures/Passport_Pic.jpg",
+    "bio": "",
+    "phone_number": "",
+    "is_premium": true,
+    "subscription_end_date": "2025-06-11T02:55:51.083Z",
+    "preferred_curriculum": 2,
+    "preferred_class_level": 24,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "accounts.user",
+  "fields": {
+    "password": "pbkdf2_sha256$720000$jyMPvGCm7aePlSw409HFTb$6SX2qYwju3utSqxA0i1A6mv5eK/rTFjUrq+9Nh/e67M=",
+    "last_login": null,
+    "is_superuser": false,
+    "is_staff": false,
+    "email": "ferym@colabeta.com",
+    "first_name": "kingsly",
+    "last_name": "Blinks",
+    "is_active": true,
+    "date_joined": "2025-05-17T07:49:53.651Z",
+    "profile_picture": "",
+    "bio": "",
+    "phone_number": "",
+    "is_premium": false,
+    "subscription_end_date": null,
+    "preferred_curriculum": null,
+    "preferred_class_level": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "core.systemconfiguration",
+  "pk": 1,
+  "fields": {
+    "site_name": "EduMore360",
+    "site_description": "Comprehensive educational platform for students from kindergarten through grade 12.",
+    "maintenance_mode": false,
+    "smtp_host": "smtp.gmail.com",
+    "smtp_port": 587,
+    "smtp_use_tls": true,
+    "smtp_username": "skillnetservices@gmail.com",
+    "smtp_password": "tdms ckdk tmgo fado",
+    "default_from_email": "skillnetservices@gmail.com",
+    "enforce_single_session": false,
+    "session_timeout_minutes": 30,
+    "allow_registration": true,
+    "require_email_verification": true,
+    "enable_google_login": true,
+    "paystack_secret_key": "sk_test_828354d1b2ff0c6b85dfd9520324a9a19b92036e",
+    "paystack_public_key": "pk_test_e6cb6cd26a39925dfd31192663d63212429b4cdd",
+    "currency": "USD",
+    "enable_test_mode": true,
+    "quiz_feedback_time": 5,
+    "quiz_show_immediate_feedback": true,
+    "quiz_randomize_questions": true,
+    "quiz_randomize_choices": true,
+    "updated_at": "2025-05-14T18:06:43.635Z",
+    "updated_by": [
+      "admin@mail.com"
+    ]
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 7,
+  "fields": {
+    "user": [
+      "richmond@colabeta.com"
+    ],
+    "title": "Subscription Canceled",
+    "message": "Your Free Tier subscription has been canceled. You will still have access until June 11, 2025.",
+    "notification_type": "info",
+    "category": "subscription",
+    "is_read": false,
+    "url": "/subscription/manage/",
+    "created_at": "2025-05-12T02:54:52.436Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 8,
+  "fields": {
+    "user": [
+      "richmond@colabeta.com"
+    ],
+    "title": "Subscription Activated",
+    "message": "Your Tier One (Monthly) subscription has been activated.",
+    "notification_type": "success",
+    "category": "subscription",
+    "is_read": true,
+    "url": "/subscription/manage/",
+    "created_at": "2025-05-12T02:56:10.740Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 9,
+  "fields": {
+    "user": [
+      "richmond@colabeta.com"
+    ],
+    "title": "Auto-renew Disabled",
+    "message": "Auto-renew has been disabled for your Tier One (Monthly) subscription. It will expire on June 11, 2025.",
+    "notification_type": "info",
+    "category": "subscription",
+    "is_read": false,
+    "url": "/subscription/manage/",
+    "created_at": "2025-05-16T00:36:38.997Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 10,
+  "fields": {
+    "user": [
+      "richmond@colabeta.com"
+    ],
+    "title": "Auto-renew Enabled",
+    "message": "Auto-renew has been enabled for your Tier One (Monthly) subscription. It will automatically renew on June 11, 2025.",
+    "notification_type": "info",
+    "category": "subscription",
+    "is_read": false,
+    "url": "/subscription/manage/",
+    "created_at": "2025-05-16T00:51:34.948Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 11,
+  "fields": {
+    "user": [
+      "richmond@colabeta.com"
+    ],
+    "title": "Auto-renew Disabled",
+    "message": "Auto-renew has been disabled for your Tier One (Monthly) subscription. It will expire on June 11, 2025.",
+    "notification_type": "info",
+    "category": "subscription",
+    "is_read": false,
+    "url": "/subscription/manage/",
+    "created_at": "2025-05-16T00:51:40.495Z"
+  }
+},
+{
+  "model": "core.notification",
+  "pk": 12,
+  "fields": {
+    "user": [
+      "richmond@colabeta.com"
+    ],
+    "title": "Auto-renew Enabled",
+    "message": "Auto-renew has been enabled for your Tier One (Monthly) subscription. It will automatically renew on June 11, 2025.",
+    "notification_type": "info",
+    "category": "subscription",
+    "is_read": false,
+    "url": "/subscription/manage/",
+    "created_at": "2025-05-16T21:51:35.741Z"
+  }
+},
+{
+  "model": "core.herosection",
+  "pk": 1,
+  "fields": {
+    "title": "Learning is Fun with EduMore360!",
+    "subtitle": "Your adventure in education starts here",
+    "description": "Explore exciting lessons, fun quizzes, and cool activities for students in grades 1–12.",
+    "background_image": "hero_backgrounds/student_with_PCs.png",
+    "foreground_image": "hero_foregrounds/Educore_education_made_simple_m0a1Jkf.gif",
+    "mascot_image": "",
+    "mascot_name": "",
+    "cta_text": "",
+    "cta_url": "",
+    "position": "home",
+    "target_audience": "all",
+    "animation_enabled": true,
+    "use_bright_colors": true,
+    "is_active": true,
+    "display_order": 1,
+    "created_at": "2025-05-11T23:05:16.508Z",
+    "updated_at": "2025-05-11T23:05:16.508Z"
+  }
+},
+{
+  "model": "curriculum.curriculum",
+  "pk": 1,
+  "fields": {
+    "name": "US Curriculum",
+    "code": "US",
+    "description": "Standard US K-12 curriculum covering all major subjects.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.curriculum",
+  "pk": 2,
+  "fields": {
+    "name": "Ghana Curriculum",
+    "code": "GH",
+    "description": "Ghana educational curriculum for primary and secondary education.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 1,
+  "fields": {
+    "name": "Kindergarten",
+    "curriculum": 1,
+    "level_order": 0,
+    "description": "Kindergarten curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 2,
+  "fields": {
+    "name": "Grade 1",
+    "curriculum": 1,
+    "level_order": 1,
+    "description": "Grade 1 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 3,
+  "fields": {
+    "name": "Grade 2",
+    "curriculum": 1,
+    "level_order": 2,
+    "description": "Grade 2 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 4,
+  "fields": {
+    "name": "Grade 3",
+    "curriculum": 1,
+    "level_order": 3,
+    "description": "Grade 3 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 5,
+  "fields": {
+    "name": "Grade 4",
+    "curriculum": 1,
+    "level_order": 4,
+    "description": "Grade 4 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 6,
+  "fields": {
+    "name": "Grade 5",
+    "curriculum": 1,
+    "level_order": 5,
+    "description": "Grade 5 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 7,
+  "fields": {
+    "name": "Grade 6",
+    "curriculum": 1,
+    "level_order": 6,
+    "description": "Grade 6 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 8,
+  "fields": {
+    "name": "Grade 7",
+    "curriculum": 1,
+    "level_order": 7,
+    "description": "Grade 7 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 9,
+  "fields": {
+    "name": "Grade 8",
+    "curriculum": 1,
+    "level_order": 8,
+    "description": "Grade 8 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.559Z",
+    "updated_at": "2025-05-11T22:50:51.559Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 10,
+  "fields": {
+    "name": "Grade 9",
+    "curriculum": 1,
+    "level_order": 9,
+    "description": "Grade 9 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 11,
+  "fields": {
+    "name": "Grade 10",
+    "curriculum": 1,
+    "level_order": 10,
+    "description": "Grade 10 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 12,
+  "fields": {
+    "name": "Grade 11",
+    "curriculum": 1,
+    "level_order": 11,
+    "description": "Grade 11 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 13,
+  "fields": {
+    "name": "Grade 12",
+    "curriculum": 1,
+    "level_order": 12,
+    "description": "Grade 12 curriculum for US education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 14,
+  "fields": {
+    "name": "Primary 1",
+    "curriculum": 2,
+    "level_order": 1,
+    "description": "Primary 1 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 15,
+  "fields": {
+    "name": "Primary 2",
+    "curriculum": 2,
+    "level_order": 2,
+    "description": "Primary 2 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 16,
+  "fields": {
+    "name": "Primary 3",
+    "curriculum": 2,
+    "level_order": 3,
+    "description": "Primary 3 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 17,
+  "fields": {
+    "name": "Primary 4",
+    "curriculum": 2,
+    "level_order": 4,
+    "description": "Primary 4 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 18,
+  "fields": {
+    "name": "Primary 5",
+    "curriculum": 2,
+    "level_order": 5,
+    "description": "Primary 5 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 19,
+  "fields": {
+    "name": "Primary 6",
+    "curriculum": 2,
+    "level_order": 6,
+    "description": "Primary 6 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 20,
+  "fields": {
+    "name": "JHS 1",
+    "curriculum": 2,
+    "level_order": 7,
+    "description": "JHS 1 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 21,
+  "fields": {
+    "name": "JHS 2",
+    "curriculum": 2,
+    "level_order": 8,
+    "description": "JHS 2 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 22,
+  "fields": {
+    "name": "JHS 3",
+    "curriculum": 2,
+    "level_order": 9,
+    "description": "JHS 3 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.575Z",
+    "updated_at": "2025-05-11T22:50:51.575Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 23,
+  "fields": {
+    "name": "SHS 1",
+    "curriculum": 2,
+    "level_order": 10,
+    "description": "SHS 1 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.591Z",
+    "updated_at": "2025-05-11T22:50:51.591Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 24,
+  "fields": {
+    "name": "SHS 2",
+    "curriculum": 2,
+    "level_order": 11,
+    "description": "SHS 2 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.591Z",
+    "updated_at": "2025-05-11T22:50:51.591Z"
+  }
+},
+{
+  "model": "curriculum.classlevel",
+  "pk": 25,
+  "fields": {
+    "name": "SHS 3",
+    "curriculum": 2,
+    "level_order": 12,
+    "description": "SHS 3 curriculum for Ghana education system.",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.591Z",
+    "updated_at": "2025-05-11T22:50:51.591Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 1,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-kindergarten",
+    "curriculum": 1,
+    "class_level": 1,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.591Z",
+    "updated_at": "2025-05-11T22:50:51.591Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 2,
+  "fields": {
+    "name": "English",
+    "slug": "english-kindergarten",
+    "curriculum": 1,
+    "class_level": 1,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 3,
+  "fields": {
+    "name": "Science",
+    "slug": "science-kindergarten",
+    "curriculum": 1,
+    "class_level": 1,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 4,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-kindergarten",
+    "curriculum": 1,
+    "class_level": 1,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 5,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-1",
+    "curriculum": 1,
+    "class_level": 2,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 6,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-1",
+    "curriculum": 1,
+    "class_level": 2,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 7,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-1",
+    "curriculum": 1,
+    "class_level": 2,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 8,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-1",
+    "curriculum": 1,
+    "class_level": 2,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 9,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-2",
+    "curriculum": 1,
+    "class_level": 3,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 10,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-2",
+    "curriculum": 1,
+    "class_level": 3,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 11,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-2",
+    "curriculum": 1,
+    "class_level": 3,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 12,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-2",
+    "curriculum": 1,
+    "class_level": 3,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 13,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-3",
+    "curriculum": 1,
+    "class_level": 4,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 14,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-3",
+    "curriculum": 1,
+    "class_level": 4,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 15,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-3",
+    "curriculum": 1,
+    "class_level": 4,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 16,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-3",
+    "curriculum": 1,
+    "class_level": 4,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.607Z",
+    "updated_at": "2025-05-11T22:50:51.607Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 17,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-4",
+    "curriculum": 1,
+    "class_level": 5,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.623Z",
+    "updated_at": "2025-05-11T22:50:51.623Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 18,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-4",
+    "curriculum": 1,
+    "class_level": 5,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.624Z",
+    "updated_at": "2025-05-11T22:50:51.624Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 19,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-4",
+    "curriculum": 1,
+    "class_level": 5,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.626Z",
+    "updated_at": "2025-05-11T22:50:51.626Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 20,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-4",
+    "curriculum": 1,
+    "class_level": 5,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.627Z",
+    "updated_at": "2025-05-11T22:50:51.627Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 21,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-5",
+    "curriculum": 1,
+    "class_level": 6,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.628Z",
+    "updated_at": "2025-05-11T22:50:51.628Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 22,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-5",
+    "curriculum": 1,
+    "class_level": 6,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.629Z",
+    "updated_at": "2025-05-11T22:50:51.629Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 23,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-5",
+    "curriculum": 1,
+    "class_level": 6,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.630Z",
+    "updated_at": "2025-05-11T22:50:51.630Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 24,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-5",
+    "curriculum": 1,
+    "class_level": 6,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.631Z",
+    "updated_at": "2025-05-11T22:50:51.631Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 25,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-6",
+    "curriculum": 1,
+    "class_level": 7,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.632Z",
+    "updated_at": "2025-05-11T22:50:51.632Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 26,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-6",
+    "curriculum": 1,
+    "class_level": 7,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.633Z",
+    "updated_at": "2025-05-11T22:50:51.633Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 27,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-6",
+    "curriculum": 1,
+    "class_level": 7,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.634Z",
+    "updated_at": "2025-05-11T22:50:51.634Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 28,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-6",
+    "curriculum": 1,
+    "class_level": 7,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.635Z",
+    "updated_at": "2025-05-11T22:50:51.635Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 29,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-7",
+    "curriculum": 1,
+    "class_level": 8,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.636Z",
+    "updated_at": "2025-05-11T22:50:51.636Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 30,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-7",
+    "curriculum": 1,
+    "class_level": 8,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.637Z",
+    "updated_at": "2025-05-11T22:50:51.637Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 31,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-7",
+    "curriculum": 1,
+    "class_level": 8,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.638Z",
+    "updated_at": "2025-05-11T22:50:51.638Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 32,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-7",
+    "curriculum": 1,
+    "class_level": 8,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 33,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-8",
+    "curriculum": 1,
+    "class_level": 9,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 34,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-8",
+    "curriculum": 1,
+    "class_level": 9,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 35,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-8",
+    "curriculum": 1,
+    "class_level": 9,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 36,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-8",
+    "curriculum": 1,
+    "class_level": 9,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 37,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-9",
+    "curriculum": 1,
+    "class_level": 10,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 38,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-9",
+    "curriculum": 1,
+    "class_level": 10,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 39,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-9",
+    "curriculum": 1,
+    "class_level": 10,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 40,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-9",
+    "curriculum": 1,
+    "class_level": 10,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 41,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-10",
+    "curriculum": 1,
+    "class_level": 11,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 42,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-10",
+    "curriculum": 1,
+    "class_level": 11,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 43,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-10",
+    "curriculum": 1,
+    "class_level": 11,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 44,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-10",
+    "curriculum": 1,
+    "class_level": 11,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 45,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-11",
+    "curriculum": 1,
+    "class_level": 12,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 46,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-11",
+    "curriculum": 1,
+    "class_level": 12,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.639Z",
+    "updated_at": "2025-05-11T22:50:51.639Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 47,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-11",
+    "curriculum": 1,
+    "class_level": 12,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 48,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-11",
+    "curriculum": 1,
+    "class_level": 12,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 49,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-grade-12",
+    "curriculum": 1,
+    "class_level": 13,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 50,
+  "fields": {
+    "name": "English",
+    "slug": "english-grade-12",
+    "curriculum": 1,
+    "class_level": 13,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 51,
+  "fields": {
+    "name": "Science",
+    "slug": "science-grade-12",
+    "curriculum": 1,
+    "class_level": 13,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 52,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-grade-12",
+    "curriculum": 1,
+    "class_level": 13,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 53,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 54,
+  "fields": {
+    "name": "English",
+    "slug": "english-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 55,
+  "fields": {
+    "name": "Science",
+    "slug": "science-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 56,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 57,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 58,
+  "fields": {
+    "name": "English",
+    "slug": "english-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 59,
+  "fields": {
+    "name": "Science",
+    "slug": "science-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 60,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 61,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 62,
+  "fields": {
+    "name": "English",
+    "slug": "english-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.655Z",
+    "updated_at": "2025-05-11T22:50:51.655Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 63,
+  "fields": {
+    "name": "Science",
+    "slug": "science-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 64,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 65,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 66,
+  "fields": {
+    "name": "English",
+    "slug": "english-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 67,
+  "fields": {
+    "name": "Science",
+    "slug": "science-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 68,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 69,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 70,
+  "fields": {
+    "name": "English",
+    "slug": "english-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 71,
+  "fields": {
+    "name": "Science",
+    "slug": "science-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 72,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 73,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 74,
+  "fields": {
+    "name": "English",
+    "slug": "english-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 75,
+  "fields": {
+    "name": "Science",
+    "slug": "science-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 76,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 77,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 78,
+  "fields": {
+    "name": "English",
+    "slug": "english-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 79,
+  "fields": {
+    "name": "Science",
+    "slug": "science-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.670Z",
+    "updated_at": "2025-05-11T22:50:51.670Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 80,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 81,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 82,
+  "fields": {
+    "name": "English",
+    "slug": "english-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 83,
+  "fields": {
+    "name": "Science",
+    "slug": "science-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 84,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 85,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 86,
+  "fields": {
+    "name": "English",
+    "slug": "english-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 87,
+  "fields": {
+    "name": "Science",
+    "slug": "science-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 88,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 89,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 90,
+  "fields": {
+    "name": "English",
+    "slug": "english-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 91,
+  "fields": {
+    "name": "Science",
+    "slug": "science-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 92,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 93,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.686Z",
+    "updated_at": "2025-05-11T22:50:51.686Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 94,
+  "fields": {
+    "name": "English Language",
+    "slug": "english-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-16T23:31:55.659Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 95,
+  "fields": {
+    "name": "Science",
+    "slug": "science-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 96,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 97,
+  "fields": {
+    "name": "Mathematics",
+    "slug": "mathematics-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of numbers, quantities, and shapes.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 98,
+  "fields": {
+    "name": "English",
+    "slug": "english-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of English language, literature, and communication.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 99,
+  "fields": {
+    "name": "Science",
+    "slug": "science-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of the natural world through observation and experiment.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 100,
+  "fields": {
+    "name": "Social Studies",
+    "slug": "social-studies-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of human society and social relationships.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 101,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:16.501Z",
+    "updated_at": "2025-05-12T13:17:16.501Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 102,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:46.128Z",
+    "updated_at": "2025-05-12T13:17:46.128Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 103,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:46.292Z",
+    "updated_at": "2025-05-12T13:17:46.292Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 104,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:46.456Z",
+    "updated_at": "2025-05-12T13:17:46.456Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 105,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:46.638Z",
+    "updated_at": "2025-05-12T13:17:46.638Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 106,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:46.806Z",
+    "updated_at": "2025-05-12T13:17:46.806Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 107,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:46.990Z",
+    "updated_at": "2025-05-12T13:17:46.990Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 108,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:47.235Z",
+    "updated_at": "2025-05-12T13:17:47.235Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 109,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:47.407Z",
+    "updated_at": "2025-05-12T13:17:47.407Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 110,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:47.605Z",
+    "updated_at": "2025-05-12T13:17:47.605Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 111,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:47.837Z",
+    "updated_at": "2025-05-12T13:17:47.837Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 112,
+  "fields": {
+    "name": "ICT",
+    "slug": "ict-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Information and Communication Technology",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-12T13:17:48.104Z",
+    "updated_at": "2025-05-12T13:17:48.104Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 113,
+  "fields": {
+    "name": "History",
+    "slug": "history-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:58.446Z",
+    "updated_at": "2025-05-13T22:03:58.446Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 114,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:58.675Z",
+    "updated_at": "2025-05-13T22:03:58.675Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 115,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:58.825Z",
+    "updated_at": "2025-05-13T22:03:58.825Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 116,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:59.009Z",
+    "updated_at": "2025-05-13T22:03:59.009Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 117,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-primary-1",
+    "curriculum": 2,
+    "class_level": 14,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:59.229Z",
+    "updated_at": "2025-05-13T22:03:59.229Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 118,
+  "fields": {
+    "name": "History",
+    "slug": "history-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:59.453Z",
+    "updated_at": "2025-05-13T22:03:59.453Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 119,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:59.668Z",
+    "updated_at": "2025-05-13T22:03:59.668Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 120,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:03:59.887Z",
+    "updated_at": "2025-05-13T22:03:59.887Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 121,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:00.099Z",
+    "updated_at": "2025-05-13T22:04:00.099Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 122,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-primary-2",
+    "curriculum": 2,
+    "class_level": 15,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:00.319Z",
+    "updated_at": "2025-05-13T22:04:00.319Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 123,
+  "fields": {
+    "name": "History",
+    "slug": "history-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:00.569Z",
+    "updated_at": "2025-05-13T22:04:00.569Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 124,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:00.786Z",
+    "updated_at": "2025-05-13T22:04:00.786Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 125,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:01.037Z",
+    "updated_at": "2025-05-13T22:04:01.037Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 126,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:01.393Z",
+    "updated_at": "2025-05-13T22:04:01.393Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 127,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-primary-3",
+    "curriculum": 2,
+    "class_level": 16,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:01.751Z",
+    "updated_at": "2025-05-13T22:04:01.751Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 128,
+  "fields": {
+    "name": "History",
+    "slug": "history-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:01.957Z",
+    "updated_at": "2025-05-13T22:04:01.957Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 129,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:02.370Z",
+    "updated_at": "2025-05-13T22:04:02.370Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 130,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:02.752Z",
+    "updated_at": "2025-05-13T22:04:02.752Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 131,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:02.954Z",
+    "updated_at": "2025-05-13T22:04:02.954Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 132,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-primary-4",
+    "curriculum": 2,
+    "class_level": 17,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:03.192Z",
+    "updated_at": "2025-05-13T22:04:03.192Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 133,
+  "fields": {
+    "name": "History",
+    "slug": "history-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:03.410Z",
+    "updated_at": "2025-05-13T22:04:03.410Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 134,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:03.613Z",
+    "updated_at": "2025-05-13T22:04:03.613Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 135,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:03.799Z",
+    "updated_at": "2025-05-13T22:04:03.799Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 136,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:04.052Z",
+    "updated_at": "2025-05-13T22:04:04.052Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 137,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-primary-5",
+    "curriculum": 2,
+    "class_level": 18,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:04.285Z",
+    "updated_at": "2025-05-13T22:04:04.285Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 138,
+  "fields": {
+    "name": "History",
+    "slug": "history-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:04.483Z",
+    "updated_at": "2025-05-13T22:04:04.483Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 139,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:04.688Z",
+    "updated_at": "2025-05-13T22:04:04.688Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 140,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:04.878Z",
+    "updated_at": "2025-05-13T22:04:04.878Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 141,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:05.087Z",
+    "updated_at": "2025-05-13T22:04:05.087Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 142,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-primary-6",
+    "curriculum": 2,
+    "class_level": 19,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:05.329Z",
+    "updated_at": "2025-05-13T22:04:05.329Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 143,
+  "fields": {
+    "name": "History",
+    "slug": "history-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:05.520Z",
+    "updated_at": "2025-05-13T22:04:05.520Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 144,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:05.703Z",
+    "updated_at": "2025-05-13T22:04:05.703Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 145,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:05.913Z",
+    "updated_at": "2025-05-13T22:04:05.913Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 146,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:06.061Z",
+    "updated_at": "2025-05-13T22:04:06.061Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 147,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-jhs-1",
+    "curriculum": 2,
+    "class_level": 20,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:06.259Z",
+    "updated_at": "2025-05-13T22:04:06.259Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 148,
+  "fields": {
+    "name": "History",
+    "slug": "history-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:06.469Z",
+    "updated_at": "2025-05-13T22:04:06.469Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 149,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:06.661Z",
+    "updated_at": "2025-05-13T22:04:06.661Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 150,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:06.859Z",
+    "updated_at": "2025-05-13T22:04:06.859Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 151,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:07.105Z",
+    "updated_at": "2025-05-13T22:04:07.105Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 152,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-jhs-2",
+    "curriculum": 2,
+    "class_level": 21,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:07.285Z",
+    "updated_at": "2025-05-13T22:04:07.285Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 153,
+  "fields": {
+    "name": "History",
+    "slug": "history-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:07.481Z",
+    "updated_at": "2025-05-13T22:04:07.481Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 154,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:07.676Z",
+    "updated_at": "2025-05-13T22:04:07.676Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 155,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:07.844Z",
+    "updated_at": "2025-05-13T22:04:07.844Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 156,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:08.076Z",
+    "updated_at": "2025-05-13T22:04:08.076Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 157,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-jhs-3",
+    "curriculum": 2,
+    "class_level": 22,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:08.234Z",
+    "updated_at": "2025-05-13T22:04:08.234Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 158,
+  "fields": {
+    "name": "History",
+    "slug": "history-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:08.417Z",
+    "updated_at": "2025-05-13T22:04:08.417Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 159,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:08.601Z",
+    "updated_at": "2025-05-13T22:04:08.601Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 160,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:08.785Z",
+    "updated_at": "2025-05-13T22:04:08.785Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 161,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:08.947Z",
+    "updated_at": "2025-05-13T22:04:08.947Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 162,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-shs-1",
+    "curriculum": 2,
+    "class_level": 23,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:09.173Z",
+    "updated_at": "2025-05-13T22:04:09.173Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 163,
+  "fields": {
+    "name": "History",
+    "slug": "history-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:09.592Z",
+    "updated_at": "2025-05-13T22:04:09.592Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 164,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:09.839Z",
+    "updated_at": "2025-05-13T22:04:09.839Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 165,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:10.079Z",
+    "updated_at": "2025-05-13T22:04:10.079Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 166,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:10.279Z",
+    "updated_at": "2025-05-13T22:04:10.279Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 167,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-shs-2",
+    "curriculum": 2,
+    "class_level": 24,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:10.454Z",
+    "updated_at": "2025-05-13T22:04:10.454Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 168,
+  "fields": {
+    "name": "History",
+    "slug": "history-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of past events, particularly in human affairs.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:10.612Z",
+    "updated_at": "2025-05-13T22:04:10.612Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 169,
+  "fields": {
+    "name": "Twi",
+    "slug": "twi-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of the Twi language, one of the major languages spoken in Ghana.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:10.845Z",
+    "updated_at": "2025-05-13T22:04:10.845Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 170,
+  "fields": {
+    "name": "RME",
+    "slug": "rme-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Religious and Moral Education - Study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:11.028Z",
+    "updated_at": "2025-05-13T22:04:11.028Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 171,
+  "fields": {
+    "name": "RMS",
+    "slug": "rms-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Religious and Moral Studies - Advanced study of religious beliefs, practices, and moral values.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:11.194Z",
+    "updated_at": "2025-05-13T22:04:11.194Z"
+  }
+},
+{
+  "model": "curriculum.subject",
+  "pk": 172,
+  "fields": {
+    "name": "Creative Arts",
+    "slug": "creative-arts-shs-3",
+    "curriculum": 2,
+    "class_level": 25,
+    "description": "Study of visual arts, performing arts, and other creative disciplines.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-13T22:04:11.361Z",
+    "updated_at": "2025-05-13T22:04:11.361Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 1,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-kindergarten-biology",
+    "subject": 3,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 2,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-kindergarten-chemistry",
+    "subject": 3,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 3,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-kindergarten-physics",
+    "subject": 3,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 4,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-1-biology",
+    "subject": 7,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 5,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-1-chemistry",
+    "subject": 7,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 6,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-1-physics",
+    "subject": 7,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 7,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-2-biology",
+    "subject": 11,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 8,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-2-chemistry",
+    "subject": 11,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 9,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-2-physics",
+    "subject": 11,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.702Z",
+    "updated_at": "2025-05-11T22:50:51.702Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 10,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-3-biology",
+    "subject": 15,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 11,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-3-chemistry",
+    "subject": 15,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 12,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-3-physics",
+    "subject": 15,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 13,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-4-biology",
+    "subject": 19,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 14,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-4-chemistry",
+    "subject": 19,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 15,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-4-physics",
+    "subject": 19,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 16,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-5-biology",
+    "subject": 23,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 17,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-5-chemistry",
+    "subject": 23,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 18,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-5-physics",
+    "subject": 23,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 19,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-6-biology",
+    "subject": 27,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 20,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-6-chemistry",
+    "subject": 27,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 21,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-6-physics",
+    "subject": 27,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 22,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-7-biology",
+    "subject": 31,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 23,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-7-chemistry",
+    "subject": 31,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 24,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-7-physics",
+    "subject": 31,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 25,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-8-biology",
+    "subject": 35,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 26,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-8-chemistry",
+    "subject": 35,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 27,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-8-physics",
+    "subject": 35,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.717Z",
+    "updated_at": "2025-05-11T22:50:51.717Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 28,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-9-biology",
+    "subject": 39,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 29,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-9-chemistry",
+    "subject": 39,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 30,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-9-physics",
+    "subject": 39,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 31,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-10-biology",
+    "subject": 43,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 32,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-10-chemistry",
+    "subject": 43,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 33,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-10-physics",
+    "subject": 43,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 34,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-11-biology",
+    "subject": 47,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 35,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-11-chemistry",
+    "subject": 47,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 36,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-11-physics",
+    "subject": 47,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 37,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-grade-12-biology",
+    "subject": 51,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 38,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-grade-12-chemistry",
+    "subject": 51,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 39,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-grade-12-physics",
+    "subject": 51,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 40,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-primary-1-biology",
+    "subject": 55,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 41,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-primary-1-chemistry",
+    "subject": 55,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 42,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-primary-1-physics",
+    "subject": 55,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 43,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-primary-2-biology",
+    "subject": 59,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 44,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-primary-2-chemistry",
+    "subject": 59,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 45,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-primary-2-physics",
+    "subject": 59,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.733Z",
+    "updated_at": "2025-05-11T22:50:51.733Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 46,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-primary-3-biology",
+    "subject": 63,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 47,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-primary-3-chemistry",
+    "subject": 63,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 48,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-primary-3-physics",
+    "subject": 63,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 49,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-primary-4-biology",
+    "subject": 67,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 50,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-primary-4-chemistry",
+    "subject": 67,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 51,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-primary-4-physics",
+    "subject": 67,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 52,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-primary-5-biology",
+    "subject": 71,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 53,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-primary-5-chemistry",
+    "subject": 71,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 54,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-primary-5-physics",
+    "subject": 71,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 55,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-primary-6-biology",
+    "subject": 75,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 56,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-primary-6-chemistry",
+    "subject": 75,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 57,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-primary-6-physics",
+    "subject": 75,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 58,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-jhs-1-biology",
+    "subject": 79,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 59,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-jhs-1-chemistry",
+    "subject": 79,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 60,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-jhs-1-physics",
+    "subject": 79,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 61,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-jhs-2-biology",
+    "subject": 83,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 62,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-jhs-2-chemistry",
+    "subject": 83,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 63,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-jhs-2-physics",
+    "subject": 83,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 64,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-jhs-3-biology",
+    "subject": 87,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.749Z",
+    "updated_at": "2025-05-11T22:50:51.749Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 65,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-jhs-3-chemistry",
+    "subject": 87,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 66,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-jhs-3-physics",
+    "subject": 87,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 67,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-shs-1-biology",
+    "subject": 91,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 68,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-shs-1-chemistry",
+    "subject": 91,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 69,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-shs-1-physics",
+    "subject": 91,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 70,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-shs-2-biology",
+    "subject": 95,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 71,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-shs-2-chemistry",
+    "subject": 95,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 72,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-shs-2-physics",
+    "subject": 95,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 73,
+  "fields": {
+    "name": "Biology",
+    "slug": "science-shs-3-biology",
+    "subject": 99,
+    "description": "Study of living organisms and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 74,
+  "fields": {
+    "name": "Chemistry",
+    "slug": "science-shs-3-chemistry",
+    "subject": 99,
+    "description": "Study of matter, its properties, and reactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.branch",
+  "pk": 75,
+  "fields": {
+    "name": "Physics",
+    "slug": "science-shs-3-physics",
+    "subject": 99,
+    "description": "Study of matter, energy, and their interactions.",
+    "icon": "",
+    "is_active": true,
+    "created_at": "2025-05-11T22:50:51.764Z",
+    "updated_at": "2025-05-11T22:50:51.764Z"
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 1,
+  "fields": {
+    "name": "Noun",
+    "slug": "english-grade-5-noun",
+    "subject": 22,
+    "branch": null,
+    "description": "Names of Persons and things",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-12T12:02:47.540Z",
+    "updated_at": "2025-05-12T12:02:47.540Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 2,
+  "fields": {
+    "name": "Addition and Subtraction",
+    "slug": "mathematics-grade-3-addition-and-subtraction",
+    "subject": 13,
+    "branch": null,
+    "description": "Addition and subtraction of numbers up to 1000",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-12T12:45:38.310Z",
+    "updated_at": "2025-05-12T12:45:38.310Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 3,
+  "fields": {
+    "name": "Living Things",
+    "slug": "science-primary-4-living-things",
+    "subject": 67,
+    "branch": null,
+    "description": "Study of plants and animals",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-12T12:45:39.278Z",
+    "updated_at": "2025-05-12T12:45:39.278Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 4,
+  "fields": {
+    "name": "Trigonometry",
+    "slug": "mathematics-shs-2-trigonometry",
+    "subject": 93,
+    "branch": null,
+    "description": "Study of relationships between angles and sides of triangles",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-12T13:14:31.215Z",
+    "updated_at": "2025-05-12T13:14:31.215Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 5,
+  "fields": {
+    "name": "Database",
+    "slug": "ict-shs-2-database",
+    "subject": 111,
+    "branch": null,
+    "description": "Database concepts and management",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-12T13:19:48.159Z",
+    "updated_at": "2025-05-12T13:19:48.159Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 6,
+  "fields": {
+    "name": "Programming",
+    "slug": "ict-shs-2-programming",
+    "subject": 111,
+    "branch": null,
+    "description": "Programming concepts and languages",
+    "difficulty": "intermediate",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2025-05-12T13:19:48.303Z",
+    "updated_at": "2025-05-12T13:19:48.303Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 7,
+  "fields": {
+    "name": "Networking",
+    "slug": "ict-shs-2-networking",
+    "subject": 111,
+    "branch": null,
+    "description": "Computer networking concepts",
+    "difficulty": "intermediate",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2025-05-12T13:19:48.505Z",
+    "updated_at": "2025-05-12T13:19:48.505Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 8,
+  "fields": {
+    "name": "Database Management Systems",
+    "slug": "database-management-systems",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Database Management Systems in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:23:14.178Z",
+    "updated_at": "2025-05-13T22:23:14.178Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 9,
+  "fields": {
+    "name": "Programming Concepts",
+    "slug": "programming-concepts",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Programming Concepts in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:23:22.540Z",
+    "updated_at": "2025-05-13T22:23:22.540Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 10,
+  "fields": {
+    "name": "Networking and Internet",
+    "slug": "networking-and-internet",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Networking and Internet in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:23:33.966Z",
+    "updated_at": "2025-05-13T22:23:33.966Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 11,
+  "fields": {
+    "name": "Information Security",
+    "slug": "information-security",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Information Security in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:23:40.931Z",
+    "updated_at": "2025-05-13T22:23:40.931Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 12,
+  "fields": {
+    "name": "Web Development",
+    "slug": "web-development",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Web Development in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:23:49.635Z",
+    "updated_at": "2025-05-13T22:23:49.635Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 13,
+  "fields": {
+    "name": "Reading Comprehension",
+    "slug": "reading-comprehension",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Reading Comprehension in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:23:58.956Z",
+    "updated_at": "2025-05-13T22:23:58.956Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 14,
+  "fields": {
+    "name": "Grammar and Structure",
+    "slug": "grammar-and-structure",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Grammar and Structure in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:07.065Z",
+    "updated_at": "2025-05-13T22:24:07.065Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 15,
+  "fields": {
+    "name": "Literature",
+    "slug": "literature",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Literature in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:15.773Z",
+    "updated_at": "2025-05-13T22:24:15.773Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 16,
+  "fields": {
+    "name": "Writing Skills",
+    "slug": "writing-skills",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Writing Skills in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:22.776Z",
+    "updated_at": "2025-05-13T22:24:22.776Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 17,
+  "fields": {
+    "name": "Oral Communication",
+    "slug": "oral-communication",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Oral Communication in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:29.428Z",
+    "updated_at": "2025-05-13T22:24:29.428Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 18,
+  "fields": {
+    "name": "Biology - Cells and Genetics",
+    "slug": "biology-cells-and-genetics",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Biology - Cells and Genetics in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:37.180Z",
+    "updated_at": "2025-05-13T22:24:37.180Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 19,
+  "fields": {
+    "name": "Chemistry - Chemical Reactions",
+    "slug": "chemistry-chemical-reactions",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Chemistry - Chemical Reactions in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:44.785Z",
+    "updated_at": "2025-05-13T22:24:44.785Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 20,
+  "fields": {
+    "name": "Physics - Forces and Motion",
+    "slug": "physics-forces-and-motion",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Physics - Forces and Motion in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:51.361Z",
+    "updated_at": "2025-05-13T22:24:51.361Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 21,
+  "fields": {
+    "name": "Environmental Science",
+    "slug": "environmental-science",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Environmental Science in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:24:59.412Z",
+    "updated_at": "2025-05-13T22:24:59.412Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 22,
+  "fields": {
+    "name": "Scientific Method",
+    "slug": "scientific-method",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Scientific Method in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:06.637Z",
+    "updated_at": "2025-05-13T22:25:06.637Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 23,
+  "fields": {
+    "name": "Algebra",
+    "slug": "algebra",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Algebra in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:14.286Z",
+    "updated_at": "2025-05-13T22:25:14.286Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 24,
+  "fields": {
+    "name": "Statistics and Probability",
+    "slug": "statistics-and-probability",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Statistics and Probability in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:29.186Z",
+    "updated_at": "2025-05-13T22:25:29.186Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 25,
+  "fields": {
+    "name": "Geometry",
+    "slug": "geometry",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Geometry in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:36.213Z",
+    "updated_at": "2025-05-13T22:25:36.213Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 26,
+  "fields": {
+    "name": "Calculus Basics",
+    "slug": "calculus-basics",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Calculus Basics in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:44.469Z",
+    "updated_at": "2025-05-13T22:25:44.469Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 27,
+  "fields": {
+    "name": "Governance and Politics",
+    "slug": "governance-and-politics",
+    "subject": 96,
+    "branch": null,
+    "description": "Topic for Governance and Politics in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:51.877Z",
+    "updated_at": "2025-05-13T22:25:51.877Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 28,
+  "fields": {
+    "name": "Economic Development",
+    "slug": "economic-development",
+    "subject": 96,
+    "branch": null,
+    "description": "Topic for Economic Development in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:25:59.374Z",
+    "updated_at": "2025-05-13T22:25:59.374Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 29,
+  "fields": {
+    "name": "Cultural Practices",
+    "slug": "cultural-practices",
+    "subject": 96,
+    "branch": null,
+    "description": "Topic for Cultural Practices in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:07.027Z",
+    "updated_at": "2025-05-13T22:26:07.027Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 30,
+  "fields": {
+    "name": "Environmental Issues",
+    "slug": "environmental-issues",
+    "subject": 96,
+    "branch": null,
+    "description": "Topic for Environmental Issues in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:14.153Z",
+    "updated_at": "2025-05-13T22:26:14.153Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 31,
+  "fields": {
+    "name": "Global Connections",
+    "slug": "global-connections",
+    "subject": 96,
+    "branch": null,
+    "description": "Topic for Global Connections in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:21.107Z",
+    "updated_at": "2025-05-13T22:26:21.107Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 32,
+  "fields": {
+    "name": "Introduction to Computers",
+    "slug": "introduction-to-computers",
+    "subject": 106,
+    "branch": null,
+    "description": "Topic for Introduction to Computers in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:28.980Z",
+    "updated_at": "2025-05-13T22:26:28.980Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 33,
+  "fields": {
+    "name": "Word Processing",
+    "slug": "word-processing",
+    "subject": 106,
+    "branch": null,
+    "description": "Topic for Word Processing in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:35.507Z",
+    "updated_at": "2025-05-13T22:26:35.507Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 34,
+  "fields": {
+    "name": "Internet Basics",
+    "slug": "internet-basics",
+    "subject": 106,
+    "branch": null,
+    "description": "Topic for Internet Basics in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:46.943Z",
+    "updated_at": "2025-05-13T22:26:46.943Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 35,
+  "fields": {
+    "name": "Computer Ethics",
+    "slug": "computer-ethics",
+    "subject": 106,
+    "branch": null,
+    "description": "Topic for Computer Ethics in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:26:54.618Z",
+    "updated_at": "2025-05-13T22:26:54.618Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 36,
+  "fields": {
+    "name": "Multimedia",
+    "slug": "multimedia",
+    "subject": 106,
+    "branch": null,
+    "description": "Topic for Multimedia in ICT",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:01.337Z",
+    "updated_at": "2025-05-13T22:27:01.337Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 37,
+  "fields": {
+    "name": "Reading and Comprehension",
+    "slug": "reading-and-comprehension",
+    "subject": 74,
+    "branch": null,
+    "description": "Topic for Reading and Comprehension in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:08.381Z",
+    "updated_at": "2025-05-13T22:27:08.381Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 38,
+  "fields": {
+    "name": "Grammar",
+    "slug": "grammar",
+    "subject": 74,
+    "branch": null,
+    "description": "Topic for Grammar in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:15.913Z",
+    "updated_at": "2025-05-13T22:27:15.913Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 39,
+  "fields": {
+    "name": "Composition Writing",
+    "slug": "composition-writing",
+    "subject": 74,
+    "branch": null,
+    "description": "Topic for Composition Writing in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:24.343Z",
+    "updated_at": "2025-05-13T22:27:24.343Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 40,
+  "fields": {
+    "name": "Listening and Speaking",
+    "slug": "listening-and-speaking",
+    "subject": 74,
+    "branch": null,
+    "description": "Topic for Listening and Speaking in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:36.143Z",
+    "updated_at": "2025-05-13T22:27:36.143Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 41,
+  "fields": {
+    "name": "Vocabulary Development",
+    "slug": "vocabulary-development",
+    "subject": 74,
+    "branch": null,
+    "description": "Topic for Vocabulary Development in English",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:46.724Z",
+    "updated_at": "2025-05-13T22:27:46.724Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 42,
+  "fields": {
+    "name": "Living Things",
+    "slug": "living-things",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Living Things in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:27:54.958Z",
+    "updated_at": "2025-05-13T22:27:54.958Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 43,
+  "fields": {
+    "name": "Materials",
+    "slug": "materials",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Materials in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:02.415Z",
+    "updated_at": "2025-05-13T22:28:02.415Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 44,
+  "fields": {
+    "name": "Energy and Forces",
+    "slug": "energy-and-forces",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Energy and Forces in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:09.082Z",
+    "updated_at": "2025-05-13T22:28:09.082Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 45,
+  "fields": {
+    "name": "Earth and Space",
+    "slug": "earth-and-space",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Earth and Space in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:17.499Z",
+    "updated_at": "2025-05-13T22:28:17.499Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 46,
+  "fields": {
+    "name": "Human Body",
+    "slug": "human-body",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Human Body in Science",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:25.761Z",
+    "updated_at": "2025-05-13T22:28:25.761Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 47,
+  "fields": {
+    "name": "Numbers and Operations",
+    "slug": "numbers-and-operations",
+    "subject": 73,
+    "branch": null,
+    "description": "Topic for Numbers and Operations in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:33.550Z",
+    "updated_at": "2025-05-13T22:28:33.550Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 48,
+  "fields": {
+    "name": "Fractions and Decimals",
+    "slug": "fractions-and-decimals",
+    "subject": 73,
+    "branch": null,
+    "description": "Topic for Fractions and Decimals in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:44.762Z",
+    "updated_at": "2025-05-13T22:28:44.762Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 49,
+  "fields": {
+    "name": "Measurement",
+    "slug": "measurement",
+    "subject": 73,
+    "branch": null,
+    "description": "Topic for Measurement in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:51.342Z",
+    "updated_at": "2025-05-13T22:28:51.342Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 50,
+  "fields": {
+    "name": "Geometry and Shapes",
+    "slug": "geometry-and-shapes",
+    "subject": 73,
+    "branch": null,
+    "description": "Topic for Geometry and Shapes in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:28:58.792Z",
+    "updated_at": "2025-05-13T22:28:58.792Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 51,
+  "fields": {
+    "name": "Data Handling",
+    "slug": "data-handling",
+    "subject": 73,
+    "branch": null,
+    "description": "Topic for Data Handling in Mathematics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:29:06.117Z",
+    "updated_at": "2025-05-13T22:29:06.117Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 52,
+  "fields": {
+    "name": "Our Nation Ghana",
+    "slug": "our-nation-ghana",
+    "subject": 76,
+    "branch": null,
+    "description": "Topic for Our Nation Ghana in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:29:14.209Z",
+    "updated_at": "2025-05-13T22:29:14.209Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 53,
+  "fields": {
+    "name": "Map Reading",
+    "slug": "map-reading",
+    "subject": 76,
+    "branch": null,
+    "description": "Topic for Map Reading in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:29:21.880Z",
+    "updated_at": "2025-05-13T22:29:21.880Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 54,
+  "fields": {
+    "name": "Environment and Resources",
+    "slug": "environment-and-resources",
+    "subject": 76,
+    "branch": null,
+    "description": "Topic for Environment and Resources in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:29:29.494Z",
+    "updated_at": "2025-05-13T22:29:29.494Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 55,
+  "fields": {
+    "name": "Governance",
+    "slug": "governance",
+    "subject": 76,
+    "branch": null,
+    "description": "Topic for Governance in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:29:36.782Z",
+    "updated_at": "2025-05-13T22:29:36.782Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 56,
+  "fields": {
+    "name": "Cultural Identity",
+    "slug": "cultural-identity",
+    "subject": 76,
+    "branch": null,
+    "description": "Topic for Cultural Identity in Social Studies",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-13T22:29:44.712Z",
+    "updated_at": "2025-05-13T22:29:44.712Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 57,
+  "fields": {
+    "name": "Edin",
+    "slug": "edin",
+    "subject": 164,
+    "branch": null,
+    "description": "Topic for Edin",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:12:49.096Z",
+    "updated_at": "2025-05-14T00:12:49.096Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 58,
+  "fields": {
+    "name": "Edin",
+    "slug": "edin",
+    "subject": 166,
+    "branch": null,
+    "description": "Topic for Edin",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:26:26.475Z",
+    "updated_at": "2025-05-14T00:26:26.475Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 59,
+  "fields": {
+    "name": "Edin",
+    "slug": "edin",
+    "subject": 151,
+    "branch": null,
+    "description": "Topic for Edin",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:27:43.735Z",
+    "updated_at": "2025-05-14T00:27:43.735Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 60,
+  "fields": {
+    "name": "Database Management",
+    "slug": "database-management",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Database Management",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T23:11:56.742Z",
+    "updated_at": "2025-05-14T23:11:56.742Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 61,
+  "fields": {
+    "name": "Database Management",
+    "slug": "database-management",
+    "subject": 110,
+    "branch": null,
+    "description": "Topic for Database Management",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T23:30:58.086Z",
+    "updated_at": "2025-05-14T23:30:58.086Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 62,
+  "fields": {
+    "name": "Computer Ethics",
+    "slug": "computer-ethics",
+    "subject": 107,
+    "branch": null,
+    "description": "Topic for Computer Ethics",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T23:48:33.236Z",
+    "updated_at": "2025-05-14T23:48:33.236Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 63,
+  "fields": {
+    "name": "Respiratory System in Humans",
+    "slug": "respiratory-system-in-humans",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Respiratory System in Humans",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T23:56:18.717Z",
+    "updated_at": "2025-05-14T23:56:18.717Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 64,
+  "fields": {
+    "name": "Forces and Energy",
+    "slug": "forces-and-energy",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Forces and Energy",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-15T00:03:09.969Z",
+    "updated_at": "2025-05-15T00:03:09.969Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 65,
+  "fields": {
+    "name": "Circulatory System in Humans",
+    "slug": "circulatory-system-in-humans",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Circulatory System in Humans",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-15T00:09:45.807Z",
+    "updated_at": "2025-05-15T00:09:45.807Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 66,
+  "fields": {
+    "name": "Skeletal System in Humans",
+    "slug": "skeletal-system-in-humans",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for Skeletal System in Humans",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-15T00:18:15.356Z",
+    "updated_at": "2025-05-15T00:18:15.356Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 67,
+  "fields": {
+    "name": "The Solar System",
+    "slug": "the-solar-system",
+    "subject": 75,
+    "branch": null,
+    "description": "Topic for The Solar System",
+    "difficulty": "intermediate",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-15T00:23:46.207Z",
+    "updated_at": "2025-05-15T00:23:46.207Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 68,
+  "fields": {
+    "name": "Cyber Security",
+    "slug": "cyber-security",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Cyber Security",
+    "difficulty": "intermediate",
+    "order": 4,
+    "is_active": true,
+    "created_at": "2025-05-16T20:39:28.358Z",
+    "updated_at": "2025-05-16T20:39:28.358Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 69,
+  "fields": {
+    "name": "Hardware and Software",
+    "slug": "hardware-and-software",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Hardware and Software",
+    "difficulty": "intermediate",
+    "order": 5,
+    "is_active": true,
+    "created_at": "2025-05-16T20:46:15.957Z",
+    "updated_at": "2025-05-16T20:46:15.957Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 70,
+  "fields": {
+    "name": "Parts of Speech",
+    "slug": "parts-of-speech",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Parts of Speech",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-16T20:53:59.994Z",
+    "updated_at": "2025-05-16T20:53:59.994Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 71,
+  "fields": {
+    "name": "Tenses",
+    "slug": "tenses",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Tenses",
+    "difficulty": "intermediate",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2025-05-16T20:58:19.791Z",
+    "updated_at": "2025-05-16T20:58:19.791Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 72,
+  "fields": {
+    "name": "Comprehension",
+    "slug": "comprehension",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Comprehension",
+    "difficulty": "intermediate",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2025-05-16T20:59:38.445Z",
+    "updated_at": "2025-05-16T20:59:38.445Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 73,
+  "fields": {
+    "name": "Vocabulary",
+    "slug": "vocabulary",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Vocabulary",
+    "difficulty": "intermediate",
+    "order": 4,
+    "is_active": true,
+    "created_at": "2025-05-16T21:00:13.919Z",
+    "updated_at": "2025-05-16T21:00:13.919Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 74,
+  "fields": {
+    "name": "Grammar",
+    "slug": "grammar",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Grammar",
+    "difficulty": "intermediate",
+    "order": 5,
+    "is_active": true,
+    "created_at": "2025-05-16T21:00:41.201Z",
+    "updated_at": "2025-05-16T21:00:41.201Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 75,
+  "fields": {
+    "name": "Sentence Construction",
+    "slug": "sentence-construction",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Sentence Construction",
+    "difficulty": "intermediate",
+    "order": 6,
+    "is_active": true,
+    "created_at": "2025-05-16T21:01:13.856Z",
+    "updated_at": "2025-05-16T21:01:13.856Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 76,
+  "fields": {
+    "name": "Literature",
+    "slug": "literature",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Literature",
+    "difficulty": "intermediate",
+    "order": 7,
+    "is_active": true,
+    "created_at": "2025-05-16T21:03:42.624Z",
+    "updated_at": "2025-05-16T21:03:42.624Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 77,
+  "fields": {
+    "name": "Writing Skills",
+    "slug": "writing-skills",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Writing Skills",
+    "difficulty": "intermediate",
+    "order": 8,
+    "is_active": true,
+    "created_at": "2025-05-16T21:06:47.804Z",
+    "updated_at": "2025-05-16T21:06:47.804Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 78,
+  "fields": {
+    "name": "Composition",
+    "slug": "composition",
+    "subject": 82,
+    "branch": null,
+    "description": "Topic for Composition",
+    "difficulty": "intermediate",
+    "order": 9,
+    "is_active": true,
+    "created_at": "2025-05-16T21:07:21.176Z",
+    "updated_at": "2025-05-16T21:07:21.176Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 79,
+  "fields": {
+    "name": "Cell Structure and Functions",
+    "slug": "cell-structure-and-functions",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Cell Structure and Functions",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-16T21:08:21.195Z",
+    "updated_at": "2025-05-16T21:08:21.195Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 80,
+  "fields": {
+    "name": "Photosynthesis",
+    "slug": "photosynthesis",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Photosynthesis",
+    "difficulty": "intermediate",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2025-05-16T21:08:41.822Z",
+    "updated_at": "2025-05-16T21:08:41.822Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 81,
+  "fields": {
+    "name": "Reproduction in Humans",
+    "slug": "reproduction-in-humans",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Reproduction in Humans",
+    "difficulty": "intermediate",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2025-05-16T21:09:59.293Z",
+    "updated_at": "2025-05-16T21:09:59.293Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 82,
+  "fields": {
+    "name": "Atomic Structure",
+    "slug": "atomic-structure",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Atomic Structure",
+    "difficulty": "intermediate",
+    "order": 4,
+    "is_active": true,
+    "created_at": "2025-05-16T21:10:34.148Z",
+    "updated_at": "2025-05-16T21:10:34.148Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 83,
+  "fields": {
+    "name": "Acids, Bases and Salts",
+    "slug": "acids-bases-and-salts",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Acids, Bases and Salts",
+    "difficulty": "intermediate",
+    "order": 5,
+    "is_active": true,
+    "created_at": "2025-05-16T21:11:13.443Z",
+    "updated_at": "2025-05-16T21:11:13.443Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 84,
+  "fields": {
+    "name": "Motion",
+    "slug": "motion",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Motion",
+    "difficulty": "intermediate",
+    "order": 6,
+    "is_active": true,
+    "created_at": "2025-05-16T21:11:48.173Z",
+    "updated_at": "2025-05-16T21:11:48.173Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 85,
+  "fields": {
+    "name": "Heat Energy",
+    "slug": "heat-energy",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Heat Energy",
+    "difficulty": "intermediate",
+    "order": 7,
+    "is_active": true,
+    "created_at": "2025-05-16T21:12:42.653Z",
+    "updated_at": "2025-05-16T21:12:42.653Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 86,
+  "fields": {
+    "name": "Work, Energy and Power",
+    "slug": "work-energy-and-power",
+    "subject": 91,
+    "branch": null,
+    "description": "Topic for Work, Energy and Power",
+    "difficulty": "intermediate",
+    "order": 8,
+    "is_active": true,
+    "created_at": "2025-05-16T21:14:29.418Z",
+    "updated_at": "2025-05-16T21:14:29.418Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 87,
+  "fields": {
+    "name": "Atomic Structure",
+    "slug": "atomic-structure",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Atomic Structure",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-16T21:15:09.601Z",
+    "updated_at": "2025-05-16T21:15:09.601Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 88,
+  "fields": {
+    "name": "Periodic Table",
+    "slug": "periodic-table",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Periodic Table",
+    "difficulty": "intermediate",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2025-05-16T21:15:39.113Z",
+    "updated_at": "2025-05-16T21:15:39.113Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 89,
+  "fields": {
+    "name": "Chemical Reactions",
+    "slug": "chemical-reactions",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Chemical Reactions",
+    "difficulty": "intermediate",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2025-05-16T21:16:24.141Z",
+    "updated_at": "2025-05-16T21:16:24.141Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 90,
+  "fields": {
+    "name": "Acids, Bases, and Salts",
+    "slug": "acids-bases-and-salts",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Acids, Bases, and Salts",
+    "difficulty": "intermediate",
+    "order": 4,
+    "is_active": true,
+    "created_at": "2025-05-16T21:18:00.678Z",
+    "updated_at": "2025-05-16T21:18:00.678Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 91,
+  "fields": {
+    "name": "Electricity and Magnetism",
+    "slug": "electricity-and-magnetism",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for Electricity and Magnetism",
+    "difficulty": "intermediate",
+    "order": 5,
+    "is_active": true,
+    "created_at": "2025-05-16T21:21:33.671Z",
+    "updated_at": "2025-05-16T21:21:33.671Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 92,
+  "fields": {
+    "name": "Vocabulary Development",
+    "slug": "vocabulary-development",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Vocabulary Development",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-16T21:22:12.931Z",
+    "updated_at": "2025-05-16T21:22:12.931Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 93,
+  "fields": {
+    "name": "Comprehension Skills",
+    "slug": "comprehension-skills",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Comprehension Skills",
+    "difficulty": "intermediate",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2025-05-16T21:26:52.689Z",
+    "updated_at": "2025-05-16T21:26:52.689Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 94,
+  "fields": {
+    "name": "Grammar – Sentence Structure",
+    "slug": "grammar-sentence-structure",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Grammar – Sentence Structure",
+    "difficulty": "intermediate",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2025-05-16T21:27:34.283Z",
+    "updated_at": "2025-05-16T21:27:34.283Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 95,
+  "fields": {
+    "name": "Writing – Argumentative Essay",
+    "slug": "writing-argumentative-essay",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Writing – Argumentative Essay",
+    "difficulty": "intermediate",
+    "order": 4,
+    "is_active": true,
+    "created_at": "2025-05-16T21:28:12.578Z",
+    "updated_at": "2025-05-16T21:28:12.578Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 96,
+  "fields": {
+    "name": "Writing – Narrative Essay",
+    "slug": "writing-narrative-essay",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Writing – Narrative Essay",
+    "difficulty": "intermediate",
+    "order": 5,
+    "is_active": true,
+    "created_at": "2025-05-16T21:29:38.277Z",
+    "updated_at": "2025-05-16T21:29:38.277Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 97,
+  "fields": {
+    "name": "General Mathematics",
+    "slug": "general-mathematics",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for General Mathematics",
+    "difficulty": "intermediate",
+    "order": 2,
+    "is_active": true,
+    "created_at": "2025-05-16T21:34:18.302Z",
+    "updated_at": "2025-05-16T21:34:18.302Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 98,
+  "fields": {
+    "name": "Mixed Topics",
+    "slug": "mixed-topics",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Mixed Topics",
+    "difficulty": "intermediate",
+    "order": 3,
+    "is_active": true,
+    "created_at": "2025-05-16T21:35:55.359Z",
+    "updated_at": "2025-05-16T21:35:55.359Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 99,
+  "fields": {
+    "name": "Factorization",
+    "slug": "factorization",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Factorization",
+    "difficulty": "intermediate",
+    "order": 4,
+    "is_active": true,
+    "created_at": "2025-05-16T21:37:44.501Z",
+    "updated_at": "2025-05-16T21:37:44.501Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 100,
+  "fields": {
+    "name": "Algebraic Expressions",
+    "slug": "algebraic-expressions",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Algebraic Expressions",
+    "difficulty": "intermediate",
+    "order": 5,
+    "is_active": true,
+    "created_at": "2025-05-16T21:37:50.373Z",
+    "updated_at": "2025-05-16T21:37:50.373Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 101,
+  "fields": {
+    "name": "Linear Equations",
+    "slug": "linear-equations",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Linear Equations",
+    "difficulty": "intermediate",
+    "order": 6,
+    "is_active": true,
+    "created_at": "2025-05-16T21:37:55.679Z",
+    "updated_at": "2025-05-16T21:37:55.679Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 102,
+  "fields": {
+    "name": "Simultaneous Equations",
+    "slug": "simultaneous-equations",
+    "subject": 93,
+    "branch": null,
+    "description": "Topic for Simultaneous Equations",
+    "difficulty": "intermediate",
+    "order": 7,
+    "is_active": true,
+    "created_at": "2025-05-16T21:38:01.300Z",
+    "updated_at": "2025-05-16T21:38:01.300Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 103,
+  "fields": {
+    "name": "Introduction to Web Development",
+    "slug": "introduction-to-web-development",
+    "subject": 111,
+    "branch": null,
+    "description": "Topic for Introduction to Web Development",
+    "difficulty": "intermediate",
+    "order": 6,
+    "is_active": true,
+    "created_at": "2025-05-16T22:40:02.338Z",
+    "updated_at": "2025-05-16T22:40:02.338Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 104,
+  "fields": {
+    "name": "Descriptive Essays",
+    "slug": "descriptive-essays",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Descriptive Essays",
+    "difficulty": "intermediate",
+    "order": 6,
+    "is_active": true,
+    "created_at": "2025-05-16T23:32:07.825Z",
+    "updated_at": "2025-05-16T23:32:07.825Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 105,
+  "fields": {
+    "name": "Literary Devices and Their Effects",
+    "slug": "literary-devices-and-their-effects",
+    "subject": 94,
+    "branch": null,
+    "description": "Topic for Literary Devices and Their Effects",
+    "difficulty": "intermediate",
+    "order": 7,
+    "is_active": true,
+    "created_at": "2025-05-16T23:36:16.178Z",
+    "updated_at": "2025-05-16T23:36:16.178Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 106,
+  "fields": {
+    "name": "SSCE Past Question",
+    "slug": "ssce-past-question",
+    "subject": 95,
+    "branch": null,
+    "description": "Topic for SSCE Past Question",
+    "difficulty": "intermediate",
+    "order": 6,
+    "is_active": true,
+    "created_at": "2025-05-16T23:47:58.448Z",
+    "updated_at": "2025-05-16T23:47:58.448Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 107,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question",
+    "subject": 79,
+    "branch": null,
+    "description": "Topic for BECE Past Question",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T00:37:50.884Z",
+    "updated_at": "2025-05-17T00:37:50.884Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 108,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question",
+    "subject": 80,
+    "branch": null,
+    "description": "Topic for BECE Past Question",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T05:57:35.181Z",
+    "updated_at": "2025-05-17T05:57:35.181Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 109,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question",
+    "subject": 107,
+    "branch": null,
+    "description": "Topic for BECE Past Question",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T06:20:31.458Z",
+    "updated_at": "2025-05-17T06:20:31.458Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.topic",
+  "pk": 110,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question",
+    "subject": 147,
+    "branch": null,
+    "description": "Topic for BECE Past Question",
+    "difficulty": "intermediate",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T07:07:22.369Z",
+    "updated_at": "2025-05-17T07:07:22.369Z",
+    "prerequisites": []
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 1,
+  "fields": {
+    "name": "Nouns",
+    "slug": "grammar-nouns",
+    "topic": 38,
+    "description": "Subtopic for Nouns",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:08:20.133Z",
+    "updated_at": "2025-05-14T00:08:20.133Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 2,
+  "fields": {
+    "name": "Dinpa",
+    "slug": "edin-dinpa",
+    "topic": 57,
+    "description": "Subtopic for Dinpa",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:12:49.099Z",
+    "updated_at": "2025-05-14T00:12:49.099Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 3,
+  "fields": {
+    "name": "Dinpa",
+    "slug": "edin-dinpa",
+    "topic": 58,
+    "description": "Subtopic for Dinpa",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:26:26.477Z",
+    "updated_at": "2025-05-14T00:26:26.477Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 4,
+  "fields": {
+    "name": "Dinpa",
+    "slug": "edin-dinpa",
+    "topic": 59,
+    "description": "Subtopic for Dinpa",
+    "order": 0,
+    "is_active": true,
+    "created_at": "2025-05-14T00:27:43.735Z",
+    "updated_at": "2025-05-14T00:27:43.735Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 5,
+  "fields": {
+    "name": "Prose, Poetry, and Drama",
+    "slug": "literary-devices-and-their-effects-prose-poetry-and-drama",
+    "topic": 105,
+    "description": "Subtopic for Prose, Poetry, and Drama",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-16T23:36:16.178Z",
+    "updated_at": "2025-05-16T23:36:16.178Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 6,
+  "fields": {
+    "name": "SSCE Past Question",
+    "slug": "ssce-past-question-ssce-past-question",
+    "topic": 106,
+    "description": "Subtopic for SSCE Past Question",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-16T23:47:58.448Z",
+    "updated_at": "2025-05-16T23:47:58.448Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 7,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question-bece-past-question",
+    "topic": 107,
+    "description": "Subtopic for BECE Past Question",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T00:37:50.884Z",
+    "updated_at": "2025-05-17T00:37:50.884Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 8,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question-bece-past-question",
+    "topic": 108,
+    "description": "Subtopic for BECE Past Question",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T05:57:35.181Z",
+    "updated_at": "2025-05-17T05:57:35.181Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 9,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question-bece-past-question",
+    "topic": 109,
+    "description": "Subtopic for BECE Past Question",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T06:20:31.458Z",
+    "updated_at": "2025-05-17T06:20:31.458Z"
+  }
+},
+{
+  "model": "curriculum.subtopic",
+  "pk": 10,
+  "fields": {
+    "name": "BECE Past Question",
+    "slug": "bece-past-question-bece-past-question",
+    "topic": 110,
+    "description": "Subtopic for BECE Past Question",
+    "order": 1,
+    "is_active": true,
+    "created_at": "2025-05-17T07:07:22.386Z",
+    "updated_at": "2025-05-17T07:07:22.386Z"
+  }
+},
+{
+  "model": "curriculum.note",
+  "pk": 1,
+  "fields": {
+    "title": "Computer Ethics",
+    "slug": "computer-ethics",
+    "topic": 35,
+    "subtopic": null,
+    "content": "<h2><strong>Computer Ethics</strong></h2>&lt;hr data-start=\"303\" data-end=\"306\" class=\"\"&gt;<h3><strong>What is Computer Ethics?</strong></h3><p><strong>Computer ethics</strong> refers to the set of rules and principles that guide how we use computers and technology in a responsible and respectful way.</p><p>It helps us understand the difference between <strong>right and wrong</strong> when using computers, the internet, or any digital device.</p><h3><strong>Why is Computer Ethics Important?</strong></h3><ol>\n<li>\n<p>To respect others online</p>\n</li>\n<li>\n<p>To prevent cyberbullying and crime</p>\n</li>\n<li>\n<p>To use the internet safely</p>\n</li>\n<li>\n<p>To protect our personal information</p>\n</li>\n<li>\n<p>To become responsible digital citizens</p>\n</li>\n</ol><h3><strong>Examples of Good Computer Ethics</strong></h3><ol>\n<li>\n<p><strong>Respecting people's privacy</strong></p>\n<ul>\n<li>\n<p>Do not read other people’s emails or messages without permission.</p>\n</li>\n</ul>\n</li>\n<li>\n<p><strong>Not stealing or copying software (piracy)</strong></p>\n<ul>\n<li>\n<p>Use only legal software. Do not download cracked or pirated programs.</p>\n</li>\n</ul>\n</li>\n<li>\n<p><strong>Avoiding plagiarism</strong></p>\n<ul>\n<li>\n<p>Do not copy other people's work and claim it as your own. Always give credit.</p>\n</li>\n</ul>\n</li>\n<li>\n<p><strong>Not spreading false information</strong></p>\n<ul>\n<li>\n<p>Share only what is true and verified. Avoid spreading fake news.</p>\n</li>\n</ul>\n</li>\n<li>\n<p><strong>Being kind and respectful online</strong></p>\n<ul>\n<li>\n<p>Do not send rude or harmful messages. Treat people online the same way you treat them face-to-face.</p>\n</li>\n</ul>\n</li>\n</ol><h3><strong>Examples of Bad Computer Ethics</strong></h3><ol>\n<li>\n<p><strong>Hacking into someone’s account or computer</strong></p>\n</li>\n<li>\n<p><strong>Spreading computer viruses</strong></p>\n</li>\n<li>\n<p><strong>Sharing personal or sensitive information without permission</strong></p>\n</li>\n<li>\n<p><strong>Using computers to cheat in exams or assignments</strong></p>\n</li>\n<li>\n<p><strong>Bullying others on social media (cyberbullying)</strong></p>\n</li>\n</ol>&lt;hr data-start=\"1827\" data-end=\"1830\" class=\"\"&gt;<h3><strong>Basic Rules of Computer Ethics</strong></h3><p>These are sometimes called the <strong>Ten Commandments of Computer Ethics</strong>. Here are a few simplified ones:</p><ol>\n<li>\n<p><strong>Do not use a computer to harm other people.</strong></p>\n</li>\n<li>\n<p><strong>Do not use a computer to steal.</strong></p>\n</li>\n<li>\n<p><strong>Do not use other people’s computer files without permission.</strong></p>\n</li>\n<li>\n<p><strong>Do not copy or use software without paying for it.</strong></p>\n</li>\n<li>\n<p><strong>Use computers in ways that show respect and honesty.</strong></p>\n</li>\n</ol><h3><strong>Tips for Being a Good Digital Citizen</strong></h3><ul>\n<li>\n<p>Always <strong>log out</strong> after using a public computer.</p>\n</li>\n<li>\n<p><strong>Do not open</strong> unknown email attachments.</p>\n</li>\n<li>\n<p><strong>Keep your password safe</strong> – do not share it with friends.</p>\n</li>\n<li>\n<p>Report any bad behavior or online danger to an adult or teacher.</p>\n</li>\n<li>\n<p><strong>Think before you post</strong> anything online.</p>\n</li>\n</ul><h3><strong>Conclusion</strong></h3><p>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n</p><p>Computer ethics helps us use technology in a smart, safe, and respectful way. As students, it is important to always follow these rules and be good digital citizens.</p>",
+    "summary": "Computer ethics helps us use technology in a smart, safe, and respectful way. As students, it is important to always follow these rules and be good digital citizens.",
+    "file_type": "none",
+    "pdf_document": "",
+    "ppt_document": "",
+    "doc_document": "",
+    "other_document": "",
+    "extracted_text": "",
+    "allow_download": false,
+    "is_premium": false,
+    "is_published": true,
+    "is_active": true,
+    "order": 0,
+    "created_by": [
+      "admin@mail.com"
+    ],
+    "updated_by": [
+      "admin@mail.com"
+    ],
+    "created_at": "2025-05-14T18:34:30.336Z",
+    "updated_at": "2025-05-14T20:53:48.622Z"
+  }
+},
+{
+  "model": "curriculum.note",
+  "pk": 2,
+  "fields": {
+    "title": "Database Management",
+    "slug": "database-management-systems-database-management",
+    "topic": 8,
+    "subtopic": null,
+    "content": "<p></p><h1><strong>Database Management</strong></h1>&lt;hr&gt;<h2><strong>1. Introduction to Database Management</strong></h2><h3><strong>What is a Database?</strong></h3><p>A <strong>database</strong> is an organized collection of related data that can be easily accessed, managed, and updated. It is used to store information in a structured way for quick retrieval and manipulation.</p><blockquote>\n<p><strong>Example</strong>: A school may have a database that stores student records, including names, ages, grades, and addresses.</p>\n</blockquote>&lt;hr&gt;<h3><strong>What is Database Management?</strong></h3><p><strong>Database Management</strong> refers to the use of software to <strong>create</strong>, <strong>store</strong>, <strong>retrieve</strong>, <strong>update</strong>, and <strong>delete</strong> data in a database system efficiently.</p>&lt;hr&gt;<h2><strong>2. Database Management System (DBMS)</strong></h2><h3><strong>Definition</strong></h3><p>A <strong>Database Management System (DBMS)</strong> is software that helps users to interact with the database. It manages data, the database engine, and the database schema to facilitate data organization and manipulation.</p><blockquote>\n<p><strong>Examples of DBMS software</strong>:</p>\n</blockquote><ul>\n<li>\n<p>Microsoft Access</p>\n</li>\n<li>\n<p>MySQL</p>\n</li>\n<li>\n<p>Oracle</p>\n</li>\n<li>\n<p>SQLite</p>\n</li>\n<li>\n<p>PostgreSQL</p>\n</li>\n</ul>&lt;hr&gt;<h3><strong>Functions of a DBMS</strong></h3><ol>\n<li>\n<p><strong>Data storage, retrieval, and update</strong></p>\n</li>\n<li>\n<p><strong>User access control</strong></p>\n</li>\n<li>\n<p><strong>Data security and integrity</strong></p>\n</li>\n<li>\n<p><strong>Backup and recovery</strong></p>\n</li>\n<li>\n<p><strong>Data independence</strong></p>\n</li>\n<li>\n<p><strong>Concurrency control (multiple users at once)</strong></p>\n</li>\n</ol>&lt;hr&gt;<h2><strong>3. Types of Databases</strong></h2><h3>a. <strong>Flat File Database</strong></h3><ul>\n<li>\n<p>A single table stored as a plain text or spreadsheet file.</p>\n</li>\n<li>\n<p>Simple and suitable for small tasks.</p>\n</li>\n<li>\n<p><strong>Example</strong>: CSV file of student marks.</p>\n</li>\n</ul><h3>b. <strong>Relational Database</strong></h3><ul>\n<li>\n<p>Stores data in <strong>tables (relations)</strong>.</p>\n</li>\n<li>\n<p>Uses <strong>primary keys</strong> and <strong>foreign keys</strong> to connect tables.</p>\n</li>\n<li>\n<p>Most common type used today.</p>\n</li>\n<li>\n<p><strong>Example</strong>: MySQL, Oracle.</p>\n</li>\n</ul><h3>c. <strong>Hierarchical Database</strong></h3><ul>\n<li>\n<p>Organizes data in a <strong>tree-like structure</strong>.</p>\n</li>\n<li>\n<p>Parent-child relationships.</p>\n</li>\n<li>\n<p><strong>Example</strong>: Early IBM systems.</p>\n</li>\n</ul><h3>d. <strong>Network Database</strong></h3><ul>\n<li>\n<p>Similar to hierarchical but allows more complex relationships (many-to-many).</p>\n</li>\n<li>\n<p>Data can have multiple parent and child records.</p>\n</li>\n</ul><h3>e. <strong>Object-Oriented Database</strong></h3><ul>\n<li>\n<p>Stores data as <strong>objects</strong> (like in object-oriented programming).</p>\n</li>\n<li>\n<p>Better suited for complex data and multimedia.</p>\n</li>\n</ul>&lt;hr&gt;<h2><strong>4. Components of a Database System</strong></h2><ol>\n<li>\n<p><strong>Hardware</strong>: Physical devices (servers, storage systems).</p>\n</li>\n<li>\n<p><strong>Software</strong>: DBMS and related applications.</p>\n</li>\n<li>\n<p><strong>Data</strong>: Raw facts stored in the database.</p>\n</li>\n<li>\n<p><strong>Users</strong>:</p>\n<ul>\n<li>\n<p><strong>Database administrators (DBAs)</strong></p>\n</li>\n<li>\n<p><strong>Application programmers</strong></p>\n</li>\n<li>\n<p><strong>End users</strong></p>\n</li>\n</ul>\n</li>\n<li>\n<p><strong>Procedures</strong>: Rules and instructions for designing and using the database.</p>\n</li>\n</ol>&lt;hr&gt;<h2><strong>5. Database Models</strong></h2><ul>\n<li>\n<p><strong>Relational Model</strong>: Data organized in rows and columns.</p>\n</li>\n<li>\n<p><strong>Hierarchical Model</strong>: Tree-like structure.</p>\n</li>\n<li>\n<p><strong>Network Model</strong>: Graph-like structure.</p>\n</li>\n<li>\n<p><strong>Object-Oriented Model</strong>: Stores complex data as objects.</p>\n</li>\n</ul>&lt;hr&gt;<h2><strong>6. Database Terminologies</strong></h2>\n&lt;th&gt;Term&lt;/th&gt;\n&lt;th&gt;Meaning&lt;/th&gt;\n<table>\n<thead>\n<tr></tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>Table</strong></td>\n<td>A collection of related data arranged in rows and columns</td>\n</tr>\n<tr>\n<td><strong>Record (Row)</strong></td>\n<td>A single data item in a table</td>\n</tr>\n<tr>\n<td><strong>Field (Column)</strong></td>\n<td>A specific piece of information within a record</td>\n</tr>\n<tr>\n<td><strong>Primary Key</strong></td>\n<td>A unique identifier for each record in a table</td>\n</tr>\n<tr>\n<td><strong>Foreign Key</strong></td>\n<td>A field that links two tables</td>\n</tr>\n<tr>\n<td><strong>Query</strong></td>\n<td>A request to access or modify data in the database</td>\n</tr>\n<tr>\n<td><strong>Form</strong></td>\n<td>A user-friendly interface to input data into the database</td>\n</tr>\n<tr>\n<td><strong>Report</strong></td>\n<td>A formatted printout of data for analysis</td>\n</tr>\n</tbody>\n</table>&lt;hr&gt;<h2><strong>7. Database Operations (CRUD)</strong></h2>\n&lt;th&gt;Operation&lt;/th&gt;\n&lt;th&gt;Meaning&lt;/th&gt;\n&lt;th&gt;Example&lt;/th&gt;\n<table>\n<thead>\n<tr></tr>\n</thead>\n<tbody>\n<tr>\n<td><strong>C</strong> - Create</td>\n<td>Add new data</td>\n<td>Add a new student record</td>\n</tr>\n<tr>\n<td><strong>R</strong> - Read</td>\n<td>Retrieve/view data</td>\n<td>Search for student grades</td>\n</tr>\n<tr>\n<td><strong>U</strong> - Update</td>\n<td>Modify existing data</td>\n<td>Change a student’s address</td>\n</tr>\n<tr>\n<td><strong>D</strong> - Delete</td>\n<td>Remove data</td>\n<td>Delete a student who graduated</td>\n</tr>\n</tbody>\n</table>&lt;hr&gt;<h2><strong>8. Advantages of Database Management Systems</strong></h2><ul>\n<li>\n<p><strong>Reduces data redundancy</strong></p>\n</li>\n<li>\n<p><strong>Ensures data integrity and accuracy</strong></p>\n</li>\n<li>\n<p><strong>Improves data security</strong></p>\n</li>\n<li>\n<p><strong>Easier data sharing among users</strong></p>\n</li>\n<li>\n<p><strong>Supports multiple users at once</strong></p>\n</li>\n<li>\n<p><strong>Better backup and recovery features</strong></p>\n</li>\n<li>\n<p><strong>Centralized control over data</strong></p>\n</li>\n</ul>&lt;hr&gt;<h2><strong>9. Disadvantages of DBMS</strong></h2><ul>\n<li>\n<p>Can be <strong>expensive</strong> to set up</p>\n</li>\n<li>\n<p><strong>Requires trained personnel</strong></p>\n</li>\n<li>\n<p><strong>System failure</strong> may affect all users</p>\n</li>\n<li>\n<p><strong>Complexity</strong> in design and maintenance</p>\n</li>\n</ul>&lt;hr&gt;<h2><strong>10. SQL – Structured Query Language</strong></h2><p>SQL is the standard language used to interact with a relational database.</p><h3><strong>Common SQL Commands</strong></h3>&lt;pre&gt;<code>-- Creating a table\nCREATE TABLE Students (\n    ID INT PRIMARY KEY,\n    Name VARCHAR(50),\n    Age INT,\n    Class VARCHAR(10)\n);\n\n-- Inserting data\nINSERT INTO Students (ID, Name, Age, Class)\nVALUES (1, 'Ama Boateng', 16, 'SHS 2');\n\n-- Selecting data\nSELECT * FROM Students;\n\n-- Updating data\nUPDATE Students SET Age = 17 WHERE ID = 1;\n\n-- Deleting data\nDELETE FROM Students WHERE ID = 1;\n</code>&lt;/pre&gt;&lt;hr&gt;<h2><strong>11. Roles of a Database Administrator (DBA)</strong></h2><ul>\n<li>\n<p>Designing and maintaining the database structure</p>\n</li>\n<li>\n<p>Ensuring data security</p>\n</li>\n<li>\n<p>Creating user accounts and permissions</p>\n</li>\n<li>\n<p>Backing up and restoring data</p>\n</li>\n<li>\n<p>Monitoring performance and making improvements</p>\n</li>\n</ul>&lt;hr&gt;<h2><strong>12. Real-life Applications of Databases</strong></h2><ul>\n<li>\n<p><strong>Schools</strong>: Student records, grades, attendance</p>\n</li>\n<li>\n<p><strong>Banks</strong>: Customer accounts, transactions</p>\n</li>\n<li>\n<p><strong>Hospitals</strong>: Patient information, treatment history</p>\n</li>\n<li>\n<p><strong>Online stores</strong>: Inventory, orders, customer data</p>\n</li>\n<li>\n<p><strong>Social media</strong>: User profiles, posts, messages</p>\n</li>\n</ul>&lt;hr&gt;<h2><strong>Conclusion</strong></h2><p>Database management is essential in today’s digital world. It helps organizations and individuals manage vast amounts of data efficiently and securely. SHS students must understand how databases work and how to use them responsibly.</p>",
+    "summary": "Database management is essential in today’s digital world. It helps organizations and individuals manage vast amounts of data efficiently and securely. SHS students must understand how databases work and how to use them responsibly.",
+    "file_type": "none",
+    "pdf_document": "",
+    "ppt_document": "",
+    "doc_document": "",
+    "other_document": "",
+    "extracted_text": "",
+    "allow_download": false,
+    "is_premium": false,
+    "is_published": true,
+    "is_active": true,
+    "order": 1,
+    "created_by": [
+      "admin@mail.com"
+    ],
+    "updated_by": [
+      "admin@mail.com"
+    ],
+    "created_at": "2025-05-14T19:29:20.033Z",
+    "updated_at": "2025-05-14T20:52:57.061Z"
+  }
+},
+{
+  "model": "curriculum.note",
+  "pk": 3,
+  "fields": {
+    "title": "Database Management",
+    "slug": "ict-shs-2-database-database-management",
+    "topic": 5,
+    "subtopic": null,
+    "content": "",
+    "summary": "Databases are essential tools in today’s digital world. They allow us to store and retrieve large amounts of information efficiently. Structured databases, like those built in PostgreSQL, are organized and powerful, ideal for school records, banking systems, and businesses. On the other hand, unstructured databases handle things like multimedia, documents, and social media data.",
+    "file_type": "none",
+    "pdf_document": "",
+    "ppt_document": "",
+    "doc_document": "",
+    "other_document": "",
+    "extracted_text": "",
+    "allow_download": false,
+    "is_premium": false,
+    "is_published": true,
+    "is_active": true,
+    "order": 3,
+    "created_by": [
+      "admin@mail.com"
+    ],
+    "updated_by": [
+      "admin@mail.com"
+    ],
+    "created_at": "2025-05-14T20:29:05.527Z",
+    "updated_at": "2025-05-14T20:54:05.778Z"
+  }
+},
+{
+  "model": "curriculum.note",
+  "pk": 4,
+  "fields": {
+    "title": "Information Security",
+    "slug": "information-security-information-security",
+    "topic": 11,
+    "subtopic": null,
+    "content": 

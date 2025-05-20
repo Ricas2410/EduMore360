@@ -64,19 +64,28 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
 # Add security middleware
-MIDDLEWARE.extend([
+# Make sure we don't add duplicates
+security_middleware = [
     'django.middleware.security.SecurityMiddleware',
     'csp.middleware.CSPMiddleware',
     'django_permissions_policy.PermissionsPolicyMiddleware',
     'corsheaders.middleware.CorsMiddleware',
-])
+]
+
+# Only add middleware that's not already in the list
+for middleware in security_middleware:
+    if middleware not in MIDDLEWARE:
+        MIDDLEWARE.append(middleware)
 
 # Database - use PostgreSQL in production
-DATABASES = {
-    'default': env.db('DATABASE_URL', default=f'sqlite:///{BASE_DIR}/db.sqlite3')
-}
-DATABASES['default']['CONN_MAX_AGE'] = 600
-DATABASES['default']['ATOMIC_REQUESTS'] = True
+# We're using the same database configuration as in settings.py
+# This ensures we use the same database in both local and production environments
+# The configuration is already set in settings.py, which we import at the top of this file
+
+# Add some production-specific database settings
+if 'default' in DATABASES:
+    DATABASES['default']['CONN_MAX_AGE'] = 600
+    DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 # Cache - use Redis in production if available, otherwise use local memory cache
 REDIS_URL = env('REDIS_URL', default=None)
