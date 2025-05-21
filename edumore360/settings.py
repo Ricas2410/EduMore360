@@ -230,8 +230,13 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = ""  # Remove the default [site name] prefix
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 1  # Links expire after 1 day
 ACCOUNT_EMAIL_CONFIRMATION_AUTHENTICATED_REDIRECT_URL = 'core:dashboard'  # Redirect to dashboard after confirmation
 ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = 'account_login'  # Redirect to login if not authenticated
-ACCOUNT_EMAIL_CONFIRMATION_COOLDOWN = 180  # 3 minutes cooldown between confirmation emails
 ACCOUNT_EMAIL_HTML = True  # Enable HTML emails
+
+# Rate limiting settings for AllAuth
+ACCOUNT_RATE_LIMITS = {
+    # 3 minutes cooldown between confirmation emails
+    "confirm_email": "180/h",
+}
 
 # Use custom adapter for AllAuth
 ACCOUNT_ADAPTER = 'accounts.adapters.CustomAccountAdapter'

@@ -178,6 +178,12 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = 'https'
 ACCOUNT_USER_MODEL_USERNAME_FIELD = None
 
+# Rate limiting settings for AllAuth
+ACCOUNT_RATE_LIMITS = {
+    # 3 minutes cooldown between confirmation emails
+    "confirm_email": "180/h",
+}
+
 # Login/logout URLs
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
