@@ -4,10 +4,14 @@ services:
     name: edumore360
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn edumore360.wsgi:application"
+    startCommand: "gunicorn edumore360.wsgi_render:application"
     envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: "edumore360.settings_render"
       - key: DEBUG
         value: false
+      - key: RENDER
+        value: true
       - key: ALLOWED_HOSTS
         value: "edumore360.onrender.com"
       - key: SECRET_KEY
@@ -48,8 +52,12 @@ services:
     buildCommand: "./build.sh"
     startCommand: "celery -A edumore360 worker --loglevel=info"
     envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: "edumore360.settings_render"
       - key: DEBUG
         value: false
+      - key: RENDER
+        value: true
       - key: ALLOWED_HOSTS
         value: "edumore360.onrender.com"
       - key: SECRET_KEY

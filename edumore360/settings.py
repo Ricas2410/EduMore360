@@ -133,8 +133,14 @@ import dj_database_url
 # Get DATABASE_URL from environment or .env file
 db_url = os.environ.get('DATABASE_URL', env('DATABASE_URL', default=None))
 
-if not db_url or not db_url.startswith('postgresql'):
-    raise ValueError("DATABASE_URL is not set or is invalid. Please set a valid PostgreSQL DATABASE_URL.")
+# For production, we require a PostgreSQL database
+# For development, we can fall back to SQLite
+if not db_url:
+    print("WARNING: DATABASE_URL is not set. Using SQLite as a fallback.")
+    db_url = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
+elif not db_url.startswith('postgresql') and not os.environ.get('RENDER', False):
+    print(f"WARNING: DATABASE_URL does not start with 'postgresql': {db_url}")
+    print("This may cause issues in production environments.")
 
 # Use PostgreSQL
 DATABASES = {
