@@ -3,7 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}EduMore360{% endblock %}</title>
+
+    <!-- SEO Meta Tags -->
+    <title>{% block title %}{{ page_title|default:"EduMore360 - Interactive Learning Platform" }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ page_description|default:"EduMore360 is an interactive learning platform offering comprehensive educational resources for students of all ages. Explore courses, quizzes, and personalized learning paths." }}{% endblock %}">
+    <meta name="keywords" content="{% block meta_keywords %}{{ page_keywords|default:"education, online learning, courses, quizzes, interactive learning, e-learning, educational platform" }}{% endblock %}">
+    <meta name="author" content="EduMore360">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ canonical_url|default:request.build_absolute_uri }}">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{{ og_type|default:'website' }}">
+    <meta property="og:url" content="{{ canonical_url|default:request.build_absolute_uri }}">
+    <meta property="og:title" content="{% block og_title %}{{ page_title|default:"EduMore360 - Interactive Learning Platform" }}{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}{{ page_description|default:"EduMore360 is an interactive learning platform offering comprehensive educational resources for students of all ages." }}{% endblock %}">
+    <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/edumore360-social.svg' %}{% endblock %}">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ canonical_url|default:request.build_absolute_uri }}">
+    <meta property="twitter:title" content="{% block twitter_title %}{{ page_title|default:"EduMore360 - Interactive Learning Platform" }}{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}{{ page_description|default:"EduMore360 is an interactive learning platform offering comprehensive educational resources for students of all ages." }}{% endblock %}">
+    <meta property="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'images/edumore360-social.svg' %}{% endblock %}">
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'favicon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'favicon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- Tailwind CSS from CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -418,5 +448,40 @@
 
     <!-- JavaScript -->
     {% block extra_js %}{% endblock %}
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "EducationalOrganization",
+        "name": "EduMore360",
+        "url": "{{ request.scheme }}://{{ request.get_host }}",
+        "logo": "{{ request.scheme }}://{{ request.get_host }}{% static 'images/edumore360-logo.png' %}",
+        "sameAs": [
+            "https://facebook.com/edumore360",
+            "https://twitter.com/edumore360",
+            "https://instagram.com/edumore360",
+            "https://linkedin.com/company/edumore360"
+        ],
+        "description": "EduMore360 is an interactive learning platform offering comprehensive educational resources for students of all ages.",
+        "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "Ghana"
+        },
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "telephone": "+233-000-000-000",
+            "contactType": "customer service",
+            "email": "info@edumore360.com"
+        },
+        "potentialAction": {
+            "@type": "SearchAction",
+            "target": "{{ request.scheme }}://{{ request.get_host }}/search/?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+        }
+    }
+    </script>
+
+    {% block structured_data %}{% endblock %}
 </body>
 </html>

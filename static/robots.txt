@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /accounts/login/
+Disallow: /accounts/signup/
+Disallow: /accounts/password/
+Disallow: /my_admin/
+
+# Allow all bots to access sitemap
+Sitemap: https://edumore360.onrender.com/sitemap.xml
