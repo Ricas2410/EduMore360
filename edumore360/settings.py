@@ -133,25 +133,18 @@ import dj_database_url
 # Get DATABASE_URL from environment or .env file
 db_url = os.environ.get('DATABASE_URL', env('DATABASE_URL', default=None))
 
-if db_url and db_url.startswith('postgresql'):
-    # Use PostgreSQL
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=db_url,
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
-    print(f"Using PostgreSQL database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
-else:
-    # Fallback to SQLite
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
-    print("Using SQLite database (fallback)")
+if not db_url or not db_url.startswith('postgresql'):
+    raise ValueError("DATABASE_URL is not set or is invalid. Please set a valid PostgreSQL DATABASE_URL.")
+
+# Use PostgreSQL
+DATABASES = {
+    'default': dj_database_url.config(
+        default=db_url,
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+}
+print(f"Using PostgreSQL database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
 
 # Add SQLite as a secondary connection for data migration scripts
 if 'default' in DATABASES and DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
