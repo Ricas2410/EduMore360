@@ -16,13 +16,14 @@ env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-key-for-render-deployment-only'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-key-for-render-deployment-only')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False').lower() == 'true'
 
 # Allow Render domains and any custom domains
-ALLOWED_HOSTS = ['*', '.onrender.com']
+allowed_hosts = os.environ.get('ALLOWED_HOSTS', '*')
+ALLOWED_HOSTS = [host.strip() for host in allowed_hosts.split(',')] if ',' in allowed_hosts else ['*', '.onrender.com']
 
 # Application definition
 INSTALLED_APPS = [
@@ -94,20 +95,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'edumore360.wsgi.application'
 
-# Database - hardcoded for Render deployment
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'neondb',
-        'USER': 'neondb_owner',
-        'PASSWORD': 'npg_R5dEIG2wvtSl',
-        'HOST': 'ep-soft-violet-a58sv217-pooler.us-east-2.aws.neon.tech',
-        'PORT': '5432',
-        'OPTIONS': {
-            'sslmode': 'require',
-        },
+# Database - use environment variables
+import dj_database_url
+
+# Get DATABASE_URL from environment
+db_url = os.environ.get('DATABASE_URL')
+if db_url:
+    DATABASES = {
+        'default': dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
     }
-}
+    print(f"Using database from DATABASE_URL environment variable")
+else:
+    # Fallback to SQLite if DATABASE_URL is not set
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+    print("WARNING: DATABASE_URL not set. Using SQLite as fallback.")
 
 # Add SQLite as a secondary connection for data migration scripts
 DATABASES['sqlite'] = {
@@ -179,21 +185,21 @@ CRISPY_TEMPLATE_PACK = 'tailwind'
 # Tailwind settings
 TAILWIND_APP_NAME = 'theme'
 
-# Email settings - hardcoded for Render deployment
+# Email settings - use environment variables
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'skillnetservices@gmail.com'
-EMAIL_HOST_PASSWORD = 'tdms ckdk tmgo fado'
-DEFAULT_FROM_EMAIL = 'skillnetservices@gmail.com'
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True').lower() == 'true'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
 
-# Wasabi Cloud Storage Settings - hardcoded for Render deployment
+# Wasabi Cloud Storage Settings - use environment variables
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID = 'RD7YA4Z2P3LF7E4JEZUO'
-AWS_SECRET_ACCESS_KEY = 'QY8JXIshozz5J6CU3AzBCvyArDqXtd13wNEyMho7'
-AWS_STORAGE_BUCKET_NAME = 'edumore360-media'
-AWS_S3_REGION_NAME = 'us-east-1'
+AWS_ACCESS_KEY_ID = os.environ.get('WASABI_ACCESS_KEY', '')
+AWS_SECRET_ACCESS_KEY = os.environ.get('WASABI_SECRET_KEY', '')
+AWS_STORAGE_BUCKET_NAME = os.environ.get('WASABI_BUCKET_NAME', 'edumore360-media')
+AWS_S3_REGION_NAME = os.environ.get('WASABI_REGION', 'us-east-1')
 
 # Wasabi specific settings
 AWS_S3_ENDPOINT_URL = f'https://s3.{AWS_S3_REGION_NAME}.wasabisys.com'
@@ -211,8 +217,8 @@ MEDIA_URL = f'https://s3.{AWS_S3_REGION_NAME}.wasabisys.com/{AWS_STORAGE_BUCKET_
 SUMMERNOTE_THEME = 'bs4'  # Use Bootstrap 4 theme
 
 # Paystack settings
-PAYSTACK_SECRET_KEY = 'sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
-PAYSTACK_PUBLIC_KEY = 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY', 'sk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
+PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY', 'pk_test_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx')
 
 # Currency conversion settings
 USD_TO_GHS_RATE = 14.5
