@@ -65,14 +65,48 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 if 'whitenoise.middleware.WhiteNoiseMiddleware' not in MIDDLEWARE:
     MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
 
-# Database configuration - use dj_database_url to parse the DATABASE_URL
-# This is more flexible and will work with Render's database provisioning
-db_url = os.environ.get('DATABASE_URL')
-if db_url:
-    DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
-    print(f"Using database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
+# Database configuration - try to load from the configuration file
+# This is more reliable than parsing DATABASE_URL at runtime
+db_config_file = os.path.join(os.path.dirname(__file__), 'db_config.json')
+if os.path.exists(db_config_file):
+    try:
+        import json
+        with open(db_config_file, 'r') as f:
+            DATABASES = json.load(f)
+        print(f"Using database configuration from {db_config_file}")
+        print(f"Database engine: {DATABASES['default']['ENGINE']}")
+        print(f"Database name: {DATABASES['default']['NAME']}")
+        if 'HOST' in DATABASES['default']:
+            print(f"Database host: {DATABASES['default']['HOST']}")
+    except Exception as e:
+        print(f"Error loading database configuration from {db_config_file}: {e}")
+        print("Falling back to DATABASE_URL parsing")
+        # Fall back to DATABASE_URL parsing
+        db_url = os.environ.get('DATABASE_URL')
+        if db_url:
+            DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
+            print(f"Using database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
+        else:
+            print("WARNING: DATABASE_URL not set and db_config.json failed to load.")
+            print("Using SQLite as a fallback.")
+            DATABASES['default'] = {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            }
 else:
-    print("WARNING: DATABASE_URL not set. Using default database configuration.")
+    print(f"Database configuration file {db_config_file} not found.")
+    print("Falling back to DATABASE_URL parsing")
+    # Fall back to DATABASE_URL parsing
+    db_url = os.environ.get('DATABASE_URL')
+    if db_url:
+        DATABASES['default'] = dj_database_url.parse(db_url, conn_max_age=600, ssl_require=True)
+        print(f"Using database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
+    else:
+        print("WARNING: DATABASE_URL not set. Using SQLite as a fallback.")
+        DATABASES['default'] = {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
 
 # Add some production-specific database settings
 if 'default' in DATABASES:
