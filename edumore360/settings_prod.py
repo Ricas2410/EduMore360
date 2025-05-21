@@ -57,6 +57,10 @@ PERMISSIONS_POLICY = {
     'usb': [],
 }
 
+import os
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 # Static files
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
@@ -97,11 +101,6 @@ try:
         MIDDLEWARE.insert(session_index + 1, 'corsheaders.middleware.CorsMiddleware')
 except (ImportError, ValueError):
     pass
-
-# Database - use PostgreSQL in production
-# We're using the same database configuration as in settings.py
-# This ensures we use the same database in both local and production environments
-# The configuration is already set in settings.py, which we import at the top of this file
 
 # Add some production-specific database settings
 if 'default' in DATABASES:
