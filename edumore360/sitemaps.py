@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from django.urls import reverse
-from curriculum.models import Course, Lesson
+from curriculum.models import Subject, Topic, Note
 from quiz.models import Quiz
 
 class StaticViewSitemap(Sitemap):
@@ -13,22 +13,32 @@ class StaticViewSitemap(Sitemap):
     def location(self, item):
         return reverse(item)
 
-class CourseSitemap(Sitemap):
+class SubjectSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.7
 
     def items(self):
-        return Course.objects.filter(is_published=True)
+        return Subject.objects.filter(is_active=True)
 
     def lastmod(self, obj):
         return obj.updated_at
 
-class LessonSitemap(Sitemap):
+class TopicSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.6
 
     def items(self):
-        return Lesson.objects.filter(is_published=True)
+        return Topic.objects.filter(is_active=True)
+
+    def lastmod(self, obj):
+        return obj.updated_at
+
+class NoteSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.6
+
+    def items(self):
+        return Note.objects.filter(is_published=True, is_active=True)
 
     def lastmod(self, obj):
         return obj.updated_at
@@ -38,7 +48,7 @@ class QuizSitemap(Sitemap):
     priority = 0.6
 
     def items(self):
-        return Quiz.objects.filter(is_published=True)
+        return Quiz.objects.filter(is_active=True)
 
     def lastmod(self, obj):
         return obj.updated_at

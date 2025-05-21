@@ -7,13 +7,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
 from django.views.generic.base import TemplateView
-from .sitemaps import StaticViewSitemap, CourseSitemap, LessonSitemap, QuizSitemap
+from .sitemaps import StaticViewSitemap, SubjectSitemap, TopicSitemap, NoteSitemap, QuizSitemap
 
 # Define sitemaps dictionary
 sitemaps = {
     'static': StaticViewSitemap,
-    'courses': CourseSitemap,
-    'lessons': LessonSitemap,
+    'subjects': SubjectSitemap,
+    'topics': TopicSitemap,
+    'notes': NoteSitemap,
     'quizzes': QuizSitemap,
 }
 
