@@ -8,7 +8,7 @@
     <style>
         /* Base styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Arial', 'Helvetica', sans-serif;
             line-height: 1.6;
             color: #333;
             margin: 0;
@@ -18,10 +18,10 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 0;
             background-color: #ffffff;
             border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         .header {
             background: linear-gradient(to right, #1e3a8a, #000000);
@@ -29,43 +29,102 @@
             padding: 30px 20px;
             text-align: center;
             border-radius: 8px 8px 0 0;
-            margin: -20px -20px 20px;
         }
         .logo {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: bold;
             margin-bottom: 5px;
         }
+        .logo span {
+            color: #ff4703;
+        }
+        .tagline {
+            font-size: 16px;
+            opacity: 0.9;
+        }
         .content {
-            padding: 20px;
+            padding: 40px 30px;
+        }
+        .greeting {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-top: 0;
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
         }
         .button {
             display: inline-block;
             background-color: #ff4703;
             color: white;
             text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 4px;
+            padding: 14px 30px;
+            border-radius: 6px;
             font-weight: bold;
-            margin: 20px 0;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(255, 71, 3, 0.3);
+            transition: background-color 0.2s;
         }
         .button:hover {
             background-color: #e03e00;
         }
-        .footer {
-            text-align: center;
+        .link-container {
+            background-color: #f5f7fa;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border: 1px solid #e5e7eb;
+        }
+        .link {
+            word-break: break-all;
+            font-family: monospace;
+            font-size: 14px;
+            color: #1e3a8a;
+        }
+        .note {
+            font-size: 14px;
+            color: #666;
+            font-style: italic;
+        }
+        .signature {
             margin-top: 30px;
+            border-top: 1px solid #eee;
             padding-top: 20px;
+        }
+        .footer {
+            background-color: #f8fafc;
+            text-align: center;
+            padding: 25px 20px;
             border-top: 1px solid #eee;
             color: #666;
-            font-size: 12px;
+            font-size: 13px;
+            border-radius: 0 0 8px 8px;
         }
         .social-links {
             margin: 15px 0;
         }
-        .social-link {
+        .social-icon {
             display: inline-block;
-            margin: 0 10px;
+            margin: 0 8px;
+            width: 32px;
+            height: 32px;
+            background-color: #1e3a8a;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 32px;
+        }
+        .social-icon img {
+            vertical-align: middle;
+            width: 16px;
+            height: 16px;
+            filter: invert(1);
+        }
+        .contact {
+            margin-top: 15px;
+        }
+        .contact a {
             color: #1e3a8a;
             text-decoration: none;
         }
@@ -77,48 +136,63 @@
             .header {
                 border-radius: 0;
             }
+            .content {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo">{% blocktrans with site_name=current_site.name %}{{ site_name }}{% endblocktrans %}</div>
-            <p>Education Made Accessible</p>
+            <div class="logo">Edumore<span>360</span></div>
+            <div class="tagline">Education Made Accessible</div>
         </div>
 
         <div class="content">
-            <h2>{% blocktrans %}Welcome to EduMore360!{% endblocktrans %}</h2>
+            <h1 class="greeting">{% blocktrans %}Welcome to EduMore360!{% endblocktrans %}</h1>
 
-            <p>{% blocktrans %}Dear User,{% endblocktrans %}</p>
+            <p>{% blocktrans %}Dear {{ user_display }},{% endblocktrans %}</p>
 
-            <p>{% blocktrans with site_name=current_site.name %}Thank you for registering with {{ site_name }}, your comprehensive educational platform for interactive learning experiences.{% endblocktrans %}</p>
+            <p>{% blocktrans with site_name=current_site.name %}Thank you for registering with {{ site_name }}. We're excited to have you join our comprehensive educational platform for interactive learning experiences.{% endblocktrans %}</p>
 
             <p>{% blocktrans %}To complete your registration and verify your email address, please click the button below:{% endblocktrans %}</p>
 
-            <div style="text-align: center;">
-                <a href="{{ activate_url }}" class="button">{% blocktrans %}Confirm Email Address{% endblocktrans %}</a>
+            <div class="button-container">
+                <a href="{{ activate_url }}" class="button">{% blocktrans %}Verify Email Address{% endblocktrans %}</a>
             </div>
 
             <p>{% blocktrans %}If the button above doesn't work, you can also copy and paste the following link into your browser:{% endblocktrans %}</p>
 
-            <p style="word-break: break-all; background-color: #f5f7fa; padding: 10px; border-radius: 4px; font-size: 14px;">
-                {{ activate_url }}
-            </p>
+            <div class="link-container">
+                <div class="link">{{ activate_url }}</div>
+            </div>
 
-            <p>{% blocktrans %}This link will expire in 24 hours for security reasons.{% endblocktrans %}</p>
+            <p class="note">{% blocktrans %}This link will expire in 24 hours for security reasons.{% endblocktrans %}</p>
 
             <p>{% blocktrans %}If you did not create an account with EduMore360, please disregard this email.{% endblocktrans %}</p>
 
-            <p>{% blocktrans %}Best regards,<br>The EduMore360 Team<br><a href="mailto:support@edumore360.com">support@edumore360.com</a>{% endblocktrans %}</p>
+            <div class="signature">
+                <p>{% blocktrans %}Best regards,{% endblocktrans %}<br>
+                {% blocktrans %}The EduMore360 Team{% endblocktrans %}</p>
+            </div>
         </div>
 
         <div class="footer">
-            <p>{% blocktrans with site_domain=current_site.domain %}{{ site_domain }}{% endblocktrans %}</p>
             <div class="social-links">
-                <a href="https://facebook.com/edumore360" class="social-link">Facebook</a>
-                <a href="https://twitter.com/edumore360" class="social-link">Twitter</a>
-                <a href="https://instagram.com/edumore360" class="social-link">Instagram</a>
+                <a href="https://facebook.com/edumore360" class="social-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/124/124010.png" alt="Facebook">
+                </a>
+                <a href="https://twitter.com/edumore360" class="social-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/124/124021.png" alt="Twitter">
+                </a>
+                <a href="https://instagram.com/edumore360" class="social-icon">
+                    <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
+                </a>
+            </div>
+            <div class="contact">
+                <a href="mailto:support@edumore360.com">support@edumore360.com</a> |
+                <a href="https://{{ current_site.domain }}">{{ current_site.domain }}</a>
             </div>
             <p>{% blocktrans %}© {% now "Y" %} EduMore360. All rights reserved.{% endblocktrans %}</p>
         </div>
