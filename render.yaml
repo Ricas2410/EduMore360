@@ -4,10 +4,10 @@ services:
     name: edumore360
     env: python
     buildCommand: "./build.sh"
-    startCommand: "gunicorn edumore360.wsgi_render:application"
+    startCommand: "gunicorn edumore360.wsgi_direct:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: "edumore360.settings_render"
+        value: "edumore360.settings_direct"
       - key: DEBUG
         value: false
       - key: RENDER
@@ -53,7 +53,7 @@ services:
     startCommand: "celery -A edumore360 worker --loglevel=info"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
-        value: "edumore360.settings_render"
+        value: "edumore360.settings_direct"
       - key: DEBUG
         value: false
       - key: RENDER

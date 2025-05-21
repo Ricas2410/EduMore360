@@ -11,13 +11,9 @@ echo "Starting build process..."
 echo "Installing dependencies..."
 pip install -r requirements_fixed.txt
 
-# Patch the settings file to be more flexible with database URLs
-echo "Patching settings file for Render compatibility..."
-python patch_settings.py || echo "Settings patch failed, but continuing..."
-
-# Set up the database configuration
-echo "Setting up database configuration..."
-python render_db_setup.py || echo "Database setup failed, but continuing..."
+# Use direct settings for Render deployment
+echo "Using direct settings for Render deployment..."
+export DJANGO_SETTINGS_MODULE=edumore360.settings_direct
 
 # Print environment variables for debugging (without sensitive values)
 echo "Environment variables:"
