@@ -3,7 +3,7 @@ services:
   - type: web
     name: edumore360
     env: python
-    buildCommand: "DJANGO_SETTINGS_MODULE=edumore360.settings_build ./build.sh"
+    buildCommand: "./build.sh"
     startCommand: "gunicorn edumore360.wsgi_render:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
@@ -49,7 +49,7 @@ services:
   - type: worker
     name: edumore360-worker
     env: python
-    buildCommand: "DJANGO_SETTINGS_MODULE=edumore360.settings_build ./build.sh"
+    buildCommand: "./build.sh"
     startCommand: "celery -A edumore360 worker --loglevel=info"
     envVars:
       - key: DJANGO_SETTINGS_MODULE

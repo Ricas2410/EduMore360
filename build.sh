@@ -2,6 +2,9 @@
 # exit on error
 set -o errexit
 
+# Set the RENDER environment variable
+export RENDER=true
+
 echo "Starting build process..."
 
 # Install dependencies

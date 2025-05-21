@@ -133,12 +133,16 @@ import dj_database_url
 # Get DATABASE_URL from environment or .env file
 db_url = os.environ.get('DATABASE_URL', env('DATABASE_URL', default=None))
 
-# For production, we require a PostgreSQL database
-# For development, we can fall back to SQLite
-if not db_url:
+# IMPORTANT: For Render deployment, we need to be more flexible
+# If we're on Render, we'll use a hardcoded Neon PostgreSQL URL
+if os.environ.get('RENDER', False):
+    print("Running on Render, using hardcoded Neon PostgreSQL URL")
+    db_url = "postgresql://neondb_owner:npg_R5dEIG2wvtSl@ep-soft-violet-a58sv217-pooler.us-east-2.aws.neon.tech/neondb?sslmode=require"
+# For development or other environments, we can be more flexible
+elif not db_url:
     print("WARNING: DATABASE_URL is not set. Using SQLite as a fallback.")
     db_url = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-elif not db_url.startswith('postgresql') and not os.environ.get('RENDER', False):
+elif not db_url.startswith('postgresql'):
     print(f"WARNING: DATABASE_URL does not start with 'postgresql': {db_url}")
     print("This may cause issues in production environments.")
 
