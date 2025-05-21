@@ -17,9 +17,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Python dependencies
-COPY requirements_fixed.txt /app/requirements.txt
+COPY requirements_fixed.txt /app/requirements_fixed.txt
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r requirements_fixed.txt
 
 # Copy the hybrid application first (for health checks)
 COPY hybrid_app.py /app/

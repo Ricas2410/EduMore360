@@ -32,6 +32,14 @@ services:
         sync: false
       - key: PAYSTACK_PUBLIC_KEY
         sync: false
+      - key: WASABI_ACCESS_KEY
+        sync: false
+      - key: WASABI_SECRET_KEY
+        sync: false
+      - key: WASABI_BUCKET_NAME
+        value: "edumore360-media"
+      - key: WASABI_REGION
+        value: "us-east-1"
 
   # Celery worker service
   - type: worker
@@ -66,6 +74,14 @@ services:
         sync: false
       - key: PAYSTACK_PUBLIC_KEY
         sync: false
+      - key: WASABI_ACCESS_KEY
+        sync: false
+      - key: WASABI_SECRET_KEY
+        sync: false
+      - key: WASABI_BUCKET_NAME
+        value: "edumore360-media"
+      - key: WASABI_REGION
+        value: "us-east-1"
 
 # Database
 databases:

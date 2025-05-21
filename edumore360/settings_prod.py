@@ -8,7 +8,7 @@ from sentry_sdk.integrations.django import DjangoIntegration
 from .settings import *  # noqa
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True  # Temporarily enabled for troubleshooting
+DEBUG = env.bool('DEBUG', default=False)
 
 # Allow all Railway domains and any custom domains
 ALLOWED_HOSTS = ['*', '.up.railway.app', '.railway.app']
@@ -147,16 +147,16 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
 EMAIL_PORT = env.int('EMAIL_PORT', default=587)
 EMAIL_USE_TLS = env.bool('EMAIL_USE_TLS', default=True)
-EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='skillnetservices@gmail.com')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='tdms ckdk tmgo fado')
-DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='skillnetservices@gmail.com')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL', default='')
 
 # Media files - use Wasabi Cloud Storage in production
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Wasabi credentials from environment variables
-AWS_ACCESS_KEY_ID = env('WASABI_ACCESS_KEY', default='RD7YA4Z2P3LF7E4JEZUO')
-AWS_SECRET_ACCESS_KEY = env('WASABI_SECRET_KEY', default='QY8JXIshozz5J6CU3AzBCvyArDqXtd13wNEyMho7')
+AWS_ACCESS_KEY_ID = env('WASABI_ACCESS_KEY', default='')
+AWS_SECRET_ACCESS_KEY = env('WASABI_SECRET_KEY', default='')
 AWS_STORAGE_BUCKET_NAME = env('WASABI_BUCKET_NAME', default='edumore360-media')
 AWS_S3_REGION_NAME = env('WASABI_REGION', default='us-east-1')
 
