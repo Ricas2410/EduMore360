@@ -493,7 +493,8 @@
 
             <!-- Copyright for both mobile and desktop -->
             <div class="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">
-                <p>&copy; {% now "Y" %} EduMore360. All rights reserved.</p>
+                {% now "Y" as current_year %}
+                <p>&copy; {{ current_year }} EduMore360. All rights reserved.</p>
             </div>
         </div>
     </footer>

@@ -194,7 +194,8 @@
                 <a href="mailto:support@edumore360.com">support@edumore360.com</a> |
                 <a href="https://{{ current_site.domain }}">{{ current_site.domain }}</a>
             </div>
-            <p>{% blocktrans %}© {% now "Y" %} EduMore360. All rights reserved.{% endblocktrans %}</p>
+            {% now "Y" as current_year %}
+            <p>{% blocktrans with year=current_year %}© {{ year }} EduMore360. All rights reserved.{% endblocktrans %}</p>
         </div>
     </div>
 </body>

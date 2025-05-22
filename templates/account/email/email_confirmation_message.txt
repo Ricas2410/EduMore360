@@ -1,4 +1,4 @@
-{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}
+{% load account %}{% user_display user as user_display %}{% load i18n %}{% now "Y" as current_year %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain year=current_year %}
 Dear {{ user_display }},
 
 Thank you for registering with EduMore360. We're excited to have you join our comprehensive educational platform for interactive learning experiences.
@@ -17,6 +17,6 @@ The EduMore360 Team
 support@edumore360.com
 https://{{ site_domain }}
 
-© {% now "Y" %} EduMore360. All rights reserved.
+© {{ year }} EduMore360. All rights reserved.
 {% endblocktrans %}
 {% endautoescape %}
