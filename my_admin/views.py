@@ -78,8 +78,10 @@ def quiz_management(request):
     status = request.GET.get('status')
     search_query = request.GET.get('search', '').strip()
 
-    # Start with all quizzes
-    quizzes = Quiz.objects.all().order_by('-created_at')
+    # Start with all quizzes with memory optimization
+    quizzes = Quiz.objects.select_related(
+        'curriculum', 'class_level', 'subject', 'topic'
+    ).order_by('-created_at')
 
     # Apply filters if provided
     if curriculum_id:
@@ -102,11 +104,14 @@ def quiz_management(request):
     if search_query:
         quizzes = quizzes.filter(title__icontains=search_query)
 
-    # Get filter options for dropdowns
-    curricula = Curriculum.objects.filter(is_active=True).order_by('name')
-    class_levels = ClassLevel.objects.filter(is_active=True).order_by('curriculum__name', 'level_order')
-    subjects = Subject.objects.filter(is_active=True).order_by('name')
-    topics = Topic.objects.filter(is_active=True).order_by('subject__name', 'name')
+    # MEMORY OPTIMIZATION: Limit results to prevent memory overload
+    quizzes = quizzes[:100]  # Show max 100 quizzes at a time
+
+    # Get filter options for dropdowns with LIMITS to prevent memory issues
+    curricula = Curriculum.objects.filter(is_active=True).order_by('name')[:20]
+    class_levels = ClassLevel.objects.filter(is_active=True).order_by('curriculum__name', 'level_order')[:50]
+    subjects = Subject.objects.filter(is_active=True).order_by('name')[:100]
+    topics = Topic.objects.filter(is_active=True).order_by('subject__name', 'name')[:200]
 
     context = {
         'quizzes': quizzes,
@@ -126,8 +131,9 @@ def quiz_management(request):
 
 @staff_member_required
 def user_management(request):
-    """User management view."""
-    users = User.objects.all().order_by('-date_joined')
+    """User management view with memory optimization."""
+    # MEMORY OPTIMIZATION: Limit users to prevent memory overload
+    users = User.objects.all().order_by('-date_joined')[:200]
 
     context = {
         'users': users,
@@ -137,11 +143,12 @@ def user_management(request):
 
 @staff_member_required
 def curriculum_management(request):
-    """Curriculum management view."""
-    curricula = Curriculum.objects.all()
-    class_levels = ClassLevel.objects.all()
-    subjects = Subject.objects.all()
-    topics = Topic.objects.all()
+    """Curriculum management view with memory optimization."""
+    # MEMORY OPTIMIZATION: Limit results to prevent memory overload
+    curricula = Curriculum.objects.all()[:20]
+    class_levels = ClassLevel.objects.select_related('curriculum').all()[:50]
+    subjects = Subject.objects.select_related('curriculum', 'class_level').all()[:100]
+    topics = Topic.objects.select_related('subject', 'subject__curriculum', 'subject__class_level').all()[:200]
 
     context = {
         'curricula': curricula,
@@ -560,9 +567,10 @@ def site_settings_payment(request):
 # Notes Management Views
 @staff_member_required
 def notes_management(request):
-    """View for managing notes."""
-    notes = Note.objects.all().select_related('topic', 'subtopic', 'created_by').order_by('-updated_at')
-    curricula = Curriculum.objects.filter(is_active=True)
+    """View for managing notes with memory optimization."""
+    # MEMORY OPTIMIZATION: Limit notes to prevent memory overload
+    notes = Note.objects.all().select_related('topic', 'subtopic', 'created_by').order_by('-updated_at')[:100]
+    curricula = Curriculum.objects.filter(is_active=True)[:20]
 
     context = {
         'notes': notes,
