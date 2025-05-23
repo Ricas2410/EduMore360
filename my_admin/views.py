@@ -104,7 +104,7 @@ def quiz_management(request):
 
     # Get filter options for dropdowns
     curricula = Curriculum.objects.filter(is_active=True).order_by('name')
-    class_levels = ClassLevel.objects.filter(is_active=True).order_by('curriculum__name', 'order')
+    class_levels = ClassLevel.objects.filter(is_active=True).order_by('curriculum__name', 'level_order')
     subjects = Subject.objects.filter(is_active=True).order_by('name')
     topics = Topic.objects.filter(is_active=True).order_by('subject__name', 'name')
 
