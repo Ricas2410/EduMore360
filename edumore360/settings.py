@@ -156,6 +156,15 @@ DATABASES = {
 }
 print(f"Using PostgreSQL database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
 
+# Memory optimization for production
+if not DEBUG:
+    # Limit database connections to prevent memory issues
+    DATABASES['default']['CONN_MAX_AGE'] = 300  # 5 minutes
+    DATABASES['default']['OPTIONS'] = {
+        'MAX_CONNS': 10,  # Limit max connections
+        'MIN_CONNS': 2,   # Minimum connections
+    }
+
 # Add SQLite as a secondary connection for data migration scripts
 if 'default' in DATABASES and DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
     DATABASES['sqlite'] = {

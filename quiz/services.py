@@ -29,6 +29,9 @@ class QuestionRandomizer:
         if question_count is None:
             question_count = quiz.question_count
 
+        # Limit questions to prevent memory issues (max 30)
+        question_count = min(question_count, 30)
+
         # Base query to get questions for this quiz
         if quiz.quiz_type == 'general':
             # For general quizzes, get questions from the subject
@@ -162,15 +165,18 @@ class QuizService:
         Returns:
             A new QuizAttempt object
         """
-        # Get randomized questions
+        # Get randomized questions with memory optimization
         questions = QuestionRandomizer.get_questions_for_quiz(quiz, user)
+
+        # Limit questions to prevent memory issues (max 30 questions)
+        max_questions = min(quiz.question_count, 30, questions.count())
 
         # Create the quiz attempt
         quiz_attempt = QuizAttempt.objects.create(
             user=user,
             quiz=quiz,
             status='in_progress',
-            total_questions=min(quiz.question_count, questions.count())
+            total_questions=max_questions
         )
 
         return quiz_attempt
