@@ -195,42 +195,42 @@ def quiz_management(request):
 
 @admin_required
 def user_management(request):
-    """Ultra-lightweight user management for 512MB memory limit."""
+    """User management view with pagination and stats."""
+    from django.utils import timezone
+    from datetime import timedelta
+
+    # Get all users with pagination
+    users_list = User.objects.prefetch_related('subscriptions').order_by('-date_joined')
+
+    # Pagination
+    paginator = Paginator(users_list, 20)  # 20 users per page
+    page = request.GET.get('page')
+
     try:
-        # EXTREME memory optimization for Render's 512MB limit
-        users_list = User.objects.only('id', 'email', 'first_name', 'last_name', 'is_active', 'is_staff', 'date_joined', 'last_login').order_by('-date_joined')
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
 
-        # Pagination with smaller page size for memory
-        paginator = Paginator(users_list, 10)  # Reduced to 10 users per page
-        page = request.GET.get('page', 1)
+    # Calculate stats
+    total_users = users_list.count()
+    active_users_count = users_list.filter(is_active=True).count()
+    premium_users_count = users_list.filter(subscriptions__isnull=False).distinct().count()
 
-        try:
-            users = paginator.page(page)
-        except (PageNotAnInteger, EmptyPage):
-            users = paginator.page(1)
+    # New users today
+    today = timezone.now().date()
+    new_users_today = users_list.filter(date_joined__date=today).count()
 
-        # Simple stats without complex queries
-        context = {
-            'users': users,
-            'total_users': 0,  # Disable to save memory
-            'active_users_count': 0,  # Disable to save memory
-            'premium_users_count': 0,  # Disable to save memory
-            'new_users_today': 0,  # Disable to save memory
-        }
+    context = {
+        'users': users,
+        'total_users': total_users,
+        'active_users_count': active_users_count,
+        'premium_users_count': premium_users_count,
+        'new_users_today': new_users_today,
+    }
 
-        return render(request, 'my_admin/user_management.html', context)
-
-    except Exception as e:
-        # Fallback for any memory issues
-        context = {
-            'users': [],
-            'total_users': 0,
-            'active_users_count': 0,
-            'premium_users_count': 0,
-            'new_users_today': 0,
-            'error': 'Memory optimization in progress'
-        }
-        return render(request, 'my_admin/user_management.html', context)
+    return render(request, 'my_admin/user_management.html', context)
 
 
 @admin_required

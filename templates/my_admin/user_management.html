@@ -108,7 +108,11 @@
                                         {% if user.is_staff %}
                                             <span class="badge badge-warning">Staff</span>
                                         {% endif %}
-                                        <span class="badge badge-secondary">Free</span>
+                                        {% if user.subscriptions.exists %}
+                                            <span class="badge badge-info">{{ user.subscriptions.first.plan.get_plan_type_display }}</span>
+                                        {% else %}
+                                            <span class="badge badge-secondary">Free</span>
+                                        {% endif %}
                                     </div>
                                     <small class="text-muted">
                                         Joined: {{ user.date_joined|date:"M d, Y" }} |
@@ -193,7 +197,11 @@
                                             </div>
                                         </td>
                                         <td>
-                                            <span class="badge badge-secondary">Free</span>
+                                            {% if user.subscriptions.exists %}
+                                                <span class="badge badge-info">{{ user.subscriptions.first.plan.get_plan_type_display }}</span>
+                                            {% else %}
+                                                <span class="badge badge-secondary">Free</span>
+                                            {% endif %}
                                         </td>
                                         <td>
                                             <small>{{ user.date_joined|date:"M d, Y" }}</small>
