@@ -195,12 +195,39 @@ def quiz_management(request):
 
 @admin_required
 def user_management(request):
-    """User management view with memory optimization."""
-    # MEMORY OPTIMIZATION: Limit users to prevent memory overload
-    users = User.objects.all().order_by('-date_joined')[:200]
+    """User management view with pagination and stats."""
+    from django.utils import timezone
+    from datetime import timedelta
+
+    # Get all users with pagination
+    users_list = User.objects.select_related('subscription').order_by('-date_joined')
+
+    # Pagination
+    paginator = Paginator(users_list, 20)  # 20 users per page
+    page = request.GET.get('page')
+
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    # Calculate stats
+    total_users = users_list.count()
+    active_users_count = users_list.filter(is_active=True).count()
+    premium_users_count = users_list.filter(subscription__isnull=False).count()
+
+    # New users today
+    today = timezone.now().date()
+    new_users_today = users_list.filter(date_joined__date=today).count()
 
     context = {
         'users': users,
+        'total_users': total_users,
+        'active_users_count': active_users_count,
+        'premium_users_count': premium_users_count,
+        'new_users_today': new_users_today,
     }
 
     return render(request, 'my_admin/user_management.html', context)
