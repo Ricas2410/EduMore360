@@ -159,14 +159,19 @@ DATABASES = {
 }
 print(f"Using PostgreSQL database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
 
-# Memory optimization for production
+# AGGRESSIVE memory optimization for Render 512MB limit
 if not DEBUG:
-    # Limit database connections to prevent memory issues
-    DATABASES['default']['CONN_MAX_AGE'] = 300  # 5 minutes
+    # Ultra-conservative database connections for 512MB memory
+    DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute only
     DATABASES['default']['OPTIONS'] = {
-        'MAX_CONNS': 10,  # Limit max connections
-        'MIN_CONNS': 2,   # Minimum connections
+        'MAX_CONNS': 3,  # Ultra-low connection limit
+        'MIN_CONNS': 1,  # Minimum connections
+        'connect_timeout': 5,
+        'command_timeout': 30,
     }
+
+    # Disable analytics middleware to save memory
+    MIDDLEWARE = [m for m in MIDDLEWARE if 'analytics.middleware' not in m]
 
 # Add SQLite as a secondary connection for data migration scripts
 if 'default' in DATABASES and DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
@@ -287,6 +292,11 @@ else:
     CACHES = {
         'default': {
             'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+            'LOCATION': 'unique-snowflake',
+            'OPTIONS': {
+                'MAX_ENTRIES': 100,  # Limit cache entries for memory
+                'CULL_FREQUENCY': 3,
+            }
         }
     }
 
