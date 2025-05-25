@@ -159,19 +159,21 @@ DATABASES = {
 }
 print(f"Using PostgreSQL database: {DATABASES['default']['NAME']} on {DATABASES['default']['HOST']}")
 
-# AGGRESSIVE memory optimization for Render 512MB limit
+# EXTREME memory optimization for Render FREE tier (512MB limit)
 if not DEBUG:
-    # Ultra-conservative database connections for 512MB memory
-    DATABASES['default']['CONN_MAX_AGE'] = 60  # 1 minute only
+    # Ultra-conservative settings for free hosting
+    DATABASES['default']['CONN_MAX_AGE'] = 30  # 30 seconds only
     DATABASES['default']['OPTIONS'] = {
-        'MAX_CONNS': 3,  # Ultra-low connection limit
+        'MAX_CONNS': 2,  # Only 2 connections max
         'MIN_CONNS': 1,  # Minimum connections
-        'connect_timeout': 5,
-        'command_timeout': 30,
+        'connect_timeout': 3,
+        'command_timeout': 15,
     }
 
-    # Disable analytics middleware to save memory
-    MIDDLEWARE = [m for m in MIDDLEWARE if 'analytics.middleware' not in m]
+    # Disable all non-essential features for memory
+    INSTALLED_APPS = [app for app in INSTALLED_APPS if 'analytics' not in app]
+
+    # Cache optimization will be applied later in the file
 
 # Add SQLite as a secondary connection for data migration scripts
 if 'default' in DATABASES and DATABASES['default']['ENGINE'] != 'django.db.backends.sqlite3':
