@@ -101,7 +101,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'subscription.middleware.SubscriptionMiddleware',  # Subscription restrictions
-    'analytics.middleware.AnalyticsMiddleware',  # Analytics tracking
+    # 'analytics.middleware.AnalyticsMiddleware',  # Analytics tracking - DISABLED for memory optimization
 ]
 
 ROOT_URLCONF = 'edumore360.urls'
