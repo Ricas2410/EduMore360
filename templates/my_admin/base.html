@@ -391,6 +391,19 @@
 
         <hr class="sidebar-divider">
 
+        <div class="sidebar-heading">Help & Settings</div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if 'help' in request.path %}active{% endif %}" href="{% url 'my_admin:help_center' %}">
+                    <i class="fas fa-fw fa-question-circle"></i>
+                    <span>Help Center</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="sidebar-divider">
+
         <div class="sidebar-heading">Settings</div>
 
         <ul class="nav flex-column">

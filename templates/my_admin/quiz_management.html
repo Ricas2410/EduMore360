@@ -112,7 +112,12 @@
 <div class="card shadow mb-4">
     <div class="card-header py-3 d-flex justify-content-between align-items-center">
         <h6 class="m-0 font-weight-bold text-primary">All Quizzes</h6>
-        <span class="badge badge-primary">{{ quizzes.count }} quizzes found</span>
+        <div class="d-flex align-items-center">
+            <span class="badge badge-primary me-3">{{ quizzes.paginator.count }} total quizzes</span>
+            <a href="{% url 'my_admin:help_center' %}#quiz-guide" class="btn btn-sm btn-outline-info">
+                <i class="fas fa-question-circle"></i> Help
+            </a>
+        </div>
     </div>
     <div class="card-body">
         <div class="table-responsive">
@@ -170,122 +175,60 @@
                 </tbody>
             </table>
         </div>
-    </div>
-</div>
 
-<!-- Quiz Creation Guide -->
-<div class="row">
-    <div class="col-lg-6">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Quiz Creation Guide</h6>
-            </div>
-            <div class="card-body">
-                <h5>Creating a New Quiz</h5>
-                <ol>
-                    <li>Click the "Add New Quiz" button.</li>
-                    <li>Fill in the quiz details:
-                        <ul>
-                            <li>Quiz Title: A descriptive name</li>
-                            <li>Curriculum: Select the relevant curriculum</li>
-                            <li>Grade Level: Select the target grade</li>
-                            <li>Subject: Select the relevant subject</li>
-                            <li>Topic: Select the specific topic (optional)</li>
-                            <li>Instructions: Any specific guidance for users (optional)</li>
-                        </ul>
-                    </li>
-                    <li>Click "Create Quiz" to proceed to adding questions.</li>
-                </ol>
+        <!-- Pagination -->
+        {% if quizzes.has_other_pages %}
+        <div class="card-footer">
+            <nav aria-label="Quiz pagination">
+                <ul class="pagination justify-content-center mb-0">
+                    {% if quizzes.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.curriculum %}&curriculum={{ request.GET.curriculum }}{% endif %}{% if request.GET.class_level %}&class_level={{ request.GET.class_level }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                                <i class="fas fa-angle-double-left"></i> First
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ quizzes.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.curriculum %}&curriculum={{ request.GET.curriculum }}{% endif %}{% if request.GET.class_level %}&class_level={{ request.GET.class_level }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                                <i class="fas fa-angle-left"></i> Previous
+                            </a>
+                        </li>
+                    {% endif %}
 
-                <h5>Adding Questions</h5>
-                <p>You can add questions individually or import them in bulk:</p>
+                    {% for num in quizzes.paginator.page_range %}
+                        {% if quizzes.number == num %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ num }}</span>
+                            </li>
+                        {% elif num > quizzes.number|add:'-3' and num < quizzes.number|add:'3' %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.curriculum %}&curriculum={{ request.GET.curriculum }}{% endif %}{% if request.GET.class_level %}&class_level={{ request.GET.class_level }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">{{ num }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
 
-                <h6>Method 1: Add Questions Individually</h6>
-                <ol>
-                    <li>Choose the question type (Multiple Choice or Short Answer).</li>
-                    <li>Enter the question text.</li>
-                    <li>For Multiple Choice:
-                        <ul>
-                            <li>Add at least two answer options</li>
-                            <li>Designate the correct answer</li>
-                        </ul>
-                    </li>
-                    <li>For Short Answer:
-                        <ul>
-                            <li>Enter one or more acceptable answers</li>
-                        </ul>
-                    </li>
-                    <li>Add an explanation (shown when the answer is incorrect).</li>
-                    <li>Click "Save Question" to add the question to the quiz.</li>
-                </ol>
+                    {% if quizzes.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ quizzes.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.curriculum %}&curriculum={{ request.GET.curriculum }}{% endif %}{% if request.GET.class_level %}&class_level={{ request.GET.class_level }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                                Next <i class="fas fa-angle-right"></i>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ quizzes.paginator.num_pages }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.curriculum %}&curriculum={{ request.GET.curriculum }}{% endif %}{% if request.GET.class_level %}&class_level={{ request.GET.class_level }}{% endif %}{% if request.GET.subject %}&subject={{ request.GET.subject }}{% endif %}{% if request.GET.topic %}&topic={{ request.GET.topic }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}">
+                                Last <i class="fas fa-angle-double-right"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
 
-                <h6>Method 2: Import Questions via CSV</h6>
-                <ol>
-                    <li>Click the "Import Questions" button at the top of the page.</li>
-                    <li>Download the CSV template if you don't have one.</li>
-                    <li>Fill in the template with your questions.</li>
-                    <li>Upload the completed CSV file.</li>
-                    <li>The system will automatically create or update quizzes based on the imported questions.</li>
-                </ol>
-
-                <h5>Finalizing the Quiz</h5>
-                <ol>
-                    <li>After adding questions, click "Review & Finalize Quiz".</li>
-                    <li>Configure quiz settings:
-                        <ul>
-                            <li>Number of questions to include</li>
-                            <li>Time per question</li>
-                            <li>Passing score</li>
-                            <li>Randomization options</li>
-                        </ul>
-                    </li>
-                    <li>Click "Save and Publish Quiz" to make the quiz available to users.</li>
-                </ol>
+            <div class="text-center mt-2">
+                <small class="text-muted">
+                    Showing {{ quizzes.start_index }} to {{ quizzes.end_index }} of {{ quizzes.paginator.count }} quizzes
+                    (Page {{ quizzes.number }} of {{ quizzes.paginator.num_pages }})
+                </small>
             </div>
         </div>
-    </div>
-
-    <div class="col-lg-6">
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Quiz Best Practices</h6>
-            </div>
-            <div class="card-body">
-                <h5>Writing Effective Questions</h5>
-                <ul>
-                    <li>Keep questions clear and concise</li>
-                    <li>Avoid ambiguous wording</li>
-                    <li>Ensure questions align with curriculum objectives</li>
-                    <li>Use appropriate difficulty levels</li>
-                    <li>Include explanations for incorrect answers to aid learning</li>
-                </ul>
-
-                <h5>Multiple Choice Tips</h5>
-                <ul>
-                    <li>Provide 3-5 answer options</li>
-                    <li>Make all options plausible</li>
-                    <li>Avoid "All of the above" or "None of the above" options</li>
-                    <li>Keep options similar in length and structure</li>
-                    <li>Randomize the correct answer position</li>
-                </ul>
-
-                <h5>Short Answer Tips</h5>
-                <ul>
-                    <li>Consider multiple correct answers or variations</li>
-                    <li>Be specific about what you're asking for</li>
-                    <li>Consider case sensitivity and punctuation</li>
-                    <li>Provide clear instructions on expected answer format</li>
-                </ul>
-
-                <h5>Quiz Settings</h5>
-                <ul>
-                    <li>Set appropriate time limits per question (typically 30-60 seconds)</li>
-                    <li>Include a reasonable number of questions (20-40 is recommended)</li>
-                    <li>Set a fair passing score (70-80% is standard)</li>
-                    <li>Enable randomization to prevent memorization</li>
-                </ul>
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
@@ -293,23 +236,6 @@
 {% block extra_js %}
 <script>
     $(document).ready(function() {
-        // Initialize DataTable with custom options
-        $('#quizTable').DataTable({
-            "paging": true,
-            "pageLength": 25,
-            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
-            "ordering": true,
-            "info": true,
-            "autoWidth": false,
-            "responsive": true,
-            "searching": false, // Disable built-in search since we have our own
-            "language": {
-                "emptyTable": "No quizzes found",
-                "info": "Showing _START_ to _END_ of _TOTAL_ quizzes",
-                "infoEmpty": "Showing 0 to 0 of 0 quizzes",
-                "lengthMenu": "Show _MENU_ quizzes per page"
-            }
-        });
 
         // Dynamic filtering - update class levels based on curriculum
         $('select[name="curriculum"]').change(function() {

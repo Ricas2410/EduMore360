@@ -1,0 +1,140 @@
+{% extends 'my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Country Analytics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3 mb-4">🌍 Country Analytics</h1>
+            
+            <!-- Summary Cards -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ total_countries|default:0 }}</h4>
+                                    <p class="mb-0">Countries Reached</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-globe fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Data Period:</strong> {{ date_range|default:"Last 30 days" }}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Country Statistics Table -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📊 Detailed Country Statistics</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if country_stats %}
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Rank</th>
+                                                <th>Country</th>
+                                                <th>Total Views</th>
+                                                <th>Unique Visitors</th>
+                                                <th>Registered Users</th>
+                                                <th>Share</th>
+                                                <th>Visual</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for stat in country_stats %}
+                                            <tr>
+                                                <td>
+                                                    <strong>{{ forloop.counter }}</strong>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="me-2" style="font-size: 1.2em;">{{ stat.flag|default:"🌍" }}</span>
+                                                        <div>
+                                                            <strong>{{ stat.country }}</strong><br>
+                                                            <small class="text-muted">{{ stat.country_code|upper }}</small>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-primary">{{ stat.total_views }}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-success">{{ stat.unique_visitors }}</span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-info">{{ stat.registered_users }}</span>
+                                                </td>
+                                                <td>
+                                                    <strong>{{ stat.percentage }}%</strong>
+                                                </td>
+                                                <td>
+                                                    <div class="progress" style="height: 20px; width: 100px;">
+                                                        <div class="progress-bar" role="progressbar" 
+                                                             style="width: {{ stat.percentage }}%"
+                                                             aria-valuenow="{{ stat.percentage }}" 
+                                                             aria-valuemin="0" 
+                                                             aria-valuemax="100">
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                                <!-- Summary Statistics -->
+                                <div class="row mt-4">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-light">
+                                            <h6>📈 Summary Insights:</h6>
+                                            <ul class="mb-0">
+                                                <li><strong>Global Reach:</strong> Your platform is accessed from {{ total_countries }} different countries</li>
+                                                <li><strong>Top Market:</strong> 
+                                                    {% if country_stats %}
+                                                        {{ country_stats.0.flag }} {{ country_stats.0.country }} leads with {{ country_stats.0.total_views }} views ({{ country_stats.0.percentage }}%)
+                                                    {% endif %}
+                                                </li>
+                                                <li><strong>International Appeal:</strong> 
+                                                    {% if country_stats|length > 1 %}
+                                                        Strong presence in {{ country_stats|length }} countries
+                                                    {% else %}
+                                                        Growing international presence
+                                                    {% endif %}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="text-center py-5">
+                                    <i class="fas fa-globe fa-3x text-muted mb-3"></i>
+                                    <h5 class="text-muted">No Country Data Available</h5>
+                                    <p class="text-muted">Analytics data will appear here once users start visiting your site.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

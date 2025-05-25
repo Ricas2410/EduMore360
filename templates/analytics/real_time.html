@@ -1,0 +1,189 @@
+{% extends 'my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Real-time Analytics{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3 mb-4">⏱️ Real-time Analytics</h1>
+            
+            <!-- Active Users Card -->
+            <div class="row mb-4">
+                <div class="col-md-4">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h2>{{ active_users_count|default:0 }}</h2>
+                                    <p class="mb-0">Active Users (Last 30 min)</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📊 Hourly Activity (Last 24 Hours)</h5>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="hourlyChart" height="100"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity -->
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>👥 Active Sessions</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if active_sessions %}
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>User</th>
+                                                <th>Country</th>
+                                                <th>Last Activity</th>
+                                                <th>Page Views</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for session in active_sessions %}
+                                            <tr>
+                                                <td>
+                                                    {% if session.user %}
+                                                        {{ session.user.email|truncatechars:20 }}
+                                                    {% else %}
+                                                        <span class="text-muted">Anonymous</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ session.country|default:"Unknown" }}</td>
+                                                <td>
+                                                    <small>{{ session.last_activity|timesince }} ago</small>
+                                                </td>
+                                                <td>
+                                                    <span class="badge badge-primary">{{ session.page_views }}</span>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No active sessions in the last 30 minutes.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📄 Recent Page Views</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if recent_views %}
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Page</th>
+                                                <th>User</th>
+                                                <th>Time</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for view in recent_views %}
+                                            <tr>
+                                                <td>
+                                                    <small class="text-muted">{{ view.path }}</small><br>
+                                                    {{ view.page_title|default:"Page" }}
+                                                </td>
+                                                <td>
+                                                    {% if view.user %}
+                                                        {{ view.user.email|truncatechars:15 }}
+                                                    {% else %}
+                                                        <span class="text-muted">Anonymous</span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <small>{{ view.timestamp|timesince }} ago</small>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No recent page views.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Auto-refresh notice -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Real-time Data:</strong> This page shows live activity from the last 24 hours. 
+                        <button class="btn btn-sm btn-outline-primary ms-2" onclick="location.reload()">
+                            <i class="fas fa-sync"></i> Refresh Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Hourly activity chart
+const ctx = document.getElementById('hourlyChart').getContext('2d');
+const hourlyChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: [{% for stat in hourly_stats %}'{{ stat.hour }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+        datasets: [{
+            label: 'Page Views',
+            data: [{% for stat in hourly_stats %}{{ stat.views }}{% if not forloop.last %},{% endif %}{% endfor %}],
+            borderColor: '#4e73df',
+            backgroundColor: 'rgba(78, 115, 223, 0.1)',
+            tension: 0.3,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        },
+        plugins: {
+            legend: {
+                display: false
+            }
+        }
+    }
+});
+
+// Auto-refresh every 30 seconds
+setTimeout(function() {
+    location.reload();
+}, 30000);
+</script>
+{% endblock %}

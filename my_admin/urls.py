@@ -37,6 +37,9 @@ urlpatterns = [
     # Analytics URLs
     path('analytics/', include('analytics.urls')),
 
+    # Help Center
+    path('help/', views.help_center, name='help_center'),
+
     # Site Settings URLs
     path('settings/general/', views.site_settings_general, name='site_settings_general'),
     path('settings/email/', views.site_settings_email, name='site_settings_email'),

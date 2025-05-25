@@ -1,0 +1,249 @@
+{% extends 'my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Admin Help Center{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3 mb-4">📚 Admin Help Center</h1>
+            
+            <!-- Quick Navigation -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>🚀 Quick Navigation</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a href="#quiz-guide" class="btn btn-outline-primary btn-block mb-2">
+                                        <i class="fas fa-question-circle"></i> Quiz Management
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#analytics-guide" class="btn btn-outline-success btn-block mb-2">
+                                        <i class="fas fa-chart-bar"></i> Analytics Guide
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#user-guide" class="btn btn-outline-info btn-block mb-2">
+                                        <i class="fas fa-users"></i> User Management
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#troubleshooting" class="btn btn-outline-warning btn-block mb-2">
+                                        <i class="fas fa-tools"></i> Troubleshooting
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Quiz Management Guide -->
+            <div class="row mb-4" id="quiz-guide">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📝 Quiz Management Guide</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="accordion" id="quizAccordion">
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#quizCreation">
+                                            🎯 Quiz Creation Best Practices
+                                        </button>
+                                    </h2>
+                                    <div id="quizCreation" class="accordion-collapse collapse show" data-bs-parent="#quizAccordion">
+                                        <div class="accordion-body">
+                                            <h6>📋 Before Creating a Quiz:</h6>
+                                            <ul>
+                                                <li><strong>Define Learning Objectives:</strong> What should students learn?</li>
+                                                <li><strong>Choose Appropriate Difficulty:</strong> Match the class level</li>
+                                                <li><strong>Select Relevant Topics:</strong> Align with curriculum standards</li>
+                                                <li><strong>Plan Question Types:</strong> Mix multiple choice, true/false, etc.</li>
+                                            </ul>
+                                            
+                                            <h6>✍️ Writing Quality Questions:</h6>
+                                            <ul>
+                                                <li><strong>Clear Language:</strong> Use simple, direct language</li>
+                                                <li><strong>Single Concept:</strong> One question, one concept</li>
+                                                <li><strong>Avoid Negatives:</strong> Don't use "not," "except," etc.</li>
+                                                <li><strong>Realistic Distractors:</strong> Wrong answers should be plausible</li>
+                                            </ul>
+                                            
+                                            <h6>🎨 Question Format Guidelines:</h6>
+                                            <ul>
+                                                <li><strong>Question Length:</strong> Keep questions concise (under 100 words)</li>
+                                                <li><strong>Answer Choices:</strong> 4 options work best for multiple choice</li>
+                                                <li><strong>Correct Answer:</strong> Should be clearly the best option</li>
+                                                <li><strong>Explanations:</strong> Always provide detailed explanations</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#quizManagement">
+                                            ⚙️ Quiz Management Features
+                                        </button>
+                                    </h2>
+                                    <div id="quizManagement" class="accordion-collapse collapse" data-bs-parent="#quizAccordion">
+                                        <div class="accordion-body">
+                                            <h6>📊 Quiz Dashboard Features:</h6>
+                                            <ul>
+                                                <li><strong>Pagination:</strong> 20 quizzes per page for better performance</li>
+                                                <li><strong>Search:</strong> Find quizzes by title quickly</li>
+                                                <li><strong>Filters:</strong> Filter by curriculum, class, subject, topic</li>
+                                                <li><strong>Status Toggle:</strong> Activate/deactivate quizzes</li>
+                                            </ul>
+                                            
+                                            <h6>📝 Editing Quizzes:</h6>
+                                            <ul>
+                                                <li><strong>Bulk Operations:</strong> Edit multiple questions at once</li>
+                                                <li><strong>Question Import:</strong> Import from Excel/CSV files</li>
+                                                <li><strong>Preview Mode:</strong> Test quizzes before publishing</li>
+                                                <li><strong>Analytics:</strong> View quiz performance statistics</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Analytics Guide -->
+            <div class="row mb-4" id="analytics-guide">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📊 Analytics Guide</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>🌍 Country Analytics:</h6>
+                                    <ul>
+                                        <li><strong>Geographic Reach:</strong> See which countries use your platform</li>
+                                        <li><strong>User Distribution:</strong> Understand your global audience</li>
+                                        <li><strong>Market Insights:</strong> Identify growth opportunities</li>
+                                    </ul>
+                                    
+                                    <h6>⏱️ Real-time Analytics:</h6>
+                                    <ul>
+                                        <li><strong>Active Users:</strong> See who's online right now</li>
+                                        <li><strong>Live Activity:</strong> Monitor current page views</li>
+                                        <li><strong>Session Tracking:</strong> Track user engagement</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>📈 Performance Metrics:</h6>
+                                    <ul>
+                                        <li><strong>Quiz Completion:</strong> Track learning progress</li>
+                                        <li><strong>User Engagement:</strong> Monitor platform usage</li>
+                                        <li><strong>Popular Content:</strong> See most accessed materials</li>
+                                    </ul>
+                                    
+                                    <h6>📱 Device Analytics:</h6>
+                                    <ul>
+                                        <li><strong>Mobile vs Desktop:</strong> Optimize for user preferences</li>
+                                        <li><strong>Browser Usage:</strong> Ensure compatibility</li>
+                                        <li><strong>Performance Insights:</strong> Improve user experience</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User Management Guide -->
+            <div class="row mb-4" id="user-guide">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>👥 User Management Guide</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>🔐 User Roles & Permissions:</h6>
+                                    <ul>
+                                        <li><strong>Students:</strong> Take quizzes, view notes</li>
+                                        <li><strong>Teachers:</strong> Create content, view student progress</li>
+                                        <li><strong>Admins:</strong> Full system access</li>
+                                        <li><strong>Superusers:</strong> System administration</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>📋 User Management Tasks:</h6>
+                                    <ul>
+                                        <li><strong>Account Activation:</strong> Enable/disable user accounts</li>
+                                        <li><strong>Password Reset:</strong> Help users with login issues</li>
+                                        <li><strong>Subscription Management:</strong> Handle premium features</li>
+                                        <li><strong>Progress Tracking:</strong> Monitor learning outcomes</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Troubleshooting -->
+            <div class="row mb-4" id="troubleshooting">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>🔧 Troubleshooting</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>⚠️ Common Issues:</h6>
+                                    <ul>
+                                        <li><strong>Slow Loading:</strong> Check pagination settings</li>
+                                        <li><strong>Login Problems:</strong> Verify user permissions</li>
+                                        <li><strong>Quiz Errors:</strong> Validate question format</li>
+                                        <li><strong>Analytics Missing:</strong> Wait for data collection</li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>💡 Quick Solutions:</h6>
+                                    <ul>
+                                        <li><strong>Clear Browser Cache:</strong> Refresh page data</li>
+                                        <li><strong>Check Permissions:</strong> Ensure proper user roles</li>
+                                        <li><strong>Restart Services:</strong> Contact technical support</li>
+                                        <li><strong>Update Content:</strong> Refresh curriculum data</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Support -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <h6><i class="fas fa-life-ring"></i> Need More Help?</h6>
+                        <p class="mb-0">
+                            If you can't find the answer you're looking for, contact our support team:
+                            <strong>support@edumore360.com</strong> or use the help chat in the bottom right corner.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

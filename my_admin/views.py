@@ -74,6 +74,12 @@ def admin_logout(request):
 
 
 @admin_required
+def help_center(request):
+    """Admin help center view."""
+    return render(request, 'my_admin/help.html')
+
+
+@admin_required
 def dashboard(request):
     """Main admin dashboard view."""
     # Get counts for various models
