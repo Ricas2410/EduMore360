@@ -1,0 +1,221 @@
+{% extends 'my_admin/base.html' %}
+{% load static %}
+
+{% block title %}Analytics Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="h3 mb-4">📊 Analytics Dashboard</h1>
+            
+            <!-- Summary Cards -->
+            <div class="row mb-4">
+                <div class="col-md-3">
+                    <div class="card bg-primary text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ total_page_views|default:0 }}</h4>
+                                    <p class="mb-0">Total Page Views</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-eye fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card bg-success text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ total_unique_views|default:0 }}</h4>
+                                    <p class="mb-0">Unique Visitors</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-users fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card bg-info text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ total_new_users|default:0 }}</h4>
+                                    <p class="mb-0">New Users</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-user-plus fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-3">
+                    <div class="card bg-warning text-white">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <div>
+                                    <h4>{{ completion_rate|default:0 }}%</h4>
+                                    <p class="mb-0">Quiz Completion</p>
+                                </div>
+                                <div class="align-self-center">
+                                    <i class="fas fa-chart-line fa-2x"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Top Countries -->
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>🌍 Top Countries</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if top_countries %}
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Country</th>
+                                                <th>Visitors</th>
+                                                <th>%</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for country, data in top_countries %}
+                                            <tr>
+                                                <td>
+                                                    {{ data.flag|default:"🌍" }} {{ country }}
+                                                </td>
+                                                <td>{{ data.count }}</td>
+                                                <td>
+                                                    <div class="progress" style="height: 10px;">
+                                                        <div class="progress-bar" role="progressbar" 
+                                                             style="width: {{ data.percentage|default:0 }}%"></div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No country data available yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Top Pages -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📄 Top Pages</h5>
+                        </div>
+                        <div class="card-body">
+                            {% if top_pages %}
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Page</th>
+                                                <th>Views</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for page in top_pages %}
+                                            <tr>
+                                                <td>
+                                                    <small class="text-muted">{{ page.path }}</small><br>
+                                                    {{ page.page_title|default:"Page" }}
+                                                </td>
+                                                <td><span class="badge badge-primary">{{ page.views }}</span></td>
+                                            </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% else %}
+                                <p class="text-muted">No page data available yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Device Stats -->
+            <div class="row mb-4">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5>📱 Device & Browser Statistics</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Device Types</h6>
+                                    {% if device_stats %}
+                                        {% for device in device_stats %}
+                                        <div class="mb-2">
+                                            <div class="d-flex justify-content-between">
+                                                <span>{{ device.device_type|title }}</span>
+                                                <span>{{ device.count }}</span>
+                                            </div>
+                                            <div class="progress" style="height: 8px;">
+                                                <div class="progress-bar" role="progressbar" 
+                                                     style="width: {{ device.percentage|default:0 }}%"></div>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="text-muted">No device data available yet.</p>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h6>Top Browsers</h6>
+                                    {% if browser_stats %}
+                                        {% for browser in browser_stats %}
+                                        <div class="mb-2">
+                                            <div class="d-flex justify-content-between">
+                                                <span>{{ browser.browser }}</span>
+                                                <span>{{ browser.count }}</span>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="text-muted">No browser data available yet.</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Date Range Info -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        <strong>Data Range:</strong> {{ date_range|default:"Last 30 days" }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
