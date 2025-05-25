@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'tailwind',
     'storages',
     'corsheaders',
+    'user_agents',  # For analytics user agent parsing
 
     # Local apps
     'accounts.apps.AccountsConfig',
@@ -69,6 +70,7 @@ INSTALLED_APPS = [
     'search.apps.SearchConfig',
     'theme.apps.ThemeConfig',
     'my_admin.apps.MyAdminConfig',
+    'analytics.apps.AnalyticsConfig',  # Analytics app
     'healthcheck',
     'minimal_health',  # Minimal health check app
 ]
@@ -99,6 +101,7 @@ MIDDLEWARE = [
     'django_htmx.middleware.HtmxMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'subscription.middleware.SubscriptionMiddleware',  # Subscription restrictions
+    'analytics.middleware.AnalyticsMiddleware',  # Analytics tracking
 ]
 
 ROOT_URLCONF = 'edumore360.urls'

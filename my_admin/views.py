@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from datetime import timedelta
 from django.contrib import messages
 from django.core.mail import send_mail
@@ -104,8 +105,16 @@ def quiz_management(request):
     if search_query:
         quizzes = quizzes.filter(title__icontains=search_query)
 
-    # MEMORY OPTIMIZATION: Limit results to prevent memory overload
-    quizzes = quizzes[:100]  # Show max 100 quizzes at a time
+    # PAGINATION: 20 quizzes per page
+    paginator = Paginator(quizzes, 20)
+    page = request.GET.get('page', 1)
+
+    try:
+        quizzes = paginator.page(page)
+    except PageNotAnInteger:
+        quizzes = paginator.page(1)
+    except EmptyPage:
+        quizzes = paginator.page(paginator.num_pages)
 
     # Get filter options for dropdowns with LIMITS to prevent memory issues
     curricula = Curriculum.objects.filter(is_active=True).order_by('name')[:20]

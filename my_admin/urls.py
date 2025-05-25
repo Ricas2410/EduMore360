@@ -29,6 +29,9 @@ urlpatterns = [
     path('notes/get-topics/', views.get_topics_for_notes, name='get_topics_for_notes'),
     path('notes/get-subtopics/', views.get_subtopics_for_notes, name='get_subtopics_for_notes'),
 
+    # Analytics URLs
+    path('analytics/', include('analytics.urls')),
+
     # Site Settings URLs
     path('settings/general/', views.site_settings_general, name='site_settings_general'),
     path('settings/email/', views.site_settings_email, name='site_settings_email'),
