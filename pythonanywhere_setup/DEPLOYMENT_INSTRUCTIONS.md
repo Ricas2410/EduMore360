@@ -1,56 +1,59 @@
-# 🚀 EduMore360 PythonAnywhere Deployment Instructions
+# 🚀 EduMore360 PythonAnywhere Professional Deployment
 
-## 📋 **Complete Step-by-Step Guide**
+## 📋 **One-Command Professional Deployment**
 
-### 🎯 **Prerequisites**
-- PythonAnywhere account (free tier is fine)
-- Wasabi S3 account for media storage
-- GitHub repository access
+This guide provides the **fastest and most reliable** way to deploy EduMore360 on PythonAnywhere using your existing configuration.
 
 ---
 
-## 🚀 **Method 1: Quick Deployment (Recommended)**
+## 🚀 **Complete Deployment Process**
 
 ### **Step 1: Access PythonAnywhere Console**
 1. Login to your PythonAnywhere account
 2. Go to **"Consoles"** tab
 3. Start a **"Bash"** console
 
-### **Step 2: Run Quick Deployment**
+### **Step 2: Clean Deployment**
 ```bash
+# Remove any existing installation
 cd /home/edumore360
-wget https://raw.githubusercontent.com/Ricas2410/EduMore360/main/pythonanywhere_setup/quick_deploy.sh
-chmod +x quick_deploy.sh
-./quick_deploy.sh
-```
+rm -rf EduMore360
 
-### **Step 3: Configure Environment Variables**
-```bash
+# Clone fresh repository
+git clone https://github.com/Ricas2410/EduMore360.git
 cd EduMore360
+
+# Run professional deployment script
+chmod +x pythonanywhere_setup/quick_deploy.sh
+./pythonanywhere_setup/quick_deploy.sh
+```
+
+### **Step 3: Update Domain in Environment**
+```bash
+# Edit the environment file
 nano .env
+
+# Change this line:
+# ALLOWED_HOSTS=localhost,127.0.0.1,yourusername.pythonanywhere.com
+# To (replace 'edumore360' with your actual username):
+ALLOWED_HOSTS=localhost,127.0.0.1,edumore360.pythonanywhere.com
 ```
 
-Update these values:
-```env
-SECRET_KEY=your-new-secret-key-here
-WASABI_ACCESS_KEY_ID=your-wasabi-access-key
-WASABI_SECRET_ACCESS_KEY=your-wasabi-secret-key
-WASABI_STORAGE_BUCKET_NAME=your-bucket-name
-```
-
-### **Step 4: Configure Web App**
+### **Step 4: Create PythonAnywhere Web App**
 1. Go to **"Web"** tab in PythonAnywhere
 2. Click **"Add a new web app"**
 3. Choose **"Manual configuration"**
 4. Select **"Python 3.10"**
 
-### **Step 5: Set Paths**
+### **Step 5: Configure Web App Settings**
+
+#### **Source Code & Working Directory:**
 - **Source code**: `/home/edumore360/EduMore360`
 - **Working directory**: `/home/edumore360/EduMore360`
 
-### **Step 6: Configure WSGI**
+#### **WSGI Configuration:**
 1. Click on **WSGI configuration file** link
-2. Replace content with:
+2. **Replace ALL content** with:
 ```python
 import os
 import sys
@@ -65,88 +68,83 @@ from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
 ```
 
-### **Step 7: Configure Static Files**
+#### **Static Files Configuration:**
 In the **"Static files"** section, add:
 - **URL**: `/static/`
 - **Directory**: `/home/edumore360/EduMore360/staticfiles/`
 
-### **Step 8: Configure Media Files**
+#### **Media Files Configuration:**
 In the **"Static files"** section, add:
 - **URL**: `/media/`
 - **Directory**: `/home/edumore360/EduMore360/media/`
 
-### **Step 9: Reload Web App**
-Click **"Reload"** button
+### **Step 6: Launch Your Site**
+1. Click **"Reload"** button in Web tab
+2. Visit: `https://edumore360.pythonanywhere.com`
+3. Login to admin: `https://edumore360.pythonanywhere.com/my-admin/`
+
+**Default Admin Credentials:**
+- **Email**: `admin@edumore360.com`
+- **Password**: `admin123`
 
 ---
 
-## 🔧 **Method 2: Manual Deployment**
+## ✅ **Verification & Testing**
 
-### **Step 1: Clean Setup**
-```bash
-cd /home/edumore360
-rm -rf EduMore360
-```
+### **Step 1: Test Your Deployment**
+1. **Homepage**: Visit `https://edumore360.pythonanywhere.com`
+2. **Admin Panel**: Visit `https://edumore360.pythonanywhere.com/my-admin/`
+3. **User Registration**: Test student signup
+4. **Quiz System**: Create and take a quiz
 
-### **Step 2: Clone Repository**
-```bash
-git clone https://github.com/Ricas2410/EduMore360.git
-cd EduMore360
-```
+### **Step 2: Change Admin Password**
+1. Login to admin with default credentials
+2. Go to User Management
+3. Edit admin user and change password
 
-### **Step 3: Run Setup Script**
-```bash
-chmod +x pythonanywhere_setup/setup_pythonanywhere.sh
-./pythonanywhere_setup/setup_pythonanywhere.sh
-```
-
-### **Step 4: Follow Web App Configuration**
-(Same as Method 1, Steps 4-9)
+### **Step 3: Verify Media Upload**
+1. Try uploading a profile picture
+2. Check if it appears in your Wasabi bucket
+3. Verify images load correctly on the site
 
 ---
 
-## 🔐 **Security Configuration**
+## � **Troubleshooting**
 
-### **Generate New Secret Key**
+### **Common Issues:**
+
+#### **1. Site Not Loading**
+- Check error logs in PythonAnywhere Web tab
+- Verify WSGI configuration is correct
+- Ensure virtual environment is activated
+
+#### **2. Static Files Missing**
+- Verify static files path: `/home/edumore360/EduMore360/staticfiles/`
+- Run: `python manage.py collectstatic --noinput`
+
+#### **3. Database Errors**
+- Run: `python manage.py migrate`
+- Check if SQLite file exists and has permissions
+
+#### **4. Media Upload Issues**
+- Verify Wasabi credentials in `.env`
+- Check bucket permissions (should be public)
+
+---
+
+## 🔄 **Updating Your Site**
+
+When you make changes to your code:
+
 ```bash
 cd /home/edumore360/EduMore360
+git pull origin main
 source venv/bin/activate
-python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+python manage.py migrate
+python manage.py collectstatic --noinput
 ```
 
-### **Update .env File**
-```bash
-nano .env
-```
-
-Replace `SECRET_KEY` with the generated key.
-
----
-
-## 📊 **Wasabi S3 Setup**
-
-### **Step 1: Create Wasabi Account**
-1. Go to [wasabi.com](https://wasabi.com)
-2. Create account and verify email
-
-### **Step 2: Create Bucket**
-1. Go to **"Buckets"** in Wasabi console
-2. Click **"Create Bucket"**
-3. Name: `edumore360-media`
-4. Region: `us-east-1`
-5. Make bucket **public**
-
-### **Step 3: Get Access Keys**
-1. Go to **"Access Keys"** in Wasabi
-2. Click **"Create New Access Key"**
-3. Copy **Access Key ID** and **Secret Access Key**
-
-### **Step 4: Update Environment**
-```env
-WASABI_ACCESS_KEY_ID=your-access-key-id
-WASABI_SECRET_ACCESS_KEY=your-secret-access-key
-WASABI_STORAGE_BUCKET_NAME=edumore360-media
-```
+Then click **"Reload"** in PythonAnywhere Web tab.
 
 ---
 

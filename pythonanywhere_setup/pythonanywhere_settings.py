@@ -139,12 +139,12 @@ STATICFILES_FINDERS = [
 # Media files - Using Wasabi S3 Storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-# Wasabi S3 Configuration
-AWS_ACCESS_KEY_ID = config('WASABI_ACCESS_KEY_ID', default='')
-AWS_SECRET_ACCESS_KEY = config('WASABI_SECRET_ACCESS_KEY', default='')
-AWS_STORAGE_BUCKET_NAME = config('WASABI_STORAGE_BUCKET_NAME', default='edumore360-media')
+# Wasabi S3 Configuration (using your existing setup)
+AWS_ACCESS_KEY_ID = config('WASABI_ACCESS_KEY', default='')
+AWS_SECRET_ACCESS_KEY = config('WASABI_SECRET_KEY', default='')
+AWS_STORAGE_BUCKET_NAME = config('WASABI_BUCKET_NAME', default='edumore360-media')
 AWS_S3_ENDPOINT_URL = 'https://s3.wasabisys.com'
-AWS_S3_REGION_NAME = 'us-east-1'
+AWS_S3_REGION_NAME = config('WASABI_REGION', default='us-east-1')
 AWS_DEFAULT_ACL = 'public-read'
 AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.wasabisys.com'
 AWS_S3_OBJECT_PARAMETERS = {
