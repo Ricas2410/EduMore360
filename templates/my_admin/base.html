@@ -366,6 +366,31 @@
 
         <hr class="sidebar-divider">
 
+        <div class="sidebar-heading">Analytics</div>
+
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link {% if 'analytics' in request.path %}active{% endif %}" href="{% url 'my_admin:analytics:dashboard' %}">
+                    <i class="fas fa-fw fa-chart-bar"></i>
+                    <span>Analytics Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'analytics/real-time' in request.path %}active{% endif %}" href="{% url 'my_admin:analytics:real_time' %}">
+                    <i class="fas fa-fw fa-eye"></i>
+                    <span>Real-time Analytics</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if 'analytics/countries' in request.path %}active{% endif %}" href="{% url 'my_admin:analytics:countries' %}">
+                    <i class="fas fa-fw fa-globe"></i>
+                    <span>Country Analytics</span>
+                </a>
+            </li>
+        </ul>
+
+        <hr class="sidebar-divider">
+
         <div class="sidebar-heading">Settings</div>
 
         <ul class="nav flex-column">
@@ -428,10 +453,15 @@
 
             <div class="user-info">
                 <img src="https://ui-avatars.com/api/?name={{ request.user.email }}&background=4e73df&color=fff" alt="User Avatar">
-                <div class="d-none d-sm-block">
+                <div class="d-none d-sm-block me-3">
                     <div class="font-weight-bold">{{ request.user.email }}</div>
                     <div class="small text-gray-500">Administrator</div>
                 </div>
+                <div class="topbar-divider"></div>
+                <a href="{% url 'my_admin:logout' %}" class="btn btn-outline-danger btn-sm">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span class="d-none d-sm-inline">Logout</span>
+                </a>
             </div>
         </div>
 

@@ -4,6 +4,11 @@ from . import views
 app_name = 'my_admin'
 
 urlpatterns = [
+    # Authentication URLs
+    path('login/', views.admin_login, name='login'),
+    path('logout/', views.admin_logout, name='logout'),
+
+    # Dashboard
     path('', views.dashboard, name='dashboard'),
     path('quiz/', views.quiz_management, name='quiz_management'),
     path('quiz/', include('quiz.admin_urls', namespace='quiz_admin')),

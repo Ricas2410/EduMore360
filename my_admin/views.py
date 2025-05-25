@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.db.models import Count
 from django.contrib.auth import get_user_model
 from django.utils import timezone
@@ -10,6 +11,7 @@ from datetime import timedelta
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings as django_settings
+from functools import wraps
 import os
 import io
 import docx
@@ -24,7 +26,54 @@ from core.models import SystemConfiguration
 
 User = get_user_model()
 
-@staff_member_required
+
+def admin_required(view_func):
+    """Custom decorator to require admin authentication for admin views."""
+    @wraps(view_func)
+    def wrapper(request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('my_admin:login')
+        if not (request.user.is_staff or request.user.is_superuser):
+            messages.error(request, "You don't have permission to access the admin area.")
+            return redirect('core:dashboard')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+def admin_login(request):
+    """Custom admin login view."""
+    if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser):
+        return redirect('my_admin:dashboard')
+
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get('password')
+
+        if email and password:
+            user = authenticate(request, username=email, password=password)
+            if user is not None:
+                if user.is_staff or user.is_superuser:
+                    login(request, user)
+                    next_url = request.GET.get('next', 'my_admin:dashboard')
+                    return redirect(next_url)
+                else:
+                    messages.error(request, "You don't have permission to access the admin area.")
+            else:
+                messages.error(request, "Invalid email or password.")
+        else:
+            messages.error(request, "Please provide both email and password.")
+
+    return render(request, 'my_admin/login.html')
+
+
+def admin_logout(request):
+    """Custom admin logout view."""
+    logout(request)
+    messages.success(request, "You have been logged out successfully.")
+    return redirect('my_admin:login')
+
+
+@admin_required
 def dashboard(request):
     """Main admin dashboard view."""
     # Get counts for various models
@@ -68,7 +117,7 @@ def dashboard(request):
 
     return render(request, 'my_admin/dashboard.html', context)
 
-@staff_member_required
+@admin_required
 def quiz_management(request):
     """Quiz management view with search and filter capabilities."""
     # Get filter parameters from request
@@ -138,7 +187,7 @@ def quiz_management(request):
 
     return render(request, 'my_admin/quiz_management.html', context)
 
-@staff_member_required
+@admin_required
 def user_management(request):
     """User management view with memory optimization."""
     # MEMORY OPTIMIZATION: Limit users to prevent memory overload
@@ -150,7 +199,7 @@ def user_management(request):
 
     return render(request, 'my_admin/user_management.html', context)
 
-@staff_member_required
+@admin_required
 def curriculum_management(request):
     """Curriculum management view with memory optimization."""
     # MEMORY OPTIMIZATION: Limit results to prevent memory overload
@@ -168,7 +217,7 @@ def curriculum_management(request):
 
     return render(request, 'my_admin/curriculum_management.html', context)
 
-@staff_member_required
+@admin_required
 def subscription_management(request):
     """Subscription management view."""
     subscriptions = Subscription.objects.all().select_related('user', 'plan').order_by('-created_at')
@@ -227,7 +276,7 @@ def subscription_management(request):
     return render(request, 'my_admin/subscription_management.html', context)
 
 
-@staff_member_required
+@admin_required
 def add_subscription(request):
     """Add a new subscription."""
     if request.method == 'POST':
@@ -262,7 +311,7 @@ def add_subscription(request):
     return redirect('my_admin:subscription_management')
 
 
-@staff_member_required
+@admin_required
 def edit_subscription(request, subscription_id):
     """Edit a subscription."""
     subscription = get_object_or_404(Subscription, id=subscription_id)
@@ -296,7 +345,7 @@ def edit_subscription(request, subscription_id):
     return render(request, 'my_admin/edit_subscription.html', context)
 
 
-@staff_member_required
+@admin_required
 def renew_subscription(request, subscription_id):
     """Renew a subscription."""
     subscription = get_object_or_404(Subscription, id=subscription_id)
@@ -326,7 +375,7 @@ def renew_subscription(request, subscription_id):
 
 
 # Curriculum Management Views
-@staff_member_required
+@admin_required
 @require_POST
 def add_curriculum(request):
     """Add a new curriculum."""
@@ -348,7 +397,7 @@ def add_curriculum(request):
     return redirect('my_admin:curriculum_management')
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def add_class_level(request):
     """Add a new class level."""
@@ -369,7 +418,7 @@ def add_class_level(request):
     return redirect('my_admin:curriculum_management')
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def add_subject(request):
     """Add a new subject."""
@@ -393,7 +442,7 @@ def add_subject(request):
     return redirect('my_admin:curriculum_management')
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def add_topic(request):
     """Add a new topic."""
@@ -416,7 +465,7 @@ def add_topic(request):
     return redirect('my_admin:curriculum_management')
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def edit_curriculum(request, curriculum_id):
     """Edit an existing curriculum."""
@@ -440,7 +489,7 @@ def edit_curriculum(request, curriculum_id):
 
 
 # Site Settings Views
-@staff_member_required
+@admin_required
 def site_settings_general(request):
     """View for general site settings."""
     settings = SystemConfiguration.get_settings()
@@ -469,7 +518,7 @@ def site_settings_general(request):
     })
 
 
-@staff_member_required
+@admin_required
 def site_settings_email(request):
     """View for email settings."""
     settings = SystemConfiguration.get_settings()
@@ -499,7 +548,7 @@ def site_settings_email(request):
     })
 
 
-@staff_member_required
+@admin_required
 def site_settings_test_email(request):
     """Send a test email."""
     if request.method == 'POST':
@@ -522,7 +571,7 @@ def site_settings_test_email(request):
     return redirect('my_admin:site_settings_email')
 
 
-@staff_member_required
+@admin_required
 def site_settings_quiz(request):
     """View for quiz settings."""
     settings = SystemConfiguration.get_settings()
@@ -550,7 +599,7 @@ def site_settings_quiz(request):
     })
 
 
-@staff_member_required
+@admin_required
 def site_settings_payment(request):
     """View for payment settings."""
     settings = SystemConfiguration.get_settings()
@@ -574,7 +623,7 @@ def site_settings_payment(request):
 
 
 # Notes Management Views
-@staff_member_required
+@admin_required
 def notes_management(request):
     """View for managing notes with memory optimization."""
     # MEMORY OPTIMIZATION: Limit notes to prevent memory overload
@@ -590,7 +639,7 @@ def notes_management(request):
     return render(request, 'my_admin/notes_management.html', context)
 
 
-@staff_member_required
+@admin_required
 def add_note_page(request):
     """View for adding a new note."""
     curricula = Curriculum.objects.filter(is_active=True)
@@ -603,7 +652,7 @@ def add_note_page(request):
     return render(request, 'my_admin/add_note.html', context)
 
 
-@staff_member_required
+@admin_required
 def add_note(request):
     """Add a new note."""
     if request.method != 'POST':
@@ -707,7 +756,7 @@ def add_note(request):
     return redirect('my_admin:edit_note', note_id=note.id)
 
 
-@staff_member_required
+@admin_required
 def edit_note(request, note_id):
     """Edit an existing note."""
     note = get_object_or_404(Note, id=note_id)
@@ -771,7 +820,7 @@ def edit_note(request, note_id):
     return render(request, 'my_admin/edit_note.html', context)
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def delete_note(request, note_id):
     """Delete a note."""
@@ -783,7 +832,7 @@ def delete_note(request, note_id):
     return redirect('my_admin:notes_management')
 
 
-@staff_member_required
+@admin_required
 @require_POST
 def upload_note_file(request, note_id):
     """Upload a file for a note."""
@@ -867,7 +916,7 @@ def upload_note_file(request, note_id):
     return redirect('my_admin:edit_note', note_id=note.id)
 
 
-@staff_member_required
+@admin_required
 def get_topics_for_notes(request):
     """AJAX endpoint to get topics for a subject."""
     subject_id = request.GET.get('subject')
@@ -879,7 +928,7 @@ def get_topics_for_notes(request):
     return JsonResponse([], safe=False)
 
 
-@staff_member_required
+@admin_required
 def get_subtopics_for_notes(request):
     """AJAX endpoint to get subtopics for a topic."""
     topic_id = request.GET.get('topic')
