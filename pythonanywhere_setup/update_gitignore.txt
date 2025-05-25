@@ -1,0 +1,151 @@
+# ===============================================
+# 🚀 PythonAnywhere Specific Additions
+# ===============================================
+
+# Environment files
+.env
+pythonanywhere.env
+.env.local
+.env.production
+
+# SQLite databases
+*.sqlite3
+*.db
+
+# Static files (collected)
+/staticfiles/
+/static_collected/
+
+# Media files (local - we use Wasabi for production)
+/media/
+/uploads/
+
+# PythonAnywhere specific
+*.log
+error.log
+access.log
+
+# Cache files
+cache_table
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+
+# Django specific
+local_settings.py
+settings_local.py
+settings_production.py
+
+# Collected static files
+/static/admin/
+/static/rest_framework/
+
+# User uploaded content (if stored locally)
+/media/profile_pictures/
+/media/quiz_images/
+/media/notes/
+/media/uploads/
+
+# SSL certificates
+*.pem
+*.key
+*.crt
+
+# Deployment files
+deploy.sh
+deploy_local.sh
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/
+.tox/
+
+# Documentation builds
+docs/_build/
+site/
+
+# Package files
+*.egg-info/
+dist/
+build/
+
+# Node.js (if using)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Sass/SCSS
+.sass-cache/
+*.css.map
+
+# Webpack
+webpack-stats.json
+
+# Redis dump
+dump.rdb
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# Poetry
+poetry.lock
+
+# ===============================================
+# 📝 NOTES:
+# ===============================================
+
+# This .gitignore is optimized for PythonAnywhere deployment
+# It excludes sensitive files and platform-specific content
+# 
+# Key exclusions:
+# - Environment variables (.env files)
+# - SQLite databases (*.sqlite3)
+# - Collected static files (/staticfiles/)
+# - Local media files (/media/)
+# - Log files (*.log)
+# - Cache and temporary files
+# 
+# Remember to:
+# 1. Never commit sensitive credentials
+# 2. Keep environment files local only
+# 3. Use Wasabi for media file storage
+# 4. Regularly clean up log files
