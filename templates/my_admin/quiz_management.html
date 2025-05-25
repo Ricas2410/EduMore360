@@ -138,11 +138,11 @@
                     {% for quiz in quizzes %}
                     <tr>
                         <td>{{ quiz.title }}</td>
-                        <td>{{ quiz.curriculum.name|default:"-" }}</td>
-                        <td>{{ quiz.class_level.name|default:"-" }}</td>
-                        <td>{{ quiz.subject.name|default:"-" }}</td>
-                        <td>{{ quiz.topic.name|default:"-" }}</td>
-                        <td><span class="badge badge-info">Questions</span></td>
+                        <td>{{ quiz.curriculum.name }}</td>
+                        <td>{{ quiz.class_level.name }}</td>
+                        <td>{{ quiz.subject.name }}</td>
+                        <td>{% if quiz.topic %}{{ quiz.topic.name }}{% else %}-{% endif %}</td>
+                        <td><span class="badge badge-info">{{ quiz.questions.count }}</span></td>
                         <td>
                             {% if quiz.is_active %}
                             <span class="badge bg-success text-white">Active</span>

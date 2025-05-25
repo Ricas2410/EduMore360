@@ -134,12 +134,9 @@ def quiz_management(request):
     status = request.GET.get('status')
     search_query = request.GET.get('search', '').strip()
 
-    # Start with all quizzes with aggressive memory optimization
+    # Optimized query for speed and memory balance
     quizzes = Quiz.objects.select_related(
         'curriculum', 'class_level', 'subject', 'topic'
-    ).only(
-        'id', 'title', 'is_active', 'created_at',
-        'curriculum__name', 'class_level__name', 'subject__name', 'topic__name'
     ).order_by('-created_at')
 
     # Apply filters if provided
@@ -174,17 +171,11 @@ def quiz_management(request):
     except EmptyPage:
         quizzes = paginator.page(paginator.num_pages)
 
-    # Get filter options for dropdowns with AGGRESSIVE LIMITS to prevent memory issues
-    curricula = Curriculum.objects.filter(is_active=True).only('id', 'name').order_by('name')[:10]
-    class_levels = ClassLevel.objects.filter(is_active=True).select_related('curriculum').only(
-        'id', 'name', 'curriculum__id', 'curriculum__name'
-    ).order_by('curriculum__name', 'level_order')[:20]
-    subjects = Subject.objects.filter(is_active=True).select_related('curriculum', 'class_level').only(
-        'id', 'name', 'curriculum__id', 'class_level__id'
-    ).order_by('name')[:50]
-    topics = Topic.objects.filter(is_active=True).select_related('subject').only(
-        'id', 'name', 'subject__id', 'subject__name'
-    ).order_by('subject__name', 'name')[:100]
+    # Get filter options for dropdowns - balanced for speed and memory
+    curricula = Curriculum.objects.filter(is_active=True).order_by('name')
+    class_levels = ClassLevel.objects.filter(is_active=True).select_related('curriculum').order_by('curriculum__name', 'level_order')
+    subjects = Subject.objects.filter(is_active=True).order_by('name')
+    topics = Topic.objects.filter(is_active=True).select_related('subject').order_by('subject__name', 'name')
 
     context = {
         'quizzes': quizzes,
