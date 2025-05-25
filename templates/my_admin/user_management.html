@@ -108,8 +108,8 @@
                                         {% if user.is_staff %}
                                             <span class="badge badge-warning">Staff</span>
                                         {% endif %}
-                                        {% if user.subscription %}
-                                            <span class="badge badge-info">{{ user.subscription.get_tier_display }}</span>
+                                        {% if user.subscriptions.exists %}
+                                            <span class="badge badge-info">{{ user.subscriptions.first.plan.get_plan_type_display }}</span>
                                         {% else %}
                                             <span class="badge badge-secondary">Free</span>
                                         {% endif %}
@@ -197,8 +197,8 @@
                                             </div>
                                         </td>
                                         <td>
-                                            {% if user.subscription %}
-                                                <span class="badge badge-info">{{ user.subscription.get_tier_display }}</span>
+                                            {% if user.subscriptions.exists %}
+                                                <span class="badge badge-info">{{ user.subscriptions.first.plan.get_plan_type_display }}</span>
                                             {% else %}
                                                 <span class="badge badge-secondary">Free</span>
                                             {% endif %}
@@ -320,6 +320,21 @@
     </div>
 </div>
 
+<!-- Edit User Modal -->
+<div class="modal fade" id="editUserModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="editUserModalBody">
+                <!-- Edit user form will be loaded here -->
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 .avatar-circle {
     width: 40px;
@@ -387,8 +402,102 @@ function viewUser(userId) {
 }
 
 function editUser(userId) {
-    // Redirect to Django admin edit page
-    window.open(`/admin/accounts/user/${userId}/change/`, '_blank');
+    // Show edit user modal
+    fetch(`/my-admin/users/${userId}/details/`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('editUserModalBody').innerHTML = `
+                <form id="editUserForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="editEmail" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="editEmail" value="${data.email}" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="editFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="editFirstName" value="${data.first_name || ''}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="editLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="editLastName" value="${data.last_name || ''}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="editPhoneNumber" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="editPhoneNumber" value="${data.phone_number || ''}">
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editIsActive" ${data.is_active ? 'checked' : ''}>
+                                    <label class="form-check-label" for="editIsActive">
+                                        Active User
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="editIsStaff" ${data.is_staff ? 'checked' : ''}>
+                                    <label class="form-check-label" for="editIsStaff">
+                                        Staff User
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end gap-2">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </form>
+            `;
+
+            // Handle form submission
+            document.getElementById('editUserForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveUserChanges(userId);
+            });
+
+            new bootstrap.Modal(document.getElementById('editUserModal')).show();
+        })
+        .catch(error => {
+            alert('Error loading user details');
+            console.error('Error:', error);
+        });
+}
+
+function saveUserChanges(userId) {
+    const formData = {
+        email: document.getElementById('editEmail').value,
+        first_name: document.getElementById('editFirstName').value,
+        last_name: document.getElementById('editLastName').value,
+        phone_number: document.getElementById('editPhoneNumber').value,
+        is_active: document.getElementById('editIsActive').checked,
+        is_staff: document.getElementById('editIsStaff').checked
+    };
+
+    fetch(`/my-admin/users/${userId}/update/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value
+        },
+        body: JSON.stringify(formData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            bootstrap.Modal.getInstance(document.getElementById('editUserModal')).hide();
+            location.reload();
+        } else {
+            alert('Error updating user: ' + (data.error || 'Unknown error'));
+        }
+    })
+    .catch(error => {
+        alert('Error updating user');
+        console.error('Error:', error);
+    });
 }
 
 function toggleUserStatus(userId, activate) {

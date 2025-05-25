@@ -200,7 +200,7 @@ def user_management(request):
     from datetime import timedelta
 
     # Get all users with pagination
-    users_list = User.objects.select_related('subscription').order_by('-date_joined')
+    users_list = User.objects.prefetch_related('subscriptions').order_by('-date_joined')
 
     # Pagination
     paginator = Paginator(users_list, 20)  # 20 users per page
@@ -216,7 +216,7 @@ def user_management(request):
     # Calculate stats
     total_users = users_list.count()
     active_users_count = users_list.filter(is_active=True).count()
-    premium_users_count = users_list.filter(subscription__isnull=False).count()
+    premium_users_count = users_list.filter(subscriptions__isnull=False).distinct().count()
 
     # New users today
     today = timezone.now().date()
@@ -231,6 +231,144 @@ def user_management(request):
     }
 
     return render(request, 'my_admin/user_management.html', context)
+
+
+@admin_required
+def user_details_api(request, user_id):
+    """API endpoint to get user details."""
+    try:
+        user = get_object_or_404(User, id=user_id)
+
+        # Get user's subscription info
+        subscription_info = None
+        if user.subscriptions.exists():
+            latest_subscription = user.subscriptions.first()
+            subscription_info = latest_subscription.plan.get_plan_type_display()
+
+        data = {
+            'id': user.id,
+            'email': user.email,
+            'first_name': user.first_name,
+            'last_name': user.last_name,
+            'full_name': user.get_full_name(),
+            'phone_number': getattr(user, 'phone_number', ''),
+            'is_active': user.is_active,
+            'is_staff': user.is_staff,
+            'date_joined': user.date_joined.isoformat(),
+            'last_login': user.last_login.isoformat() if user.last_login else None,
+            'subscription': subscription_info,
+        }
+
+        return JsonResponse(data)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@admin_required
+def user_update_api(request, user_id):
+    """API endpoint to update user details."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        import json
+        user = get_object_or_404(User, id=user_id)
+        data = json.loads(request.body)
+
+        # Update user fields
+        user.email = data.get('email', user.email)
+        user.first_name = data.get('first_name', user.first_name)
+        user.last_name = data.get('last_name', user.last_name)
+        user.is_active = data.get('is_active', user.is_active)
+        user.is_staff = data.get('is_staff', user.is_staff)
+
+        # Update phone number if the field exists
+        if hasattr(user, 'phone_number'):
+            user.phone_number = data.get('phone_number', user.phone_number)
+
+        user.save()
+
+        return JsonResponse({'success': True, 'message': 'User updated successfully'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@admin_required
+def user_toggle_status_api(request, user_id):
+    """API endpoint to toggle user active status."""
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        import json
+        user = get_object_or_404(User, id=user_id)
+        data = json.loads(request.body)
+
+        user.is_active = data.get('activate', not user.is_active)
+        user.save()
+
+        status = 'activated' if user.is_active else 'deactivated'
+        return JsonResponse({'success': True, 'message': f'User {status} successfully'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@admin_required
+def user_delete_api(request, user_id):
+    """API endpoint to delete a user."""
+    if request.method != 'DELETE':
+        return JsonResponse({'error': 'Method not allowed'}, status=405)
+
+    try:
+        user = get_object_or_404(User, id=user_id)
+
+        # Don't allow deleting superusers or the current user
+        if user.is_superuser:
+            return JsonResponse({'error': 'Cannot delete superuser'}, status=400)
+
+        if user.id == request.user.id:
+            return JsonResponse({'error': 'Cannot delete yourself'}, status=400)
+
+        user_email = user.email
+        user.delete()
+
+        return JsonResponse({'success': True, 'message': f'User {user_email} deleted successfully'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+
+
+@admin_required
+def user_export(request):
+    """Export users to CSV."""
+    import csv
+    from django.http import HttpResponse
+
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="users_export.csv"'
+
+    writer = csv.writer(response)
+    writer.writerow(['Email', 'First Name', 'Last Name', 'Phone', 'Active', 'Staff', 'Date Joined', 'Last Login', 'Subscription'])
+
+    users = User.objects.prefetch_related('subscriptions').order_by('-date_joined')
+
+    for user in users:
+        subscription = 'Free'
+        if user.subscriptions.exists():
+            subscription = user.subscriptions.first().plan.get_plan_type_display()
+
+        writer.writerow([
+            user.email,
+            user.first_name,
+            user.last_name,
+            getattr(user, 'phone_number', ''),
+            'Yes' if user.is_active else 'No',
+            'Yes' if user.is_staff else 'No',
+            user.date_joined.strftime('%Y-%m-%d'),
+            user.last_login.strftime('%Y-%m-%d') if user.last_login else 'Never',
+            subscription
+        ])
+
+    return response
 
 @admin_required
 def curriculum_management(request):
